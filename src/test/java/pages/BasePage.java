@@ -25,8 +25,12 @@ public class BasePage {
     }
 
     //MÉTODOS PRIVADOS
-    private WebElement getWebElement(String locator) {
+    private WebElement getWebElementPresent(String locator) {
         return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(locator)));
+    }
+
+    private WebElement getWebElementClickable(String locator) {
+        return wait.until(ExpectedConditions.elementToBeClickable(By.xpath(locator)));
     }
 
     private List<WebElement> getOptionsSelect(String locator) {
@@ -48,12 +52,12 @@ public class BasePage {
 
     //Hacer click en locator
     public void click(String locator) {
-        getWebElement(locator).click();
+        getWebElementClickable(locator).click();
     }
 
     //Obtener texto de un locator
     public String getTextWebElement(String locator) {
-        return getWebElement(locator).getText();
+        return getWebElementPresent(locator).getText();
     }
 
     //Obtener Lista de opciones de un Select
@@ -69,7 +73,7 @@ public class BasePage {
 
     //Seleccionar opción de un Select
     public void selectOption(String locator, String option) {
-        Select select = new Select(getWebElement(locator));
+        Select select = new Select(getWebElementPresent(locator));
         select.selectByVisibleText(option);
     }
 
