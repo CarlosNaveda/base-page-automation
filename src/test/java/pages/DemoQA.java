@@ -1,6 +1,10 @@
 package pages;
 
+import model.UserData;
 import org.openqa.selenium.WebDriver;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DemoQA extends BasePage {
 
@@ -34,15 +38,8 @@ public class DemoQA extends BasePage {
     String currentAddressOutput = "//p[@id='currentAddress']";
     String permanentAddressOutput = "//p[@id='permanentAddress']";
 
-    //Dummy Data
-    String userName = "Carlos Naveda";
-    String email = "carlosnavedatest@gmail.com";
-    String currentAddress = "Avenida Automation 123 Lima";
-    String permanentAddress = "Jirón Universo 777 Lima";
 
-
-
-    //Métodos
+    //Método para ir a la página y elegir sección
     public void GoToThePageDemoQa(){
         navigateTo(url);
     }
@@ -52,16 +49,31 @@ public class DemoQA extends BasePage {
         click(elementsSection);
     }
 
+    //Método para Text Box
     public void clickOnAccordionTextBoxOption()
     {
         click(textboxAccordionOption);
     }
 
-    public void fillTextboxes (){
-        setValueOnWebElement(fullNameTextBox,userName);
-        setValueOnWebElement(emailTextBox,email);
-        setValueOnWebElement(currentAddressTextBox,currentAddress);
-        setValueOnWebElement(permanentAddressTextBox,permanentAddress);
+    public void fillTextboxes (UserData userData){
+        setValueOnWebElement(fullNameTextBox,userData.userName);
+        setValueOnWebElement(emailTextBox,userData.email);
+        setValueOnWebElement(currentAddressTextBox,userData.currentAddress);
+        setValueOnWebElement(permanentAddressTextBox,userData.permanentAddress);
+    }
+
+    public void clickOnButtonSubmit()
+    {
+        click(submitButton);
+    }
+
+    public UserData getInformationOfOutput(){
+        return new UserData(
+            getTextWebElement(fullNameOutput),
+            getTextWebElement(emailOutput),
+            getTextWebElement(currentAddressOutput),
+            getTextWebElement(permanentAddressOutput)
+        );
     }
 
 
