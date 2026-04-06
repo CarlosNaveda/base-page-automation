@@ -25,14 +25,33 @@ public class BasePage {
     }
 
     //MÉTODOS PRIVADOS
+
+    /**
+     * Espera a que un elemento esté presente en el DOM y lo retorna
+     *
+     * @param locator XPath del elemento a buscar
+     * @return WebElement encontrado en el DOM
+     */
     private WebElement getWebElementPresent(String locator) {
         return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(locator)));
     }
 
+    /**
+     * Espera a que un elemento esté disponible para hacer click en el DOM y lo retorna
+     *
+     * @param locator XPath del elemento a buscar
+     * @return WebElement encontrado en el DOM
+     */
     private WebElement getWebElementClickable(String locator) {
         return wait.until(ExpectedConditions.elementToBeClickable(By.xpath(locator)));
     }
 
+    /**
+     * Genera una lista de WebElements en base al Select del DOM y lo retorna
+     *
+     * @param locator XPath del Select a extraer las opciones
+     * @return List<WebElement> armado con las opciones
+     */
     private List<WebElement> getOptionsSelect(String locator) {
 
         //Nos aseguramos que estén todas las opciones dentro
@@ -45,22 +64,56 @@ public class BasePage {
 
     //MÉTODOS PÚBLICOS
 
-    //Ingresar a url
+    /**
+     * Ingresa a URL en el navegador
+     *
+     * @param url Dirección web a la cual queremos dirigirnos
+     *
+     */
     public void navigateTo(String url) {
         driver.get(url);
     }
 
-    //Hacer click en locator
+    /**
+     * Hace click en el locator indicado
+     *
+     * @param locator XPath del locator que queremos hacerle click
+     *
+     */
     public void click(String locator) {
         getWebElementClickable(locator).click();
     }
 
-    //Obtener texto de un locator
+    /**
+     * Obtiene el texto de un elemento web del DOM
+     *
+     * @param locator XPath del locator que queremos su texto
+     * @return String del texto en base al locator
+     */
     public String getTextWebElement(String locator) {
         return getWebElementPresent(locator).getText();
     }
 
-    //Obtener Lista de opciones de un Select
+    /**
+     * Escribir texto en el elemento web del DOM
+     *
+     * @param locator XPath del locator que queremos escribir
+     * @param value Texto que queremos escribir
+     *
+     */
+    public void setValueOnWebElement(String locator, String value) {
+        WebElement element = getWebElementClickable(locator);
+        element.clear();
+        element.sendKeys(value);
+    }
+
+
+    /**
+     * Genera una lista de Strings en base al Select del DOM y lo retorna
+     *
+     * @param locator XPath del Select a extraer las opciones
+     * @return List<String> armado con las opciones
+     */
     public List<String> getListOptionsSelect (String locator) {
         List<String> list = new ArrayList<>();
 
@@ -71,7 +124,12 @@ public class BasePage {
         return list;
     }
 
-    //Seleccionar opción de un Select
+    /**
+     * Selecciona una opción dentro de un Select de un elemento Web
+     *
+     * @param locator XPath del Select para elegir la opción
+     * @param option String que indica la opción que vamos a elegir en el Select
+     */
     public void selectOption(String locator, String option) {
         Select select = new Select(getWebElementPresent(locator));
         select.selectByVisibleText(option);
