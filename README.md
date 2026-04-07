@@ -75,8 +75,10 @@ flowchart TD
     st_The_user_don_t_fill_email_textbox_click_the_button_Submit_click_the_button_Su --> pm_clickOnButtonSubmit
     st_The_user_don_t_fill_email_textbox_click_the_button_Submit_can_confirm_the_ema["Step | @Then: canConfirmTheEmailValidationMessage()"]
     sc_Interact_with_the_textbox_sandbox_page_The_user_don_t_fill_email_textbox_clic --> st_The_user_don_t_fill_email_textbox_click_the_button_Submit_can_confirm_the_ema
-    pm_getValidationMessageWebElement["Page | Page: getValidationMessageWebElement()"]
+    pm_getValidationMessageWebElement["Page | DemoQA: getValidationMessageWebElement()"]
     st_The_user_don_t_fill_email_textbox_click_the_button_Submit_can_confirm_the_ema --> pm_getValidationMessageWebElement
+    bp_getValidationMessageWebElement["Page | BasePage: getValidationMessageWebElement()"]
+    pm_getValidationMessageWebElement --> bp_getValidationMessageWebElement
     pm_println["Page | Page: println()"]
     st_The_user_don_t_fill_email_textbox_click_the_button_Submit_can_confirm_the_ema --> pm_println
     pm_isEmpty["Page | Page: isEmpty()"]
@@ -101,6 +103,7 @@ style st_The_user_don_t_fill_email_textbox_click_the_button_Submit_fill_partial_
 style st_The_user_don_t_fill_email_textbox_click_the_button_Submit_click_the_button_Su fill:#15803D,color:#fff,stroke:#fff
 style st_The_user_don_t_fill_email_textbox_click_the_button_Submit_can_confirm_the_ema fill:#15803D,color:#fff,stroke:#fff
 style pm_getValidationMessageWebElement fill:#1D4ED8,color:#fff,stroke:#fff
+style bp_getValidationMessageWebElement fill:#0F172A,color:#fff,stroke:#fff
 style pm_println fill:#1D4ED8,color:#fff,stroke:#fff
 style pm_isEmpty fill:#1D4ED8,color:#fff,stroke:#fff
 style pm_assertTrue fill:#1D4ED8,color:#fff,stroke:#fff
@@ -109,7 +112,7 @@ style pm_assertTrue fill:#1D4ED8,color:#fff,stroke:#fff
 <!-- MERMAID:END -->
 
 <!-- METHODS:START -->
-## 📋 Métodos disponibles (9)
+## 📋 Métodos disponibles (10)
 
 | Clase | Visibilidad | Método | Descripción | Parámetros | Retorna | # Usos |
 |-------|-------------|--------|-------------|------------|---------|--------|
@@ -122,6 +125,7 @@ style pm_assertTrue fill:#1D4ED8,color:#fff,stroke:#fff
 | `BasePage.java` | `public` | `setValueOnWebElement()` | Escribir texto en el elemento web del DOM | `String locator`: XPath del locator que queremos escribir<br>`String value`: Texto que queremos escribir | — | **1** |
 | `BasePage.java` | `public` | `getListOptionsSelect()` | Genera una lista de Strings en base al Select del DOM y lo retorna | `String locator`: XPath del Select a extraer las opciones | List<String> armado con las opciones | 0 |
 | `BasePage.java` | `public` | `selectOption()` | Selecciona una opción dentro de un Select de un elemento Web | `String locator`: XPath del Select para elegir la opción<br>`String option`: String que indica la opción que vamos a elegir en el Select | — | 0 |
+| `BasePage.java` | `public` | `getValidationMessageWebElement()` | Extrae el tooltip de mensaje de validación que nos devuelve un elemento web | `String locator`: XPath del elemento web para extraer el tooltip | String texto del tooltip | **1** |
 
 <!-- METHODS:END -->
 
