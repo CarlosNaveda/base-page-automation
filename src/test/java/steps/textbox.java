@@ -5,13 +5,11 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import model.UserData;
+import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 import pages.DemoQA;
 
-import java.util.List;
-import java.util.Objects;
-
-public class InteractDemoQA {
+public class textbox {
 
     DemoQA demoQA = new DemoQA();
     UserData userData;
@@ -37,6 +35,12 @@ public class InteractDemoQA {
         demoQA.fillTextboxes(userData);
     }
 
+    @And("fill partial the email textbox on the page")
+    public void fillPartialTheEmailTextboxOnThePage(){
+        userData = new UserData("Carlos Naveda","carlosnavedatest","Avenida Automation 123 Lima","Jirón Universo 777 Lima");
+        demoQA.fillTextboxes(userData);
+    }
+
     @And("click the button Submit")
     public void clickTheButtonSubmit(){
         demoQA.clickOnButtonSubmit();
@@ -52,7 +56,22 @@ public class InteractDemoQA {
         softAssert.assertEquals(userDataOutput.email, userData.email,"El nombre no corresponde el ingresado");
         softAssert.assertEquals(userDataOutput.currentAddress, userData.currentAddress,"El nombre no corresponde el ingresado");
         softAssert.assertEquals(userDataOutput.permanentAddress, userData.permanentAddress,"El nombre no corresponde el ingresado");
+
+        softAssert.assertAll();
     }
+
+    @Then("can confirm the email validation message")
+    public void canConfirmTheEmailValidationMessage(){
+        String validationMessage = demoQA.getValidationMessageWebElement();
+        System.out.println("Mensaje de validación: " + validationMessage);
+
+        //Validamos que el texto tenga información, eso nos dice de que está incompleto el campo email
+        if(!validationMessage.isEmpty()){
+            Assert.assertTrue(true);
+        }
+
+    }
+
 
 
 

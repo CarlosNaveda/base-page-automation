@@ -135,7 +135,9 @@ public class BasePage {
         select.selectByVisibleText(option);
     }
 
-
+    public String getValidationMessageWebElement (String locator) {
+        return getWebElementPresent(locator).getDomProperty("validationMessage");
+    }
 
 
 

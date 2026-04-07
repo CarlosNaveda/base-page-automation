@@ -38,7 +38,14 @@ public class DemoQA extends BasePage {
     String currentAddressOutput = "//p[@id='currentAddress']";
     String permanentAddressOutput = "//p[@id='permanentAddress']";
 
+    //Métodos privados
+    private String extractValueText(String outputText){
+        String[] array =  outputText.split(":",2);
+        return array.length > 1 ? array[1].trim() : outputText.trim();
+    }
 
+
+    //Métodos públicos
     //Método para ir a la página y elegir sección
     public void GoToThePageDemoQa(){
         navigateTo(url);
@@ -69,11 +76,15 @@ public class DemoQA extends BasePage {
 
     public UserData getInformationOfOutput(){
         return new UserData(
-            getTextWebElement(fullNameOutput),
-            getTextWebElement(emailOutput),
-            getTextWebElement(currentAddressOutput),
-            getTextWebElement(permanentAddressOutput)
+            extractValueText(getTextWebElement(fullNameOutput)),
+            extractValueText(getTextWebElement(emailOutput)),
+            extractValueText(getTextWebElement(currentAddressOutput)),
+            extractValueText(getTextWebElement(permanentAddressOutput))
         );
+    }
+
+    public String getValidationMessageWebElement(){
+        return getValidationMessageWebElement(emailTextBox);
     }
 
 
