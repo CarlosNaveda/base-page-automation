@@ -135,6 +135,12 @@ public class BasePage {
         select.selectByVisibleText(option);
     }
 
+    /**
+     * Extrae el tooltip de mensaje de validación que nos devuelve un elemento web
+     *
+     * @param locator XPath del elemento web para extraer el tooltip
+     * @return String texto del tooltip
+     */
     public String getValidationMessageWebElement (String locator) {
         return getWebElementPresent(locator).getDomProperty("validationMessage");
     }
