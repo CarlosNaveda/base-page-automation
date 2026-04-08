@@ -14,21 +14,6 @@ public class textbox {
     DemoQA demoQA = new DemoQA();
     UserData userData;
 
-    @Given("the user go to the page DemoQa")
-    public void theUserGoToThePageDemoQa(){
-        demoQA.GoToThePageDemoQa();
-    }
-
-    @When("click on the elements section")
-    public void clickOnTheElementsSection(){
-        demoQA.clickOnElementsSection();
-    }
-
-    @And("click on the text box accordion option")
-    public void clickOnTheTextBoxAccordionOption(){
-        demoQA.clickOnAccordionTextBoxOption();
-    }
-
     @And("fill textboxes on the page")
     public void fillTextboxesOnThePage(){
         userData = new UserData("Carlos Naveda","carlosnavedatest@gmail.com","Avenida Automation 123 Lima","Jirón Universo 777 Lima");
