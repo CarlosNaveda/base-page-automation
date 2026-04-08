@@ -26,10 +26,13 @@ src/test/java/
 ├── runner
 │   └── TestRunner.java
 └── steps
+    ├── index.java
+    ├── options.java
     └── textbox.java
 
 src/test/resources/
 └── features
+    ├── checkbox.feature
     └── textbox.feature
 ```
 
@@ -40,6 +43,27 @@ src/test/resources/
 
 ```mermaid
 flowchart TD
+    feat_Interact_with_the_checkbox_sandbox_page["Feature: Interact with the checkbox sandbox page"]
+    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th["Feature | Scenario: Selecting a child checkbox updates the parent state"]
+    feat_Interact_with_the_checkbox_sandbox_page --> sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th
+    st_Selecting_a_child_checkbox_updates_the_parent_state_the_parent_checkbox_is_in["Step | @Step: the parent checkbox is <initial_state> state"]
+    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th --> st_Selecting_a_child_checkbox_updates_the_parent_state_the_parent_checkbox_is_in
+    st_Selecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_are_["Step | @Step: the child checkboxes are multiples and <context>"]
+    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th --> st_Selecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_are_
+    st_Selecting_a_child_checkbox_updates_the_parent_state_I_select_action_checkbox["Step | @Step: I select <action> checkbox"]
+    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th --> st_Selecting_a_child_checkbox_updates_the_parent_state_I_select_action_checkbox
+    st_Selecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_change_["Step | @Step: parent's checkbox change to <final_state> state"]
+    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th --> st_Selecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_change_
+    sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_["Feature | Scenario: Deselecting a child checkbox updates the parent state"]
+    feat_Interact_with_the_checkbox_sandbox_page --> sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_
+    st_Deselecting_a_child_checkbox_updates_the_parent_state_the_parent_checkbox_is_["Step | @Step: the parent checkbox is <initial_state> state"]
+    sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_ --> st_Deselecting_a_child_checkbox_updates_the_parent_state_the_parent_checkbox_is_
+    st_Deselecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_ar["Step | @Step: the child checkboxes are multiples and <context>"]
+    sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_ --> st_Deselecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_ar
+    st_Deselecting_a_child_checkbox_updates_the_parent_state_I_deselect_action_check["Step | @Step: I deselect <action> checkbox"]
+    sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_ --> st_Deselecting_a_child_checkbox_updates_the_parent_state_I_deselect_action_check
+    st_Deselecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_chang["Step | @Step: parent's checkbox change to <final_state> state"]
+    sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_ --> st_Deselecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_chang
     feat_Interact_with_the_textbox_sandbox_page["Feature: Interact with the textbox sandbox page"]
     sc_Interact_with_the_textbox_sandbox_page_The_user_can_fill_section_Text_Box_and["Feature | Scenario: The user can fill section Text Box and click the button Submit"]
     feat_Interact_with_the_textbox_sandbox_page --> sc_Interact_with_the_textbox_sandbox_page_The_user_can_fill_section_Text_Box_and
@@ -85,6 +109,17 @@ flowchart TD
     st_The_user_don_t_fill_email_textbox_click_the_button_Submit_can_confirm_the_ema --> pm_isEmpty
     pm_assertTrue["Page | Page: assertTrue()"]
     st_The_user_don_t_fill_email_textbox_click_the_button_Submit_can_confirm_the_ema --> pm_assertTrue
+style feat_Interact_with_the_checkbox_sandbox_page fill:#7E22CE,color:#fff,stroke:#fff
+style sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th fill:#7E22CE,color:#fff,stroke:#fff
+style st_Selecting_a_child_checkbox_updates_the_parent_state_the_parent_checkbox_is_in fill:#15803D,color:#fff,stroke:#fff
+style st_Selecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_are_ fill:#15803D,color:#fff,stroke:#fff
+style st_Selecting_a_child_checkbox_updates_the_parent_state_I_select_action_checkbox fill:#15803D,color:#fff,stroke:#fff
+style st_Selecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_change_ fill:#15803D,color:#fff,stroke:#fff
+style sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_ fill:#7E22CE,color:#fff,stroke:#fff
+style st_Deselecting_a_child_checkbox_updates_the_parent_state_the_parent_checkbox_is_ fill:#15803D,color:#fff,stroke:#fff
+style st_Deselecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_ar fill:#15803D,color:#fff,stroke:#fff
+style st_Deselecting_a_child_checkbox_updates_the_parent_state_I_deselect_action_check fill:#15803D,color:#fff,stroke:#fff
+style st_Deselecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_chang fill:#15803D,color:#fff,stroke:#fff
 style feat_Interact_with_the_textbox_sandbox_page fill:#7E22CE,color:#fff,stroke:#fff
 style sc_Interact_with_the_textbox_sandbox_page_The_user_can_fill_section_Text_Box_and fill:#7E22CE,color:#fff,stroke:#fff
 style st_The_user_can_fill_section_Text_Box_and_click_the_button_Submit_fill_textboxes fill:#15803D,color:#fff,stroke:#fff
