@@ -145,6 +145,16 @@ public class BasePage {
         return getWebElementPresent(locator).getDomProperty("validationMessage");
     }
 
+    /**
+     * Devuelve el estado de un checkbox: seleccionado, no seleccionado o indeterminado
+     *
+     * @param locator XPath del elemento web checkbox
+     * @return String estado del checkbox
+     */
+    public String getStateOfCheckbox (String locator) {
+        return getWebElementPresent(locator).getAttribute("aria-checked");
+    }
+
 
 
 

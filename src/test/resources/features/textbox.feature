@@ -1,9 +1,7 @@
 Feature: Interact with the textbox sandbox page
 
   Background:
-    Given the user goes to the page DemoQa
-    When selects the elements section
-    And selects the text box accordion option
+    Given the user is on the text box page
 
   @textbox @positive
   Scenario: The user can fill section Text Box and click the button Submit
