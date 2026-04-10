@@ -21,7 +21,7 @@ public class BasePage {
     //CONSTRUCTOR
     public BasePage() {
         this.driver = DriverManager.getDriver();
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     //MÉTODOS PRIVADOS
@@ -62,6 +62,17 @@ public class BasePage {
         return select.findElements(By.tagName("option"));
     }
 
+    /**
+     * Nos dice si un locator está presente
+     *
+     * @param locator XPath del elemento web que queremos buscar
+     * @return boolean true si está, caso contrario false
+     */
+    private boolean isLocatorPresent (String locator) {
+        return !driver.findElements(By.xpath(locator)).isEmpty();
+    }
+
+
     //MÉTODOS PÚBLICOS
 
     /**
@@ -83,6 +94,8 @@ public class BasePage {
     public void click(String locator) {
         getWebElementClickable(locator).click();
     }
+
+
 
     /**
      * Obtiene el texto de un elemento web del DOM
@@ -154,6 +167,36 @@ public class BasePage {
     public String getStateOfCheckbox (String locator) {
         return getWebElementPresent(locator).getAttribute("aria-checked");
     }
+
+    /**
+     * Hace click en todos los locators que encuentre con ese xpath
+     *
+     * @param locator XPath de los locators que queremos hacerle click
+     *
+     */
+    public void clickAll(String locator) {
+
+        //Cuando es la primera vez, reviso si está presente el locator
+        if(isLocatorPresent(locator)){
+            //Mientras aún exista elementos para darle click
+            do {
+                click(locator); //Aquí cambia el DOM
+            } while (isLocatorPresent(locator));
+        }
+    }
+
+    /**
+     * Abre todos los switcher + cerrados visualizados en la página
+     *
+     * @param locator XPath del elemento web switcher
+     */
+    public void openAllCloseSwitcher (String locator) {
+        String SwitcherCloseLocator = String.format(locator, "close");
+        clickAll(SwitcherCloseLocator);
+
+    }
+
+    //En TEST (Aquí irán los métodos que aún estoy probando)
 
 
 
