@@ -6,7 +6,7 @@ public class CheckboxParent {
 
     String parentName;
     String parentState;
-    CheckboxChildren Children;
+    List<CheckboxChildren> Children;
 
     public CheckboxParent(String parentName, String parentState) {
         this.parentName = parentName;
@@ -29,11 +29,12 @@ public class CheckboxParent {
         this.parentState = parentState;
     }
 
-    public CheckboxChildren getChildren() {
+    public List<CheckboxChildren> getChildren() {
         return Children;
     }
 
-    public void setChildren(CheckboxChildren children) {
-        Children = children;
+    public void setChildren(List<CheckboxChildren> children) {
+
+    Children = children;
     }
 }
