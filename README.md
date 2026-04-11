@@ -79,8 +79,11 @@ src/test/java/
 
 src/test/resources/
 └── features
-    ├── checkbox.feature
-    └── textbox.feature
+    ├── business
+    │   ├── checkbox.feature
+    │   └── textbox.feature
+    └── internal
+        └── checkboxInternal.feature
 ```
 
 <!-- TREE:END -->
@@ -91,16 +94,6 @@ src/test/resources/
 ```mermaid
 flowchart TD
     feat_Interact_with_the_checkbox_sandbox_page["Feature: Interact with the checkbox sandbox page"]
-    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th["Feature | Scenario: Selecting a child checkbox updates the parent state"]
-    feat_Interact_with_the_checkbox_sandbox_page --> sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th
-    st_Selecting_a_child_checkbox_updates_the_parent_state_the_parent_is_initial_sta["Step | @Step: the <parent> is '<initial_state>' state"]
-    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th --> st_Selecting_a_child_checkbox_updates_the_parent_state_the_parent_is_initial_sta
-    st_Selecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_are_["Step | @Step: the child checkboxes are multiples and <context>"]
-    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th --> st_Selecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_are_
-    st_Selecting_a_child_checkbox_updates_the_parent_state_I_select_action_checkbox["Step | @Step: I select <action> checkbox"]
-    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th --> st_Selecting_a_child_checkbox_updates_the_parent_state_I_select_action_checkbox
-    st_Selecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_change_["Step | @Step: parent's checkbox change to <final_state> state"]
-    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th --> st_Selecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_change_
     feat_Interact_with_the_textbox_sandbox_page["Feature: Interact with the textbox sandbox page"]
     sc_Interact_with_the_textbox_sandbox_page_The_user_can_fill_section_Text_Box_and["Feature | Scenario: The user can fill section Text Box and click the button Submit"]
     feat_Interact_with_the_textbox_sandbox_page --> sc_Interact_with_the_textbox_sandbox_page_The_user_can_fill_section_Text_Box_and
@@ -138,12 +131,14 @@ flowchart TD
     st_The_user_don_t_fill_email_textbox_click_the_button_Submit_can_confirm_the_ema --> pm_isEmpty
     pm_assertTrue["Page | Page: assertTrue()"]
     st_The_user_don_t_fill_email_textbox_click_the_button_Submit_can_confirm_the_ema --> pm_assertTrue
+    feat_Internal_test_for_methods["Feature: Internal test for methods"]
+    sc_Internal_test_for_methods_Changing_states_for_checkboxes["Feature | Scenario: Changing states for checkboxes"]
+    feat_Internal_test_for_methods --> sc_Internal_test_for_methods_Changing_states_for_checkboxes
+    st_Changing_states_for_checkboxes_the_parent_is_initial_state_state["Step | @Step: the <parent> is '<initial_state>' state"]
+    sc_Internal_test_for_methods_Changing_states_for_checkboxes --> st_Changing_states_for_checkboxes_the_parent_is_initial_state_state
+    st_Changing_states_for_checkboxes_the_parent_change_to_final_state_state["Step | @Step: the <parent> change to '<final_state>' state"]
+    sc_Internal_test_for_methods_Changing_states_for_checkboxes --> st_Changing_states_for_checkboxes_the_parent_change_to_final_state_state
 style feat_Interact_with_the_checkbox_sandbox_page fill:#7E22CE,color:#fff,stroke:#fff
-style sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th fill:#7E22CE,color:#fff,stroke:#fff
-style st_Selecting_a_child_checkbox_updates_the_parent_state_the_parent_is_initial_sta fill:#15803D,color:#fff,stroke:#fff
-style st_Selecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_are_ fill:#15803D,color:#fff,stroke:#fff
-style st_Selecting_a_child_checkbox_updates_the_parent_state_I_select_action_checkbox fill:#15803D,color:#fff,stroke:#fff
-style st_Selecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_change_ fill:#15803D,color:#fff,stroke:#fff
 style feat_Interact_with_the_textbox_sandbox_page fill:#7E22CE,color:#fff,stroke:#fff
 style sc_Interact_with_the_textbox_sandbox_page_The_user_can_fill_section_Text_Box_and fill:#7E22CE,color:#fff,stroke:#fff
 style st_The_user_can_fill_section_Text_Box_and_click_the_button_Submit_fill_textboxes fill:#15803D,color:#fff,stroke:#fff
@@ -162,12 +157,16 @@ style pm_getValidationMessageWebElement fill:#1D4ED8,color:#fff,stroke:#fff
 style pm_println fill:#1D4ED8,color:#fff,stroke:#fff
 style pm_isEmpty fill:#1D4ED8,color:#fff,stroke:#fff
 style pm_assertTrue fill:#1D4ED8,color:#fff,stroke:#fff
+style feat_Internal_test_for_methods fill:#7E22CE,color:#fff,stroke:#fff
+style sc_Internal_test_for_methods_Changing_states_for_checkboxes fill:#7E22CE,color:#fff,stroke:#fff
+style st_Changing_states_for_checkboxes_the_parent_is_initial_state_state fill:#15803D,color:#fff,stroke:#fff
+style st_Changing_states_for_checkboxes_the_parent_change_to_final_state_state fill:#15803D,color:#fff,stroke:#fff
 ```
 
 <!-- MERMAID:END -->
 
 <!-- METHODS:START -->
-## 📋 Métodos disponibles (14)
+## 📋 Métodos disponibles (15)
 
 | Clase | Visibilidad | Método | Descripción | Parámetros | Retorna | # Usos |
 |-------|-------------|--------|-------------|------------|---------|--------|
@@ -185,6 +184,7 @@ style pm_assertTrue fill:#1D4ED8,color:#fff,stroke:#fff
 | `BasePage.java` | `public` | `getStateOfCheckbox()` | Devuelve el estado de un checkbox: seleccionado, no seleccionado o indeterminado | `String locator`: XPath del elemento web checkbox | String estado del checkbox | 0 |
 | `BasePage.java` | `public` | `clickAll()` | Hace click en todos los locators que encuentre con ese xpath | `String locator`: XPath de los locators que queremos hacerle click | — | **1** |
 | `BasePage.java` | `public` | `openAllCloseSwitcher()` | Abre todos los switcher + cerrados visualizados en la página | `String locator`: XPath del elemento web switcher | — | 0 |
+| `BasePage.java` | `public` | `generateRandomNumber()` | Genera un número aleatorio | `int max`: número máximo para la generación | int número aleatorio generado | 0 |
 
 <!-- METHODS:END -->
 
