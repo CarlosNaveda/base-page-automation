@@ -63,13 +63,11 @@ public class CheckboxPage extends BasePage {
 
     private void setChildrenStates (CheckboxParent checkboxParent) {
 
-        System.out.println("Nombre del padre: " + checkboxParent.getParentName());
         //Nos aseguramos que el parent sea válido
         List<String> children = CHECKBOXES_PARENTS_RELATIONS.get(checkboxParent.getParentName());
         List<CheckboxChildren> childrenAndStates = new ArrayList<>(List.of());
         //Recorro la lista de hijos
         for(String child : children) {
-            System.out.println("Nombre del Hijo actual: " + child);
             //Instancia el Hijo con su estado
             checkboxChildren = new CheckboxChildren(child,getStateOfCheckbox(getXpathCheckbox(child)));
             childrenAndStates.add(checkboxChildren);
@@ -84,14 +82,11 @@ public class CheckboxPage extends BasePage {
     }
 
     private void setStateFalseToTrue(CheckboxParent checkboxParent){
-        System.out.println("Entra: Estado del Padre: " + checkboxParent.getParentState());
         click(getXpathCheckbox(checkboxParent.getParentName()));
         checkboxParent.setParentState(getStateOfCheckbox(getXpathCheckbox(checkboxParent.getParentName())));
-        System.out.println("Sale: Estado del Padre: " + checkboxParent.getParentState());
     }
 
     private void setStateFalseToMixed(CheckboxParent checkboxParent){
-        System.out.println("Entra: Estado del Padre: " + checkboxParent.getParentState());
         //Regla: Si entra aquí es porque sus hijos están en false
         int randomNumber = generateRandomNumber(checkboxParent.getChildren().size());
         int counter = 1;
@@ -109,18 +104,15 @@ public class CheckboxPage extends BasePage {
 
             counter++;
         }
-        System.out.println("Sale: Estado del Padre: " + checkboxParent.getParentState());
+
     }
 
     private void setStateTrueToFalse(CheckboxParent checkboxParent){
-        System.out.println("Entra: Estado del Padre: " + checkboxParent.getParentState());
         click(getXpathCheckbox(checkboxParent.getParentName()));
         checkboxParent.setParentState(getStateOfCheckbox(getXpathCheckbox(checkboxParent.getParentName())));
-        System.out.println("Sale: Estado del Padre: " + checkboxParent.getParentState());
     }
 
     private void setStateTrueToMixed(CheckboxParent checkboxParent){
-        System.out.println("Entra: Estado del Padre: " + checkboxParent.getParentState());
         //Regla: Si entra aquí es porque sus hijos están en true
         int randomNumber = generateRandomNumber(checkboxParent.getChildren().size());
         int counter = 1;
@@ -138,7 +130,7 @@ public class CheckboxPage extends BasePage {
 
             counter++;
         }
-        System.out.println("Sale: Estado del Padre: " + checkboxParent.getParentState());
+
     }
 
     private void setStateMixedToFalse(){
@@ -204,7 +196,6 @@ public class CheckboxPage extends BasePage {
 
     //FALTA IMPLEMENTAR
     public void setParentCheckboxState(String parent, String initialState) {
-        System.out.println("Inicial State: " + initialState);
 
         //Aquí solo ingresan parent checkboxes
         if (CHECKBOXES_PARENTS_RELATIONS.get(parent) != null) {
@@ -212,16 +203,11 @@ public class CheckboxPage extends BasePage {
             openAllCloseSwitcher(SWITCHER);
 
             //Obtengo el estado actual del padre y el estado deseado
-            System.out.println("Pasé lo switches");
             String actualState = getStateOfCheckbox(CHECKBOXES.get(parent));
             String expectedState = CHECKBOXES_STATES.get(initialState);
 
-            System.out.println("Actual State: " + actualState);
-            System.out.println("Expected State: " + expectedState);
-
             //Si son diferentes, tengo que cambiar modificar el estado al deseado
-           if(!Objects.equals(actualState, expectedState)){
-               System.out.println("Entré porque el padre no tiene el estado deseado: ");
+            if(!Objects.equals(actualState, expectedState)){
 
                //Creo la instancia del Checkbox Parent y Children
                checkboxParent = new CheckboxParent(parent,actualState);
