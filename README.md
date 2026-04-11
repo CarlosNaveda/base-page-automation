@@ -99,16 +99,22 @@ flowchart TD
     feat_Interact_with_the_textbox_sandbox_page --> sc_Interact_with_the_textbox_sandbox_page_The_user_can_fill_section_Text_Box_and
     st_The_user_can_fill_section_Text_Box_and_click_the_button_Submit_fill_textboxes["Step | @And: fillTextboxesOnThePage()"]
     sc_Interact_with_the_textbox_sandbox_page_The_user_can_fill_section_Text_Box_and --> st_The_user_can_fill_section_Text_Box_and_click_the_button_Submit_fill_textboxes
-    pm_fillTextboxes["Page | Page: fillTextboxes()"]
+    pm_fillTextboxes["Page | TextBoxPage: fillTextboxes()"]
     st_The_user_can_fill_section_Text_Box_and_click_the_button_Submit_fill_textboxes --> pm_fillTextboxes
+    bp_setValueOnWebElement["Page | BasePage: setValueOnWebElement()"]
+    pm_fillTextboxes --> bp_setValueOnWebElement
     st_The_user_can_fill_section_Text_Box_and_click_the_button_Submit_click_the_butt["Step | @And: clickTheButtonSubmit()"]
     sc_Interact_with_the_textbox_sandbox_page_The_user_can_fill_section_Text_Box_and --> st_The_user_can_fill_section_Text_Box_and_click_the_button_Submit_click_the_butt
-    pm_clickOnButtonSubmit["Page | Page: clickOnButtonSubmit()"]
+    pm_clickOnButtonSubmit["Page | TextBoxPage: clickOnButtonSubmit()"]
     st_The_user_can_fill_section_Text_Box_and_click_the_button_Submit_click_the_butt --> pm_clickOnButtonSubmit
+    bp_click["Page | BasePage: click()"]
+    pm_clickOnButtonSubmit --> bp_click
     st_The_user_can_fill_section_Text_Box_and_click_the_button_Submit_can_confirm_hi["Step | @Then: canConfirmHisInformationInTheOutputSection()"]
     sc_Interact_with_the_textbox_sandbox_page_The_user_can_fill_section_Text_Box_and --> st_The_user_can_fill_section_Text_Box_and_click_the_button_Submit_can_confirm_hi
-    pm_getInformationOfOutput["Page | Page: getInformationOfOutput()"]
+    pm_getInformationOfOutput["Page | TextBoxPage: getInformationOfOutput()"]
     st_The_user_can_fill_section_Text_Box_and_click_the_button_Submit_can_confirm_hi --> pm_getInformationOfOutput
+    bp_getTextWebElement["Page | BasePage: getTextWebElement()"]
+    pm_getInformationOfOutput --> bp_getTextWebElement
     pm_assertEquals["Page | Page: assertEquals()"]
     st_The_user_can_fill_section_Text_Box_and_click_the_button_Submit_can_confirm_hi --> pm_assertEquals
     pm_assertAll["Page | Page: assertAll()"]
@@ -123,8 +129,10 @@ flowchart TD
     st_The_user_don_t_fill_email_textbox_click_the_button_Submit_click_the_button_Su --> pm_clickOnButtonSubmit
     st_The_user_don_t_fill_email_textbox_click_the_button_Submit_can_confirm_the_ema["Step | @Then: canConfirmTheEmailValidationMessage()"]
     sc_Interact_with_the_textbox_sandbox_page_The_user_don_t_fill_email_textbox_clic --> st_The_user_don_t_fill_email_textbox_click_the_button_Submit_can_confirm_the_ema
-    pm_getValidationMessageWebElement["Page | Page: getValidationMessageWebElement()"]
+    pm_getValidationMessageWebElement["Page | TextBoxPage: getValidationMessageWebElement()"]
     st_The_user_don_t_fill_email_textbox_click_the_button_Submit_can_confirm_the_ema --> pm_getValidationMessageWebElement
+    bp_getValidationMessageWebElement["Page | BasePage: getValidationMessageWebElement()"]
+    pm_getValidationMessageWebElement --> bp_getValidationMessageWebElement
     pm_println["Page | Page: println()"]
     st_The_user_don_t_fill_email_textbox_click_the_button_Submit_can_confirm_the_ema --> pm_println
     pm_isEmpty["Page | Page: isEmpty()"]
@@ -143,10 +151,13 @@ style feat_Interact_with_the_textbox_sandbox_page fill:#7E22CE,color:#fff,stroke
 style sc_Interact_with_the_textbox_sandbox_page_The_user_can_fill_section_Text_Box_and fill:#7E22CE,color:#fff,stroke:#fff
 style st_The_user_can_fill_section_Text_Box_and_click_the_button_Submit_fill_textboxes fill:#15803D,color:#fff,stroke:#fff
 style pm_fillTextboxes fill:#1D4ED8,color:#fff,stroke:#fff
+style bp_setValueOnWebElement fill:#0F172A,color:#fff,stroke:#fff
 style st_The_user_can_fill_section_Text_Box_and_click_the_button_Submit_click_the_butt fill:#15803D,color:#fff,stroke:#fff
 style pm_clickOnButtonSubmit fill:#1D4ED8,color:#fff,stroke:#fff
+style bp_click fill:#0F172A,color:#fff,stroke:#fff
 style st_The_user_can_fill_section_Text_Box_and_click_the_button_Submit_can_confirm_hi fill:#15803D,color:#fff,stroke:#fff
 style pm_getInformationOfOutput fill:#1D4ED8,color:#fff,stroke:#fff
+style bp_getTextWebElement fill:#0F172A,color:#fff,stroke:#fff
 style pm_assertEquals fill:#1D4ED8,color:#fff,stroke:#fff
 style pm_assertAll fill:#1D4ED8,color:#fff,stroke:#fff
 style sc_Interact_with_the_textbox_sandbox_page_The_user_don_t_fill_email_textbox_clic fill:#7E22CE,color:#fff,stroke:#fff
@@ -154,6 +165,7 @@ style st_The_user_don_t_fill_email_textbox_click_the_button_Submit_fill_partial_
 style st_The_user_don_t_fill_email_textbox_click_the_button_Submit_click_the_button_Su fill:#15803D,color:#fff,stroke:#fff
 style st_The_user_don_t_fill_email_textbox_click_the_button_Submit_can_confirm_the_ema fill:#15803D,color:#fff,stroke:#fff
 style pm_getValidationMessageWebElement fill:#1D4ED8,color:#fff,stroke:#fff
+style bp_getValidationMessageWebElement fill:#0F172A,color:#fff,stroke:#fff
 style pm_println fill:#1D4ED8,color:#fff,stroke:#fff
 style pm_isEmpty fill:#1D4ED8,color:#fff,stroke:#fff
 style pm_assertTrue fill:#1D4ED8,color:#fff,stroke:#fff
@@ -175,16 +187,16 @@ style st_Changing_states_for_checkboxes_the_parent_change_to_final_state_state f
 | `BasePage.java` | `private` | `getOptionsSelect()` | Genera una lista de WebElements en base al Select del DOM y lo retorna | `String locator`: XPath del Select a extraer las opciones | List<WebElement> armado con las opciones | **1** |
 | `BasePage.java` | `private` | `isLocatorPresent()` | Nos dice si un locator está presente | `String locator`: XPath del elemento web que queremos buscar | boolean true si está, caso contrario false | **2** |
 | `BasePage.java` | `public` | `navigateTo()` | Ingresa a URL en el navegador | `String url`: Dirección web a la cual queremos dirigirnos | — | **1** |
-| `BasePage.java` | `public` | `click()` | Hace click en el locator indicado | `String locator`: XPath del locator que queremos hacerle click | — | **7** |
-| `BasePage.java` | `public` | `getTextWebElement()` | Obtiene el texto de un elemento web del DOM | `String locator`: XPath del locator que queremos su texto | String del texto en base al locator | 0 |
-| `BasePage.java` | `public` | `setValueOnWebElement()` | Escribir texto en el elemento web del DOM | `String locator`: XPath del locator que queremos escribir<br>`String value`: Texto que queremos escribir | — | 0 |
+| `BasePage.java` | `public` | `click()` | Hace click en el locator indicado | `String locator`: XPath del locator que queremos hacerle click | — | **45** |
+| `BasePage.java` | `public` | `getTextWebElement()` | Obtiene el texto de un elemento web del DOM | `String locator`: XPath del locator que queremos su texto | String del texto en base al locator | **1** |
+| `BasePage.java` | `public` | `setValueOnWebElement()` | Escribir texto en el elemento web del DOM | `String locator`: XPath del locator que queremos escribir<br>`String value`: Texto que queremos escribir | — | **1** |
 | `BasePage.java` | `public` | `getListOptionsSelect()` | Genera una lista de Strings en base al Select del DOM y lo retorna | `String locator`: XPath del Select a extraer las opciones | List<String> armado con las opciones | 0 |
 | `BasePage.java` | `public` | `selectOption()` | Selecciona una opción dentro de un Select de un elemento Web | `String locator`: XPath del Select para elegir la opción<br>`String option`: String que indica la opción que vamos a elegir en el Select | — | 0 |
-| `BasePage.java` | `public` | `getValidationMessageWebElement()` | Extrae el tooltip de mensaje de validación que nos devuelve un elemento web | `String locator`: XPath del elemento web para extraer el tooltip | String texto del tooltip | 0 |
-| `BasePage.java` | `public` | `getStateOfCheckbox()` | Devuelve el estado de un checkbox: seleccionado, no seleccionado o indeterminado | `String locator`: XPath del elemento web checkbox | String estado del checkbox | 0 |
+| `BasePage.java` | `public` | `getValidationMessageWebElement()` | Extrae el tooltip de mensaje de validación que nos devuelve un elemento web | `String locator`: XPath del elemento web para extraer el tooltip | String texto del tooltip | **1** |
+| `BasePage.java` | `public` | `getStateOfCheckbox()` | Devuelve el estado de un checkbox: seleccionado, no seleccionado o indeterminado | `String locator`: XPath del elemento web checkbox | String estado del checkbox | **6** |
 | `BasePage.java` | `public` | `clickAll()` | Hace click en todos los locators que encuentre con ese xpath | `String locator`: XPath de los locators que queremos hacerle click | — | **1** |
-| `BasePage.java` | `public` | `openAllCloseSwitcher()` | Abre todos los switcher + cerrados visualizados en la página | `String locator`: XPath del elemento web switcher | — | 0 |
-| `BasePage.java` | `public` | `generateRandomNumber()` | Genera un número aleatorio | `int max`: número máximo para la generación | int número aleatorio generado | 0 |
+| `BasePage.java` | `public` | `openAllCloseSwitcher()` | Abre todos los switcher + cerrados visualizados en la página | `String locator`: XPath del elemento web switcher | — | **1** |
+| `BasePage.java` | `public` | `generateRandomNumber()` | Genera un número aleatorio | `int max`: número máximo para la generación | int número aleatorio generado | **2** |
 
 <!-- METHODS:END -->
 
