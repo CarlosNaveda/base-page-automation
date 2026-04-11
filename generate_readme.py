@@ -154,7 +154,7 @@ def collect_pages_data(basepage_method_names: set) -> dict[str, dict[str, list[s
     pages_dir = JAVA_ROOT / "pages"
     if not pages_dir.exists():
         return pages
-    for java_file in sorted(pages_dir.glob("*.java")):
+    for java_file in sorted(pages_dir.rglob("*.java")):
         if java_file.name == "BasePage.java":
             continue
         source = java_file.read_text(encoding="utf-8")
