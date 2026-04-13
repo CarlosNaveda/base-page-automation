@@ -196,15 +196,6 @@ public class BasePage {
 
     }
 
-    /**
-     * Genera un número aleatorio
-     *
-     * @param max número máximo para la generación
-     * @return int número aleatorio generado
-     */
-    public int generateRandomNumber (int max) {
-        return (int) (Math.random() * max) + 1;
-    }
 
     //En TEST (Aquí irán los métodos que aún estoy probando)
 
