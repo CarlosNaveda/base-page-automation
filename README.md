@@ -19,8 +19,7 @@ src/test/java/
 ├── hooks
 │   └── Hooks.java
 ├── model
-│   ├── CheckboxChildren.java
-│   ├── CheckboxParent.java
+│   ├── CheckboxNode.java
 │   └── UserData.java
 ├── pages
 │   ├── alertFrame
@@ -72,10 +71,12 @@ src/test/java/
 │   └── HomePage.java
 ├── runner
 │   └── TestRunner.java
-└── steps
-    ├── CheckBoxSteps.java
-    ├── NavigationSteps.java
-    └── TextboxSteps.java
+├── steps
+│   ├── CheckBoxSteps.java
+│   ├── NavigationSteps.java
+│   └── TextboxSteps.java
+└── valueObject
+    └── CheckboxState.java
 
 src/test/resources/
 └── features
@@ -178,7 +179,7 @@ style st_Changing_states_for_checkboxes_the_parent_change_to_final_state_state f
 <!-- MERMAID:END -->
 
 <!-- METHODS:START -->
-## 📋 Métodos disponibles (15)
+## 📋 Métodos disponibles (14)
 
 | Clase | Visibilidad | Método | Descripción | Parámetros | Retorna | # Usos |
 |-------|-------------|--------|-------------|------------|---------|--------|
@@ -187,16 +188,15 @@ style st_Changing_states_for_checkboxes_the_parent_change_to_final_state_state f
 | `BasePage.java` | `private` | `getOptionsSelect()` | Genera una lista de WebElements en base al Select del DOM y lo retorna | `String locator`: XPath del Select a extraer las opciones | List<WebElement> armado con las opciones | **1** |
 | `BasePage.java` | `private` | `isLocatorPresent()` | Nos dice si un locator está presente | `String locator`: XPath del elemento web que queremos buscar | boolean true si está, caso contrario false | **2** |
 | `BasePage.java` | `public` | `navigateTo()` | Ingresa a URL en el navegador | `String url`: Dirección web a la cual queremos dirigirnos | — | **1** |
-| `BasePage.java` | `public` | `click()` | Hace click en el locator indicado | `String locator`: XPath del locator que queremos hacerle click | — | **45** |
+| `BasePage.java` | `public` | `click()` | Hace click en el locator indicado | `String locator`: XPath del locator que queremos hacerle click | — | **41** |
 | `BasePage.java` | `public` | `getTextWebElement()` | Obtiene el texto de un elemento web del DOM | `String locator`: XPath del locator que queremos su texto | String del texto en base al locator | **1** |
 | `BasePage.java` | `public` | `setValueOnWebElement()` | Escribir texto en el elemento web del DOM | `String locator`: XPath del locator que queremos escribir<br>`String value`: Texto que queremos escribir | — | **1** |
 | `BasePage.java` | `public` | `getListOptionsSelect()` | Genera una lista de Strings en base al Select del DOM y lo retorna | `String locator`: XPath del Select a extraer las opciones | List<String> armado con las opciones | 0 |
 | `BasePage.java` | `public` | `selectOption()` | Selecciona una opción dentro de un Select de un elemento Web | `String locator`: XPath del Select para elegir la opción<br>`String option`: String que indica la opción que vamos a elegir en el Select | — | 0 |
 | `BasePage.java` | `public` | `getValidationMessageWebElement()` | Extrae el tooltip de mensaje de validación que nos devuelve un elemento web | `String locator`: XPath del elemento web para extraer el tooltip | String texto del tooltip | **1** |
-| `BasePage.java` | `public` | `getStateOfCheckbox()` | Devuelve el estado de un checkbox: seleccionado, no seleccionado o indeterminado | `String locator`: XPath del elemento web checkbox | String estado del checkbox | **6** |
+| `BasePage.java` | `public` | `getStateOfCheckbox()` | Devuelve el estado de un checkbox: seleccionado, no seleccionado o indeterminado | `String locator`: XPath del elemento web checkbox | String estado del checkbox | 0 |
 | `BasePage.java` | `public` | `clickAll()` | Hace click en todos los locators que encuentre con ese xpath | `String locator`: XPath de los locators que queremos hacerle click | — | **1** |
-| `BasePage.java` | `public` | `openAllCloseSwitcher()` | Abre todos los switcher + cerrados visualizados en la página | `String locator`: XPath del elemento web switcher | — | **1** |
-| `BasePage.java` | `public` | `generateRandomNumber()` | Genera un número aleatorio | `int max`: número máximo para la generación | int número aleatorio generado | **2** |
+| `BasePage.java` | `public` | `openAllCloseSwitcher()` | Abre todos los switcher + cerrados visualizados en la página | `String locator`: XPath del elemento web switcher | — | 0 |
 
 <!-- METHODS:END -->
 
