@@ -145,8 +145,6 @@ flowchart TD
     feat_Internal_test_for_methods --> sc_Internal_test_for_methods_Changing_states_for_checkboxes
     st_Changing_states_for_checkboxes_the_parent_is_initial_state_state["Step | @Step: the <parent> is '<initial_state>' state"]
     sc_Internal_test_for_methods_Changing_states_for_checkboxes --> st_Changing_states_for_checkboxes_the_parent_is_initial_state_state
-    st_Changing_states_for_checkboxes_the_parent_change_to_final_state_state["Step | @Step: the <parent> change to '<final_state>' state"]
-    sc_Internal_test_for_methods_Changing_states_for_checkboxes --> st_Changing_states_for_checkboxes_the_parent_change_to_final_state_state
 style feat_Interact_with_the_checkbox_sandbox_page fill:#7E22CE,color:#fff,stroke:#fff
 style feat_Interact_with_the_textbox_sandbox_page fill:#7E22CE,color:#fff,stroke:#fff
 style sc_Interact_with_the_textbox_sandbox_page_The_user_can_fill_section_Text_Box_and fill:#7E22CE,color:#fff,stroke:#fff
@@ -173,30 +171,32 @@ style pm_assertTrue fill:#1D4ED8,color:#fff,stroke:#fff
 style feat_Internal_test_for_methods fill:#7E22CE,color:#fff,stroke:#fff
 style sc_Internal_test_for_methods_Changing_states_for_checkboxes fill:#7E22CE,color:#fff,stroke:#fff
 style st_Changing_states_for_checkboxes_the_parent_is_initial_state_state fill:#15803D,color:#fff,stroke:#fff
-style st_Changing_states_for_checkboxes_the_parent_change_to_final_state_state fill:#15803D,color:#fff,stroke:#fff
 ```
 
 <!-- MERMAID:END -->
 
 <!-- METHODS:START -->
-## 📋 Métodos disponibles (14)
+## 📋 Métodos disponibles (17)
 
 | Clase | Visibilidad | Método | Descripción | Parámetros | Retorna | # Usos |
 |-------|-------------|--------|-------------|------------|---------|--------|
-| `BasePage.java` | `private` | `getWebElementPresent()` | Espera a que un elemento esté presente en el DOM y lo retorna | `String locator`: XPath del elemento a buscar | WebElement encontrado en el DOM | **4** |
+| `BasePage.java` | `private` | `getWebElementPresent()` | Espera a que un elemento esté presente en el DOM y lo retorna | `String locator`: XPath del elemento a buscar | WebElement encontrado en el DOM | **3** |
 | `BasePage.java` | `private` | `getWebElementClickable()` | Espera a que un elemento esté disponible para hacer click en el DOM y lo retorna | `String locator`: XPath del elemento a buscar | WebElement encontrado en el DOM | **2** |
 | `BasePage.java` | `private` | `getOptionsSelect()` | Genera una lista de WebElements en base al Select del DOM y lo retorna | `String locator`: XPath del Select a extraer las opciones | List<WebElement> armado con las opciones | **1** |
-| `BasePage.java` | `private` | `isLocatorPresent()` | Nos dice si un locator está presente | `String locator`: XPath del elemento web que queremos buscar | boolean true si está, caso contrario false | **2** |
+| `BasePage.java` | `private` | `isLocatorPresent()` | Nos dice si un locator está presente | `String locator`: XPath del elemento web que queremos buscar | boolean true si está, caso contrario false | **3** |
 | `BasePage.java` | `public` | `navigateTo()` | Ingresa a URL en el navegador | `String url`: Dirección web a la cual queremos dirigirnos | — | **1** |
-| `BasePage.java` | `public` | `click()` | Hace click en el locator indicado | `String locator`: XPath del locator que queremos hacerle click | — | **41** |
+| `BasePage.java` | `public` | `click()` | Hace click en el locator indicado | `String locator`: XPath del locator que queremos hacerle click | — | **42** |
 | `BasePage.java` | `public` | `getTextWebElement()` | Obtiene el texto de un elemento web del DOM | `String locator`: XPath del locator que queremos su texto | String del texto en base al locator | **1** |
 | `BasePage.java` | `public` | `setValueOnWebElement()` | Escribir texto en el elemento web del DOM | `String locator`: XPath del locator que queremos escribir<br>`String value`: Texto que queremos escribir | — | **1** |
 | `BasePage.java` | `public` | `getListOptionsSelect()` | Genera una lista de Strings en base al Select del DOM y lo retorna | `String locator`: XPath del Select a extraer las opciones | List<String> armado con las opciones | 0 |
 | `BasePage.java` | `public` | `selectOption()` | Selecciona una opción dentro de un Select de un elemento Web | `String locator`: XPath del Select para elegir la opción<br>`String option`: String que indica la opción que vamos a elegir en el Select | — | 0 |
 | `BasePage.java` | `public` | `getValidationMessageWebElement()` | Extrae el tooltip de mensaje de validación que nos devuelve un elemento web | `String locator`: XPath del elemento web para extraer el tooltip | String texto del tooltip | **1** |
-| `BasePage.java` | `public` | `getStateOfCheckbox()` | Devuelve el estado de un checkbox: seleccionado, no seleccionado o indeterminado | `String locator`: XPath del elemento web checkbox | String estado del checkbox | 0 |
+| `BasePage.java` | `public` | `getStateOfCheckbox()` | Devuelve el estado de un checkbox: seleccionado, no seleccionado o indeterminado | `WebElement checkboxWebElement`: elemento web de checkbox | CheckboxState estado del checkbox | **1** |
 | `BasePage.java` | `public` | `clickAll()` | Hace click en todos los locators que encuentre con ese xpath | `String locator`: XPath de los locators que queremos hacerle click | — | **1** |
 | `BasePage.java` | `public` | `openAllCloseSwitcher()` | Abre todos los switcher + cerrados visualizados en la página | `String locator`: XPath del elemento web switcher | — | 0 |
+| `BasePage.java` | `public` | `getAllWebElements()` | Devuelve todos los elementos web que coincidan con el locator, no espera | `String locator`: xPath del elemento web a buscar | List<WebElement> listado de elementos encontrados a devolver | **1** |
+| `BasePage.java` | `public` | `getWebElementInside()` | Devuelve el elemento web que coincidan con el locator pero dentro de otro elemento web | `WebElement webElement`: elemento web padre<br>`String locator`: xPath del elemento web a buscar | WebElement elemento web buscado | **2** |
+| `BasePage.java` | `public` | `getWebElement()` | Devuelve el elemento web que coincidan con el locator | `String locator`: xPath del elemento web a buscar | WebElement elemento web buscado, si no existe devuelvo null | **1** |
 
 <!-- METHODS:END -->
 
