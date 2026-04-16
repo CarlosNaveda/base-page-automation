@@ -1,16 +1,19 @@
 package pages;
 
 import driverManager.DriverManager;
+import model.CheckboxNode;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import valueObject.CheckboxState;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class BasePage {
 
@@ -161,11 +164,28 @@ public class BasePage {
     /**
      * Devuelve el estado de un checkbox: seleccionado, no seleccionado o indeterminado
      *
-     * @param locator XPath del elemento web checkbox
-     * @return String estado del checkbox
+     * @param checkboxWebElement elemento web de checkbox
+     * @return CheckboxState estado del checkbox
      */
-    public String getStateOfCheckbox (String locator) {
-        return getWebElementPresent(locator).getAttribute("aria-checked");
+    public CheckboxState getStateOfCheckbox (WebElement checkboxWebElement) {
+        String state = checkboxWebElement.getAttribute("aria-checked");
+        CheckboxState checkboxState = null;
+        switch (state) {
+            case "true":
+                checkboxState = CheckboxState.SELECTED;
+                break;
+            case "false":
+                checkboxState = CheckboxState.NOT_SELECTED;
+                break;
+            case "mixed":
+                checkboxState = CheckboxState.INDETERMINATE;
+                break;
+            case null:
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + state);
+        }
+        return checkboxState;
     }
 
     /**
@@ -196,8 +216,48 @@ public class BasePage {
 
     }
 
+    /**
+     * Devuelve todos los elementos web que coincidan con el locator, no espera
+     *
+     * @param locator xPath del elemento web a buscar
+     * @return List<WebElement> listado de elementos encontrados a devolver
+     */
+    public List<WebElement> getAllWebElements(String locator) {
+        return driver.findElements(By.xpath(locator));
+    }
+
+
+    /**
+     * Devuelve el elemento web que coincidan con el locator pero dentro de otro elemento web
+     *
+     * @param webElement elemento web padre
+     * @param locator xPath del elemento web a buscar
+     * @return WebElement elemento web buscado
+     */
+    public WebElement getWebElementInside(WebElement webElement, String locator) {
+        return webElement.findElement(By.xpath(locator));
+    }
+
+    /**
+     * Devuelve el elemento web que coincidan con el locator
+     *
+     * @param locator xPath del elemento web a buscar
+     * @return WebElement elemento web buscado, si no existe devuelvo null
+     */
+    public WebElement getWebElement(String locator) {
+        if (isLocatorPresent(locator)) {
+            return driver.findElement(By.xpath(locator));
+        }
+        else
+        {   return null;
+        }
+    }
+
 
     //En TEST (Aquí irán los métodos que aún estoy probando)
+
+
+
 
 
 

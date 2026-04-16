@@ -10,12 +10,12 @@ public class CheckBoxSteps {
 
     @Given("the {word} is {string} state")
     public void theParentIsInitialState(String parent, String initialState) {
-        checkboxPage.setParentCheckboxState(parent, initialState);
+        checkboxPage.setCheckboxState(parent, initialState);
     }
 
     @When("the {word} change to {string} state")
     public void theParentChangeToFinalState(String parent, String FinalState) {
-        checkboxPage.setParentCheckboxState(parent, FinalState);
+        checkboxPage.setCheckboxState(parent, FinalState);
     }
 
 

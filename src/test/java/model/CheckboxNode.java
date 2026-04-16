@@ -1,28 +1,46 @@
 package model;
 
 import valueObject.CheckboxState;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class CheckboxNode {
 
     CheckboxNode parent;
     CheckboxState state;
+    String label;
+    String xpath;
+    int level;
     List<CheckboxNode> children;
 
-    public CheckboxNode (CheckboxNode parent, CheckboxState state, List<CheckboxNode> children) {
+    public CheckboxNode (CheckboxNode parent, CheckboxState state, String label, String xpath, int level, List<CheckboxNode> children) {
         this.parent = parent;
         this.state = state;
         this.children = children;
-        setSafeChildren(this, children); //Este nodo es el padre de la lista de hijos que llega
+        this.label = label;
+        this.xpath = xpath;
+        this.level = level;
+        setSafeParentChildren(this, children); //Este nodo es el padre de la lista de hijos que llega
+    }
+
+    public CheckboxNode (CheckboxNode parent, CheckboxState state, String label, String xpath,int level) {
+        this.parent = parent;
+        this.state = state;
+        this.label = label;
+        this.xpath = xpath;
+        this.level = level;
     }
 
     //Métodos para consistencia del modelo
-    private void setSafeChildren(CheckboxNode checkboxNode, List<CheckboxNode> children) {
-        //Si el nodo actual tiene hijos
-        if(children != null) {
+    public void setSafeParentChildren(CheckboxNode checkboxParent, List<CheckboxNode> children) {
+            //A cada padre le seteo sus hijos
+            checkboxParent.setChildren(children);
+
+            //A cada hijo le estoy seteando su padre
             for (CheckboxNode checkboxNodeChildren : children) {
-                checkboxNodeChildren.setParent(checkboxNode);
-            }
+                checkboxNodeChildren.setParent(checkboxParent);
+
         }
     }
 
@@ -117,20 +135,49 @@ public class CheckboxNode {
         return parent;
     }
 
-    private void setParent(CheckboxNode parent) {
-        this.parent = parent;
-    }
-
     public CheckboxState getState() {
         return state;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public String getXpath() {
+        return xpath;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public List<CheckboxNode> getChildren() {
+        return children != null ? children : new ArrayList<CheckboxNode>(); // En caso sea nulo, creamos la lista vacía.
+    }
+
+    private void setParent(CheckboxNode parent) {
+        this.parent = parent;
     }
 
     public void setState(CheckboxState state) {
         this.state = state;
     }
 
-    public List<CheckboxNode> getChildren() {
-        return children;
+    public void setLabel(String label) {
+        this.label = label;
     }
+
+    public void setXpath(String xpath) {
+        this.xpath = xpath;
+    }
+
+    private void setLevel(int level) {
+        this.level = level;
+    }
+
+    private void setChildren(List<CheckboxNode> children) {
+        this.children = children;
+    }
+
 
 }
