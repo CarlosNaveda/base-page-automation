@@ -5,6 +5,7 @@ on:
     paths:
       - 'src/**/*.java'        # si modifico alguna clase generamos el readme
       - 'src/**/*.feature'     # si modifico algún feature generamos el readme
+  workflow_dispatch:
 
 jobs:
   update-readme:
