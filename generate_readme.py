@@ -374,13 +374,14 @@ def build_mermaid_section(features, steps_data, pages_data) -> str:
 
 def build_params_cell(params, param_docs) -> str:
     if not params:
-        return "—"
+        return "<sub>—</sub>"
     parts = []
     for p in params:
         doc = param_docs.get(p["name"], "")
         entry = f"`{p['type']} {p['name']}`" + (f": {doc}" if doc else "")
         parts.append(entry)
-    return "<br>".join(parts)
+    return "<sub>" + "<br>".join(parts) + "</sub>"
+
 
 def build_methods_table(methods: list[dict], usage: dict[str, int]) -> str:
     if not methods:
@@ -395,11 +396,11 @@ def build_methods_table(methods: list[dict], usage: dict[str, int]) -> str:
         ret  = m["returns_doc"] if m["returns_doc"] else ("—" if m["return_type"] == "void" else f"`{m['return_type']}`")
         uso_cell = f"**{usos}**" if usos > 0 else "0"
         rows.append(
-            f"| `{m['file']}` | `{m['visibility']}` | `{m['name']}()` "
-            f"| {m['description'] or '—'} "
+            f"| <sub>`{m['file']}`</sub> | <sub>`{m['visibility']}`</sub> | <sub>`{m['name']}()`</sub> "
+            f"| <sub>{m['description'] or '—'}</sub> "
             f"| {build_params_cell(m['params'], m['param_docs'])} "
-            f"| {ret} "
-            f"| {uso_cell} |"
+            f"| <sub>{ret}</sub> "
+            f"| <sub>{uso_cell}</sub> |"
         )
     return header + "\n".join(rows) + "\n"
 
