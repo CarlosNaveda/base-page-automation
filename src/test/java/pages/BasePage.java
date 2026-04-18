@@ -161,32 +161,7 @@ public class BasePage {
         return getWebElementPresent(locator).getDomProperty("validationMessage");
     }
 
-    /**
-     * Devuelve el estado de un checkbox: seleccionado, no seleccionado o indeterminado
-     *
-     * @param checkboxWebElement elemento web de checkbox
-     * @return CheckboxState estado del checkbox
-     */
-    public CheckboxState getStateOfCheckbox (WebElement checkboxWebElement) {
-        String state = checkboxWebElement.getAttribute("aria-checked");
-        CheckboxState checkboxState = null;
-        switch (state) {
-            case "true":
-                checkboxState = CheckboxState.SELECTED;
-                break;
-            case "false":
-                checkboxState = CheckboxState.NOT_SELECTED;
-                break;
-            case "mixed":
-                checkboxState = CheckboxState.INDETERMINATE;
-                break;
-            case null:
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + state);
-        }
-        return checkboxState;
-    }
+
 
     /**
      * Hace click en todos los locators que encuentre con ese xpath
@@ -253,6 +228,9 @@ public class BasePage {
         }
     }
 
+    public int generateRandomNumber (int max) {
+        return (int) (Math.random() * max) + 1;
+    }
 
     //En TEST (Aquí irán los métodos que aún estoy probando)
 

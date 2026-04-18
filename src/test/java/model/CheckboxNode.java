@@ -1,5 +1,6 @@
 package model;
 
+import valueObject.CheckboxLabel;
 import valueObject.CheckboxState;
 
 import java.util.ArrayList;
@@ -9,14 +10,16 @@ public class CheckboxNode {
 
     CheckboxNode parent;
     CheckboxState state;
+    CheckboxLabel labelDomain;
     String label;
     String xpath;
     int level;
     List<CheckboxNode> children;
 
-    public CheckboxNode (CheckboxNode parent, CheckboxState state, String label, String xpath, int level, List<CheckboxNode> children) {
+    public CheckboxNode (CheckboxNode parent, CheckboxState state, CheckboxLabel labelDomain, String label, String xpath, int level, List<CheckboxNode> children) {
         this.parent = parent;
         this.state = state;
+        this.labelDomain = labelDomain;
         this.children = children;
         this.label = label;
         this.xpath = xpath;
@@ -24,9 +27,10 @@ public class CheckboxNode {
         setSafeParentChildren(this, children); //Este nodo es el padre de la lista de hijos que llega
     }
 
-    public CheckboxNode (CheckboxNode parent, CheckboxState state, String label, String xpath,int level) {
+    public CheckboxNode (CheckboxNode parent, CheckboxState state, CheckboxLabel labelDomain, String label, String xpath,int level) {
         this.parent = parent;
         this.state = state;
+        this.labelDomain = labelDomain;
         this.label = label;
         this.xpath = xpath;
         this.level = level;
@@ -45,8 +49,7 @@ public class CheckboxNode {
     }
 
     //Métodos para manejar la transición de estados
-    private void changeStateParentNode(CheckboxNode checkboxNode) {
-
+    private static void changeStateParentNode(CheckboxNode checkboxNode) {
         //Si tiene padre reviso
         if(checkboxNode.getParent() != null) {
 
@@ -59,8 +62,7 @@ public class CheckboxNode {
 
             //Recorro cada hijo
             for (CheckboxNode child : children) {
-
-                //Si alguno de los hijos es "INDETERMINATE" ya termino y seteo al padre igual con "INDETERMINATE"
+                //Regla: Si alguno de los hijos es "INDETERMINATE" ya termino y seteo al padre igual con "INDETERMINATE"
                 if (child.getState().equals(CheckboxState.INDETERMINATE)) {
                     checkboxNode.getParent().setState(CheckboxState.INDETERMINATE);
                     break; //Salgo del for
@@ -78,28 +80,28 @@ public class CheckboxNode {
                 }
             }
 
-            //Solo comparo los conteos en el padre del nodo no esté ya seteado en "INDETERMINATE"
-            if (!checkboxNode.getParent().getState().equals(CheckboxState.INDETERMINATE)) {
-                if (countChildren==countNotSelected) {
-                    //Todos los hijos están en "NOT_SELECTED", el padre debe cambiar a estado "NOT_SELECTED"
-                    checkboxNode.getParent().setState(CheckboxState.NOT_SELECTED);
-                }
-                else if (countChildren==countSelected){
-                    //Todos los hijos están en "SELECTED", el padre debe cambiar a estado "SELECTED"
-                    checkboxNode.getParent().setState(CheckboxState.SELECTED);
-                }
+            //Comparo los conteos
+            if (countChildren==countNotSelected) {
+                //Todos los hijos están en "NOT_SELECTED", el padre debe cambiar a estado "NOT_SELECTED"
+                checkboxNode.getParent().setState(CheckboxState.NOT_SELECTED);
+            }
+            else if (countChildren==countSelected){
+                //Todos los hijos están en "SELECTED", el padre debe cambiar a estado "SELECTED"
+                checkboxNode.getParent().setState(CheckboxState.SELECTED);
+            }
+            else  {
+                //Los hijos tienen estados mezclados entre "SELECTED" y "NOT_SELECTED"
+                checkboxNode.getParent().setState(CheckboxState.INDETERMINATE);
             }
 
             changeStateParentNode(checkboxNode.getParent()); //Mi referencia el padre de éste nodo
-
         }
     }
 
-    private void changeStateNode(CheckboxNode checkboxNode) {
-
-        //Si tiene hijos reviso
-        if(checkboxNode.getChildren() != null) {
-            //Evalúo los cambios a realizar en los hijos (Propagación descendente)
+    public static void changeStateNode(CheckboxNode checkboxNode) {
+        //En caso tenga hijos reviso
+        if(!checkboxNode.getChildren().isEmpty()) {
+        //Evalúo los cambios a realizar en los hijos (Propagación descendente)
             switch (checkboxNode.getState()) {
                 case NOT_SELECTED: //Si el nodo se cambió a "NOT_SELECTED"
                     //Todos los nodos hijos quedan en "NOT_SELECTED"
@@ -111,21 +113,20 @@ public class CheckboxNode {
                     changeStateChildrenNode(checkboxNode,CheckboxState.SELECTED);
                     break;
             }
-
-            //Evaluó los cambios a realizar en el padre (Propagación ascendente)
-            changeStateParentNode(checkboxNode); //Mi referencia éste nodo
         }
+
+        //Evaluó los cambios a realizar en el padre (Propagación ascendente)
+        changeStateParentNode(checkboxNode); //Mi referencia éste nodo
     }
 
-    private void changeStateChildrenNode(CheckboxNode checkboxNode,CheckboxState checkboxState) {
-
+    private static void changeStateChildrenNode(CheckboxNode checkboxNode,CheckboxState checkboxState) {
         //Recorro todos los hijos para setear sus estados
-        for (CheckboxNode checkboxNodeChildren : checkboxNode.getChildren()) {
-            checkboxNodeChildren.setState(checkboxState);
+        for (CheckboxNode child : checkboxNode.getChildren()) {
+            child.setState(checkboxState);
 
             //Si el hijo actual tiene más hijos
-            if (checkboxNodeChildren.getChildren()!=null) {
-                changeStateChildrenNode(checkboxNodeChildren,checkboxState); //Mi referencia el hijo de éste nodo
+            if (!child.getChildren().isEmpty()) {
+                changeStateChildrenNode(child,checkboxState); //Mi referencia el hijo de éste nodo
             }
         }
     }
@@ -138,6 +139,8 @@ public class CheckboxNode {
     public CheckboxState getState() {
         return state;
     }
+
+    public CheckboxLabel getLabelDomain() {return labelDomain;}
 
     public String getLabel() {
         return label;
@@ -161,7 +164,10 @@ public class CheckboxNode {
 
     public void setState(CheckboxState state) {
         this.state = state;
+
     }
+
+    public void setLabelDomain(CheckboxLabel labelDomain) {this.labelDomain = labelDomain;}
 
     public void setLabel(String label) {
         this.label = label;

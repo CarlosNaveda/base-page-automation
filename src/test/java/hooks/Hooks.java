@@ -13,10 +13,10 @@ public class Hooks {
     }
 
 
-//    @After
-//    public void closeDriverManager() {
-//        DriverManager.quitDriverManager();
-//    }
+    @After
+    public void closeDriverManager() {
+        DriverManager.quitDriverManager();
+    }
 
 
 }
