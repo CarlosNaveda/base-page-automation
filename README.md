@@ -101,24 +101,20 @@ flowchart TD
     feat_Interact_with_the_checkbox_sandbox_page["Feature: Interact with the checkbox sandbox page"]
     sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th["Feature | Scenario: Selecting a child checkbox updates the parent state"]
     feat_Interact_with_the_checkbox_sandbox_page --> sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th
-    st_Selecting_a_child_checkbox_updates_the_parent_state_the_parent_is_initial_sta["Step | @Step: the <parent> is '<initial_state>' state"]
-    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th --> st_Selecting_a_child_checkbox_updates_the_parent_state_the_parent_is_initial_sta
-    st_Selecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_are_["Step | @Step: the child checkboxes are multiples and <context>"]
-    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th --> st_Selecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_are_
-    st_Selecting_a_child_checkbox_updates_the_parent_state_I_select_action_checkbox["Step | @Step: I select <action> checkbox"]
-    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th --> st_Selecting_a_child_checkbox_updates_the_parent_state_I_select_action_checkbox
-    st_Selecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_change_["Step | @Step: parent's checkbox change to <final_state> state"]
-    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th --> st_Selecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_change_
+    st_Selecting_a_child_checkbox_updates_the_parent_state_the_initial_context_of_so["Step | @Step: the '<initial_context>' of <son's_parent> is '<son_initial_state>' state"]
+    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th --> st_Selecting_a_child_checkbox_updates_the_parent_state_the_initial_context_of_so
+    st_Selecting_a_child_checkbox_updates_the_parent_state_the_user_select_context_o["Step | @Step: the user select '<context_of_selection>' of <son's_parent>"]
+    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th --> st_Selecting_a_child_checkbox_updates_the_parent_state_the_user_select_context_o
+    st_Selecting_a_child_checkbox_updates_the_parent_state_the_son_s_parent_should_b["Step | @Step: the <son's_parent> should be in '<parent_final_state>' state"]
+    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th --> st_Selecting_a_child_checkbox_updates_the_parent_state_the_son_s_parent_should_b
     sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_["Feature | Scenario: Deselecting a child checkbox updates the parent state"]
     feat_Interact_with_the_checkbox_sandbox_page --> sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_
-    st_Deselecting_a_child_checkbox_updates_the_parent_state_the_parent_checkbox_is_["Step | @Step: the parent checkbox is <initial_state> state"]
-    sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_ --> st_Deselecting_a_child_checkbox_updates_the_parent_state_the_parent_checkbox_is_
-    st_Deselecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_ar["Step | @Step: the child checkboxes are multiples and <context>"]
-    sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_ --> st_Deselecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_ar
-    st_Deselecting_a_child_checkbox_updates_the_parent_state_I_deselect_action_check["Step | @Step: I deselect <action> checkbox"]
-    sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_ --> st_Deselecting_a_child_checkbox_updates_the_parent_state_I_deselect_action_check
-    st_Deselecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_chang["Step | @Step: parent's checkbox change to <final_state> state"]
-    sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_ --> st_Deselecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_chang
+    st_Deselecting_a_child_checkbox_updates_the_parent_state_the_initial_context_of_["Step | @Step: the '<initial_context>' of <son's_parent> is '<son_initial_state>' state"]
+    sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_ --> st_Deselecting_a_child_checkbox_updates_the_parent_state_the_initial_context_of_
+    st_Deselecting_a_child_checkbox_updates_the_parent_state_the_user_deselect_conte["Step | @Step: the user deselect '<context_of_deselection>' of <son's_parent>"]
+    sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_ --> st_Deselecting_a_child_checkbox_updates_the_parent_state_the_user_deselect_conte
+    st_Deselecting_a_child_checkbox_updates_the_parent_state_the_son_s_parent_should["Step | @Step: the <son's_parent> should be in '<parent_final_state>' state"]
+    sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_ --> st_Deselecting_a_child_checkbox_updates_the_parent_state_the_son_s_parent_should
     feat_Interact_with_the_textbox_sandbox_page["Feature: Interact with the textbox sandbox page"]
     sc_Interact_with_the_textbox_sandbox_page_The_user_can_fill_section_Text_Box_and["Feature | Scenario: The user can fill section Text Box and click the button Submit"]
     feat_Interact_with_the_textbox_sandbox_page --> sc_Interact_with_the_textbox_sandbox_page_The_user_can_fill_section_Text_Box_and
@@ -175,15 +171,13 @@ flowchart TD
     sc_Internal_test_for_methods_Changing_states_for_checkboxes --> st_Changing_states_for_checkboxes_the_parent_should_be_in_final_state_state
 style feat_Interact_with_the_checkbox_sandbox_page fill:#7E22CE,color:#fff,stroke:#fff
 style sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th fill:#7E22CE,color:#fff,stroke:#fff
-style st_Selecting_a_child_checkbox_updates_the_parent_state_the_parent_is_initial_sta fill:#15803D,color:#fff,stroke:#fff
-style st_Selecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_are_ fill:#15803D,color:#fff,stroke:#fff
-style st_Selecting_a_child_checkbox_updates_the_parent_state_I_select_action_checkbox fill:#15803D,color:#fff,stroke:#fff
-style st_Selecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_change_ fill:#15803D,color:#fff,stroke:#fff
+style st_Selecting_a_child_checkbox_updates_the_parent_state_the_initial_context_of_so fill:#15803D,color:#fff,stroke:#fff
+style st_Selecting_a_child_checkbox_updates_the_parent_state_the_user_select_context_o fill:#15803D,color:#fff,stroke:#fff
+style st_Selecting_a_child_checkbox_updates_the_parent_state_the_son_s_parent_should_b fill:#15803D,color:#fff,stroke:#fff
 style sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_ fill:#7E22CE,color:#fff,stroke:#fff
-style st_Deselecting_a_child_checkbox_updates_the_parent_state_the_parent_checkbox_is_ fill:#15803D,color:#fff,stroke:#fff
-style st_Deselecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_ar fill:#15803D,color:#fff,stroke:#fff
-style st_Deselecting_a_child_checkbox_updates_the_parent_state_I_deselect_action_check fill:#15803D,color:#fff,stroke:#fff
-style st_Deselecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_chang fill:#15803D,color:#fff,stroke:#fff
+style st_Deselecting_a_child_checkbox_updates_the_parent_state_the_initial_context_of_ fill:#15803D,color:#fff,stroke:#fff
+style st_Deselecting_a_child_checkbox_updates_the_parent_state_the_user_deselect_conte fill:#15803D,color:#fff,stroke:#fff
+style st_Deselecting_a_child_checkbox_updates_the_parent_state_the_son_s_parent_should fill:#15803D,color:#fff,stroke:#fff
 style feat_Interact_with_the_textbox_sandbox_page fill:#7E22CE,color:#fff,stroke:#fff
 style sc_Interact_with_the_textbox_sandbox_page_The_user_can_fill_section_Text_Box_and fill:#7E22CE,color:#fff,stroke:#fff
 style st_The_user_can_fill_section_Text_Box_and_click_the_button_Submit_fill_textboxes fill:#15803D,color:#fff,stroke:#fff
