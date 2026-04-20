@@ -1,7 +1,6 @@
 package pages.bookStoreApplication;
 
 import pages.BasePage;
-import pages.elements.TextBoxPage;
 
 public class BooksPage extends BasePage {
 
@@ -23,7 +22,7 @@ public class BooksPage extends BasePage {
         return new LoginPage();
     }
 
-    public BookStorePage clickToBookStoreOption()
+    public pages.bookStoreApplication.BookStorePage clickToBookStoreOption()
     {
         click(bookStoreOption);
         return new BookStorePage();

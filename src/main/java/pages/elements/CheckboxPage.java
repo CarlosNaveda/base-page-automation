@@ -3,14 +3,11 @@ package pages.elements;
 import model.CheckboxNode;
 import model.ResolverCheckboxLabel;
 import org.openqa.selenium.WebElement;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import pages.BasePage;
 import valueObject.CheckboxLabel;
 import valueObject.CheckboxState;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -18,41 +15,81 @@ import static model.CheckboxNode.changeStateNode;
 
 public class CheckboxPage extends BasePage {
 
-    private static final Logger log = LoggerFactory.getLogger(CheckboxPage.class);
 
     public CheckboxPage() {
         super();
     }
 
-    //Variables Globales
-    Stack<String> stackLabelsNodes = new Stack<>();
-    List<CheckboxNode> listGlobal = new ArrayList<>();
 
-    private String noIndent = "//div[@role='treeitem']";
-    private String indent ="//span[contains(@class,'rc-tree-indent-unit')]%s/ancestor::span[@class='rc-tree-indent']/ancestor::div[@role='treeitem']";
+    //Variables
+    private String treeItemNoIndent = "//div[@role='treeitem']";
+    private String treeItemIndent ="//span[contains(@class,'rc-tree-indent-unit')]%s/ancestor::span[@class='rc-tree-indent']/ancestor::div[@role='treeitem']";
+    private String switcherNoIndent = "//span[contains(@class,'rc-tree-switcher_open')]";
+
+
+
+    private String switcherIndent ="//span[contains(@class,'rc-tree-indent-unit')]%s/ancestor::span[@class='rc-tree-indent']/following-sibling::span[contains(@class,'rc-tree-switcher_open')]";
     private String checkboxItemIn = ".//span[contains(@class,'rc-tree-checkbox')]";
     private String closedItemIn = "//span[@aria-label='%s']/preceding-sibling::span[contains(@class,'rc-tree-switcher_close')]";
     private String xpathCheckbox= "//span[@aria-label='%s']";
+    private String rootTree = "//div[@class='rc-tree']";
+
 
 
     //Métodos privados
-    private String getLocatorIndent(int level) {
+    private String getLocatorTreeItemIndent(int level, String noIndent, String indent) {
 
-        if (level == 0) {
-            return noIndent;
-        }//En caso sea otro número tenemos que modificar el indent aumentándole cada nivel el siguiente texto:
-        String plusLevel = "%s/preceding-sibling::span[contains(@class,'rc-tree-indent-unit')]";
-        String customizeIndent = indent;
+        String customizeIndent = "";
         int aux = level - 1;
 
-        while (aux > 0) {
-            customizeIndent = String.format(customizeIndent, plusLevel);
-            aux--;
+        if (level == 0) {
+            customizeIndent = noIndent;
+        } else {
+            String levelIndent = "%s/preceding-sibling::span[contains(@class,'rc-tree-indent-unit')]";
+            customizeIndent = indent;
+
+            while (aux > 0) {
+                customizeIndent = String.format(customizeIndent, levelIndent);
+                aux--;
+            }
+        }
+
+        return String.format(customizeIndent, ""); //Para quitar el %s
+    }
+
+    //ARREGLAR
+    private String getLocatorSwitcherIndent(int level, String noIndent, String indent) {
+
+        String customizeIndent = "";
+        int aux = level - 1;
+
+
+        switch (aux) {
+            case 0:
+                customizeIndent = noIndent;
+                break;
+
+            case 1:
+                customizeIndent = indent;
+                break;
+
+            default:
+                String levelIndent = "%s/preceding-sibling::span[contains(@class,'rc-tree-indent-unit')]";
+                customizeIndent = indent;
+
+
+                while (aux > 1) {
+                    customizeIndent = String.format(customizeIndent, levelIndent);
+                    aux--;
+                }
+                break;
+
         }
 
         return String.format(customizeIndent, ""); //Para quitar el %s
 
     }
+
 
 
 
@@ -76,11 +113,29 @@ public class CheckboxPage extends BasePage {
 
 
 
-    private List<CheckboxNode> createCheckboxNodes(CheckboxNode parentCheckbox,int level,List<CheckboxNode> listGlobal) {
+    private void closeCheckboxNode(List<CheckboxNode> nodes) {
+        //Hay que obtener el nivel más alto del árbol
+        int maxLevel = nodes.stream()
+                .mapToInt(CheckboxNode::getLevel)
+                .max()
+                .orElse(0);
+
+
+        //Generamos el indent para el switcher open
+        while (maxLevel > 0) {
+            String switcherLocatorIndent = getLocatorSwitcherIndent(maxLevel,switcherNoIndent,switcherIndent); //Nivel Actual
+            clickAll(switcherLocatorIndent);
+            maxLevel--;
+        }
+
+    }
+
+    private List<CheckboxNode> createCheckboxNodes(CheckboxNode parentCheckbox,int level,List<CheckboxNode> listGlobal,Stack<String> stackLabelsNodes) {
+
         List<CheckboxNode> listcheckboxNodes = new ArrayList<>();
 
-        String locatorIndent = getLocatorIndent(level); //Nivel Actual
-        List<WebElement> elements = getWebElementsByLevel(locatorIndent,checkboxItemIn,stackLabelsNodes); //Obtengo los elementos del Nivel actual, pero verificando que aún no existan en mis checkboxNodes
+        String treeItemLocatorIndent = getLocatorTreeItemIndent(level,treeItemNoIndent,treeItemIndent); //Nivel Actual
+        List<WebElement> elements = getWebElementsByLevel(treeItemLocatorIndent,checkboxItemIn,stackLabelsNodes); //Obtengo los elementos del Nivel actual, pero verificando que aún no existan en mi stack de labels
 
         //Recorremos los checkbox del Nivel actual y los vamos abriendo
         for (WebElement element : elements) {
@@ -97,16 +152,20 @@ public class CheckboxPage extends BasePage {
             listGlobal.add(checkboxNode); //Esta es la lista global para ver resultados totales
 
 
+
             boolean isOpen = openCheckboxNode(checkboxLabel); //Reviso el checkbox actual pudo abrir +
 
             //¿Se pudo abrir?
             if (isOpen) {
                 int nextLevel= level + 1;
                 //Recursión - Todos los nodos que obtenga de adentro serán hijos del padre actual
-                List<CheckboxNode> checkboxNodesIn = createCheckboxNodes(checkboxNode, nextLevel,listGlobal);
+                List<CheckboxNode> checkboxNodesIn = createCheckboxNodes(checkboxNode, nextLevel,listGlobal,stackLabelsNodes);
                 //Completo la relación Padre con Hijos
                 checkboxNode.setSafeParentChildren(checkboxNode, checkboxNodesIn);
             }
+
+
+
         }
         return listcheckboxNodes;
     }
@@ -132,8 +191,8 @@ public class CheckboxPage extends BasePage {
         return checkboxState;
     }
 
-    private void getListGlobal(){
-        for (CheckboxNode checkboxNode : listGlobal) {
+    private void getListGlobal(List<CheckboxNode> nodes) {
+        for (CheckboxNode checkboxNode : nodes) {
             int auxLevel = checkboxNode.getLevel();
             StringBuilder tab = new StringBuilder("\t");
             while (auxLevel > 0) {
@@ -152,13 +211,11 @@ public class CheckboxPage extends BasePage {
         }
     }
 
-    private CheckboxNode findNode(String label){
-        CheckboxNode checkboxNode = null;
+    private CheckboxNode findNode(String label,List<CheckboxNode> nodes) {
         CheckboxLabel labelDomain = CheckboxLabel.valueOf(label);
 
-        return listGlobal.stream()
-                .filter( node -> node.getLabelDomain()
-                .equals(labelDomain))
+        return nodes.stream()
+                .filter( node -> node.getLabelDomain().equals(labelDomain))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No se encontró el label:  "+labelDomain));
     }
@@ -175,9 +232,8 @@ public class CheckboxPage extends BasePage {
         changeStateNode(checkboxNode); //Actualizo mis demás nodos en base al nodo actualizado.
     }
 
-    private void checkboxChangeState(String label,String state) {
-
-        CheckboxNode checkboxNode = findNode(label);
+    private void checkboxChangeState(String label,String state,List<CheckboxNode> nodes) {
+        CheckboxNode checkboxNode = findNode(label,nodes);
         String transitionStates = getTransitionStates(checkboxNode,state);
 
         //Realizo la transición de estado
@@ -256,7 +312,7 @@ public class CheckboxPage extends BasePage {
                 }
                 break;
         }
-//        getListGlobal();
+
     }
 
 
@@ -275,21 +331,36 @@ public class CheckboxPage extends BasePage {
         return isOpen;
     }
 
+
+
+    private void waitForCheckboxTreeToLoad() {
+        getWebElementPresent(rootTree);
+    }
+
+    private List<CheckboxNode> buildTree(){
+        Stack<String> stackLabelsNodes = new Stack<>();
+        List<CheckboxNode> listGlobal = new ArrayList<>();
+        createCheckboxNodes(null,0,listGlobal,stackLabelsNodes); //Mapeo del árbol dinámicamente
+        return listGlobal;
+    }
+
+
+
     //Métodos públicos
     public void setCheckboxState(String label, String state){
-        createCheckboxNodes(null,0,listGlobal); //Mapeo del árbol dinámicamente
-        checkboxChangeState(label,state);
+        waitForCheckboxTreeToLoad();
+        List<CheckboxNode> nodes = buildTree();
+        checkboxChangeState(label,state,nodes);
+        closeCheckboxNode(nodes);
     }
 
     public void validationFinalState(String label, String finalState){
-        CheckboxNode checkboxNode = findNode(label);
+        waitForCheckboxTreeToLoad();
+        List<CheckboxNode> nodes = buildTree();
+        CheckboxNode checkboxNode = findNode(label,nodes);
         CheckboxState checkboxState = CheckboxState.valueOf(finalState);
         Assert.assertEquals(checkboxNode.getState(),checkboxState,"Los estados no coinciden");
     }
-
-
-
-
 
 
 }

@@ -1,7 +1,6 @@
 package pages.widgets;
 
 import pages.BasePage;
-import pages.alertFrame.BrowserWindowsPage;
 
 public class WidgetsPage extends BasePage {
 
@@ -63,7 +62,7 @@ public class WidgetsPage extends BasePage {
         return new TooltipsPage();
     }
 
-    public MenuPage clickToMenuOption()
+    public pages.widgets.MenuPage clickToMenuOption()
     {
         click(menuOption);
         return new MenuPage();

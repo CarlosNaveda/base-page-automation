@@ -18,7 +18,7 @@ public class InteractionPage extends BasePage {
 
 
     //Métodos públicos
-    public SortablePage clickToSortableOption()
+    public pages.interactions.SortablePage clickToSortableOption()
     {
         click(sortableOption);
         return new SortablePage();

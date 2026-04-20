@@ -1,19 +1,16 @@
 package pages;
 
 import driverManager.DriverManager;
-import model.CheckboxNode;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import valueObject.CheckboxState;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public class BasePage {
 
@@ -28,16 +25,6 @@ public class BasePage {
     }
 
     //MÉTODOS PRIVADOS
-
-    /**
-     * Espera a que un elemento esté presente en el DOM y lo retorna
-     *
-     * @param locator XPath del elemento a buscar
-     * @return WebElement encontrado en el DOM
-     */
-    private WebElement getWebElementPresent(String locator) {
-        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(locator)));
-    }
 
     /**
      * Espera a que un elemento esté disponible para hacer click en el DOM y lo retorna
@@ -77,6 +64,17 @@ public class BasePage {
 
 
     //MÉTODOS PÚBLICOS
+
+    /**
+     * Espera a que un elemento esté presente en el DOM y lo retorna
+     *
+     * @param locator XPath del elemento a buscar
+     * @return WebElement encontrado en el DOM
+     */
+    public WebElement getWebElementPresent(String locator) {
+        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(locator)));
+    }
+
 
     /**
      * Ingresa a URL en el navegador

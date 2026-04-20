@@ -7,7 +7,7 @@ Feature: Internal test for methods
   Scenario Outline: Changing states for checkboxes
     Given the <parent> is "<initial_state>" state
     When the <parent> change to "<final_state>" state
-    Then the <parent> is on the "<final_state>" state
+    Then the <parent> should be in "<final_state>" state
 
     Examples:
      | parent           | initial_state  |  final_state    |

@@ -19,7 +19,7 @@ public class CheckBoxSteps {
         checkboxPage.setCheckboxState(parent, FinalState);
     }
 
-    @Then("the {word} is on the {string} state")
+    @Then("the {word} should be in {string} state")
     public void theParentIsOnTheFinalState(String parent, String FinalState) {
         checkboxPage.validationFinalState(parent, FinalState);
 

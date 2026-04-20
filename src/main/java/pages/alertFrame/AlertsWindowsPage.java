@@ -1,7 +1,6 @@
 package pages.alertFrame;
 
 import pages.BasePage;
-import pages.forms.PracticeForm;
 
 public class AlertsWindowsPage extends BasePage {
 
@@ -41,7 +40,7 @@ public class AlertsWindowsPage extends BasePage {
         return new NestedFramesPage();
     }
 
-    public ModalDialogPage clickToModalDialogOption()
+    public pages.alertFrame.ModalDialogPage clickToModalDialogOption()
     {
         click(modalDialogOption);
         return new ModalDialogPage();

@@ -13,8 +13,9 @@ from pathlib import Path
 from collections import defaultdict
 
 # ── Configuración ─────────────────────────────────────────────────────────────
-SRC_ROOTS   = [Path("src/test/java"), Path("src/test/resources")]
-JAVA_ROOT   = Path("src/test/java")
+SRC_ROOTS  = [Path("src/main/java"), Path("src/test/java"), Path("src/test/resources")]
+MAIN_ROOT  = Path("src/main/java")   # BasePage, pages, driverManager, model...
+TEST_ROOT  = Path("src/test/java")   # steps, hooks, runner
 README_FILE = Path("README.md")
 
 TREE_START    = "<!-- TREE:START -->"
@@ -51,7 +52,7 @@ def build_tree_section() -> str:
             continue
         blocks.append("\n".join([str(root) + "/"] + build_tree(root)))
     if not blocks:
-        return "_No se encontraron directorios en src/test/_\n"
+        return "_No se encontraron directorios en src/_\n"
     return "```\n" + "\n\n".join(blocks) + "\n```\n"
 
 
@@ -99,7 +100,7 @@ def parse_javadoc_blocks(source: str, filename: str) -> list[dict]:
 
 def collect_basepage_methods() -> list[dict]:
     methods = []
-    for f in sorted(JAVA_ROOT.rglob("BasePage.java")):
+    for f in sorted(MAIN_ROOT.rglob("BasePage.java")):
         methods.extend(parse_javadoc_blocks(f.read_text(encoding="utf-8"), f.name))
     return methods
 
@@ -112,13 +113,12 @@ def extract_method_bodies(source: str) -> dict[str, str]:
     Maneja llaves anidadas correctamente.
     """
     result = {}
-    # Buscar inicio de método: [visibilidad] tipo nombre(params) {
     header_re = re.compile(
         r'(?:public|private|protected)\s+\w[\w<>\[\]]*\s+(\w+)\s*\([^)]*\)\s*\{'
     )
     for match in header_re.finditer(source):
         method_name = match.group(1)
-        start = match.end()          # posición justo después del '{'
+        start = match.end()
         depth = 1
         i = start
         while i < len(source) and depth > 0:
@@ -138,7 +138,6 @@ SKIP_KEYWORDS = {"if", "for", "while", "switch", "return", "super",
 
 def extract_calls(body: str) -> list[str]:
     """Extrae nombres de métodos llamados en un cuerpo (sin prefijo de instancia)."""
-    # Llamadas directas: metodo( — sin punto antes
     calls = re.findall(r'(?<![.\w])([a-z]\w*)\s*\(', body)
     return [c for c in calls if c not in SKIP_KEYWORDS]
 
@@ -149,9 +148,11 @@ def collect_pages_data(basepage_method_names: set) -> dict[str, dict[str, list[s
     """
     { NombreClase: { metodo_page: [metodos_basepage_llamados] } }
     Solo registra calls que existan en BasePage.
+    Busca recursivamente en MAIN_ROOT/pages para cubrir subdirectorios
+    (alertFrame, bookStoreApplication, elements, forms, interactions, widgets…)
     """
     pages = {}
-    pages_dir = JAVA_ROOT / "pages"
+    pages_dir = MAIN_ROOT / "pages"
     if not pages_dir.exists():
         return pages
     for java_file in sorted(pages_dir.rglob("*.java")):
@@ -190,7 +191,7 @@ def count_basepage_usage(basepage_methods: list[dict], pages_data: dict) -> dict
                     usage[call] += 1
 
     # Usos internos en BasePage (privados llamados por públicos/privados)
-    for f in sorted(JAVA_ROOT.rglob("BasePage.java")):
+    for f in sorted(MAIN_ROOT.rglob("BasePage.java")):
         source = f.read_text(encoding="utf-8")
         bodies = extract_method_bodies(source)
         for method_name, body in bodies.items():
@@ -215,9 +216,7 @@ def parse_steps(source: str) -> list[dict]:
     for m in pattern.finditer(source):
         step_text, method_name = m.group(1), m.group(2)
         body = bodies.get(method_name, "")
-        # Llamadas con prefijo de instancia: instancia.metodo(
         instance_calls = re.findall(r'\w+\.(\w+)\s*\(', body)
-        # Llamadas directas también
         direct_calls = extract_calls(body)
         all_calls = list(dict.fromkeys(instance_calls + direct_calls))
         steps.append({
@@ -229,7 +228,7 @@ def parse_steps(source: str) -> list[dict]:
 
 def collect_steps_data() -> dict[str, list[dict]]:
     steps_data = {}
-    steps_dir = JAVA_ROOT / "steps"
+    steps_dir = TEST_ROOT / "steps"
     if not steps_dir.exists():
         return steps_data
     for java_file in sorted(steps_dir.glob("*.java")):
@@ -257,8 +256,11 @@ def parse_feature(source: str) -> dict:
 
 def collect_features_data() -> list[dict]:
     seen, unique = set(), []
-    for fp in list(JAVA_ROOT.parent.rglob("*.feature")) + \
-              list(Path("src/test/resources").rglob("*.feature")):
+    feature_files = list(Path("src/test/resources").rglob("*.feature"))
+    # fallback: también buscar relativo a TEST_ROOT por si cambia la estructura
+    feature_files += [f for f in TEST_ROOT.parent.rglob("*.feature")
+                      if f not in feature_files]
+    for fp in feature_files:
         source = fp.read_text(encoding="utf-8")
         parsed = parse_feature(source)
         if parsed["feature_name"] not in seen:
@@ -270,25 +272,21 @@ def collect_features_data() -> list[dict]:
 # ── Diagrama Mermaid ──────────────────────────────────────────────────────────
 
 def make_id(*parts) -> str:
-    """ID de nodo seguro para Mermaid: solo alfanumérico y guiones bajos."""
     raw = "_".join(str(p) for p in parts)
     return re.sub(r'\W+', '_', raw)[:80]
 
 def safe_label(text: str) -> str:
-    """Escapa comillas dobles en labels de Mermaid."""
     return text.replace('"', "\'")
 
 def build_mermaid_section(features, steps_data, pages_data) -> str:
     if not features:
         return "_No se encontraron archivos .feature_\n"
 
-    # Lookup: texto del step (lowercase) → step completo con method_name y page_calls
     step_lookup: dict[str, dict] = {}
     for cls, steps in steps_data.items():
         for step in steps:
             step_lookup[step["step_text"].lower().strip()] = step
 
-    # Lookup: método de page → métodos de BasePage que llama
     page_to_bp: dict[str, list[str]] = {}
     for cls, methods in pages_data.items():
         for page_method, bp_calls in methods.items():
@@ -296,7 +294,6 @@ def build_mermaid_section(features, steps_data, pages_data) -> str:
             page_to_bp[page_method] = list(dict.fromkeys(
                 page_to_bp[page_method] + bp_calls))
 
-    # Lookup: método de page → nombre de la clase page
     method_to_page: dict[str, str] = {}
     for cls, methods in pages_data.items():
         for page_method in methods:
@@ -319,11 +316,10 @@ def build_mermaid_section(features, steps_data, pages_data) -> str:
             edges.add(e)
             lines.append(f"    {e}")
 
-    # Detectar anotación real del step
     step_annotation: dict[str, str] = {}
-    for cls, steps in steps_data.items():
-        raw_source_path = None
-        for java_file in (JAVA_ROOT / "steps").glob("*.java"):
+    steps_dir = TEST_ROOT / "steps"
+    if steps_dir.exists():
+        for java_file in steps_dir.glob("*.java"):
             src = java_file.read_text(encoding="utf-8")
             ann_re = re.compile(
                 r'@(Given|When|Then|And|But)\s*\(\s*"([^"]+)"\s*\)',
@@ -382,7 +378,6 @@ def build_params_cell(params, param_docs) -> str:
         parts.append(entry)
     return "<sub>" + "<br>".join(parts) + "</sub>"
 
-
 def build_methods_table(methods: list[dict], usage: dict[str, int]) -> str:
     if not methods:
         return "_No hay métodos documentados todavía._\n"
@@ -427,15 +422,15 @@ def update_readme(tree_md, mermaid_md, table_md, method_count):
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
-    tree_md        = build_tree_section()
-    bp_methods     = collect_basepage_methods()
-    bp_names       = {m["name"] for m in bp_methods}
-    pages_data     = collect_pages_data(bp_names)
-    steps_data     = collect_steps_data()
-    features       = collect_features_data()
-    usage          = count_basepage_usage(bp_methods, pages_data)
-    mermaid_md     = build_mermaid_section(features, steps_data, pages_data)
-    table_md       = build_methods_table(bp_methods, usage)
+    tree_md    = build_tree_section()
+    bp_methods = collect_basepage_methods()
+    bp_names   = {m["name"] for m in bp_methods}
+    pages_data = collect_pages_data(bp_names)
+    steps_data = collect_steps_data()
+    features   = collect_features_data()
+    usage      = count_basepage_usage(bp_methods, pages_data)
+    mermaid_md = build_mermaid_section(features, steps_data, pages_data)
+    table_md   = build_methods_table(bp_methods, usage)
     update_readme(tree_md, mermaid_md, table_md, len(bp_methods))
 
 if __name__ == "__main__":
