@@ -20,6 +20,7 @@ src/test/java/
 │   └── Hooks.java
 ├── model
 │   ├── CheckboxNode.java
+│   ├── ResolverCheckboxLabel.java
 │   └── UserData.java
 ├── pages
 │   ├── alertFrame
@@ -76,6 +77,7 @@ src/test/java/
 │   ├── NavigationSteps.java
 │   └── TextboxSteps.java
 └── valueObject
+    ├── CheckboxLabel.java
     └── CheckboxState.java
 
 src/test/resources/
@@ -145,6 +147,10 @@ flowchart TD
     feat_Internal_test_for_methods --> sc_Internal_test_for_methods_Changing_states_for_checkboxes
     st_Changing_states_for_checkboxes_the_parent_is_initial_state_state["Step | @Step: the <parent> is '<initial_state>' state"]
     sc_Internal_test_for_methods_Changing_states_for_checkboxes --> st_Changing_states_for_checkboxes_the_parent_is_initial_state_state
+    st_Changing_states_for_checkboxes_the_parent_change_to_final_state_state["Step | @Step: the <parent> change to '<final_state>' state"]
+    sc_Internal_test_for_methods_Changing_states_for_checkboxes --> st_Changing_states_for_checkboxes_the_parent_change_to_final_state_state
+    st_Changing_states_for_checkboxes_the_parent_is_on_the_final_state_state["Step | @Step: the <parent> is on the '<final_state>' state"]
+    sc_Internal_test_for_methods_Changing_states_for_checkboxes --> st_Changing_states_for_checkboxes_the_parent_is_on_the_final_state_state
 style feat_Interact_with_the_checkbox_sandbox_page fill:#7E22CE,color:#fff,stroke:#fff
 style feat_Interact_with_the_textbox_sandbox_page fill:#7E22CE,color:#fff,stroke:#fff
 style sc_Interact_with_the_textbox_sandbox_page_The_user_can_fill_section_Text_Box_and fill:#7E22CE,color:#fff,stroke:#fff
@@ -171,12 +177,14 @@ style pm_assertTrue fill:#1D4ED8,color:#fff,stroke:#fff
 style feat_Internal_test_for_methods fill:#7E22CE,color:#fff,stroke:#fff
 style sc_Internal_test_for_methods_Changing_states_for_checkboxes fill:#7E22CE,color:#fff,stroke:#fff
 style st_Changing_states_for_checkboxes_the_parent_is_initial_state_state fill:#15803D,color:#fff,stroke:#fff
+style st_Changing_states_for_checkboxes_the_parent_change_to_final_state_state fill:#15803D,color:#fff,stroke:#fff
+style st_Changing_states_for_checkboxes_the_parent_is_on_the_final_state_state fill:#15803D,color:#fff,stroke:#fff
 ```
 
 <!-- MERMAID:END -->
 
 <!-- METHODS:START -->
-## 📋 Métodos disponibles (17)
+## 📋 Métodos disponibles (16)
 
 | Clase | Visibilidad | Método | Descripción | Parámetros | Retorna | # Usos |
 |-------|-------------|--------|-------------|------------|---------|--------|
@@ -185,13 +193,12 @@ style st_Changing_states_for_checkboxes_the_parent_is_initial_state_state fill:#
 | <sub>`BasePage.java`</sub> | <sub>`private`</sub> | <sub>`getOptionsSelect()`</sub> | <sub>Genera una lista de WebElements en base al Select del DOM y lo retorna</sub> | <sub>`String locator`: XPath del Select a extraer las opciones</sub> | <sub>List<WebElement> armado con las opciones</sub> | <sub>**1**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`private`</sub> | <sub>`isLocatorPresent()`</sub> | <sub>Nos dice si un locator está presente</sub> | <sub>`String locator`: XPath del elemento web que queremos buscar</sub> | <sub>boolean true si está, caso contrario false</sub> | <sub>**3**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`navigateTo()`</sub> | <sub>Ingresa a URL en el navegador</sub> | <sub>`String url`: Dirección web a la cual queremos dirigirnos</sub> | <sub>—</sub> | <sub>**1**</sub> |
-| <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`click()`</sub> | <sub>Hace click en el locator indicado</sub> | <sub>`String locator`: XPath del locator que queremos hacerle click</sub> | <sub>—</sub> | <sub>**42**</sub> |
+| <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`click()`</sub> | <sub>Hace click en el locator indicado</sub> | <sub>`String locator`: XPath del locator que queremos hacerle click</sub> | <sub>—</sub> | <sub>**43**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`getTextWebElement()`</sub> | <sub>Obtiene el texto de un elemento web del DOM</sub> | <sub>`String locator`: XPath del locator que queremos su texto</sub> | <sub>String del texto en base al locator</sub> | <sub>**1**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`setValueOnWebElement()`</sub> | <sub>Escribir texto en el elemento web del DOM</sub> | <sub>`String locator`: XPath del locator que queremos escribir<br>`String value`: Texto que queremos escribir</sub> | <sub>—</sub> | <sub>**1**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`getListOptionsSelect()`</sub> | <sub>Genera una lista de Strings en base al Select del DOM y lo retorna</sub> | <sub>`String locator`: XPath del Select a extraer las opciones</sub> | <sub>List<String> armado con las opciones</sub> | <sub>0</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`selectOption()`</sub> | <sub>Selecciona una opción dentro de un Select de un elemento Web</sub> | <sub>`String locator`: XPath del Select para elegir la opción<br>`String option`: String que indica la opción que vamos a elegir en el Select</sub> | <sub>—</sub> | <sub>0</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`getValidationMessageWebElement()`</sub> | <sub>Extrae el tooltip de mensaje de validación que nos devuelve un elemento web</sub> | <sub>`String locator`: XPath del elemento web para extraer el tooltip</sub> | <sub>String texto del tooltip</sub> | <sub>**1**</sub> |
-| <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`getStateOfCheckbox()`</sub> | <sub>Devuelve el estado de un checkbox: seleccionado, no seleccionado o indeterminado</sub> | <sub>`WebElement checkboxWebElement`: elemento web de checkbox</sub> | <sub>CheckboxState estado del checkbox</sub> | <sub>**1**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`clickAll()`</sub> | <sub>Hace click en todos los locators que encuentre con ese xpath</sub> | <sub>`String locator`: XPath de los locators que queremos hacerle click</sub> | <sub>—</sub> | <sub>**1**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`openAllCloseSwitcher()`</sub> | <sub>Abre todos los switcher + cerrados visualizados en la página</sub> | <sub>`String locator`: XPath del elemento web switcher</sub> | <sub>—</sub> | <sub>0</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`getAllWebElements()`</sub> | <sub>Devuelve todos los elementos web que coincidan con el locator, no espera</sub> | <sub>`String locator`: xPath del elemento web a buscar</sub> | <sub>List<WebElement> listado de elementos encontrados a devolver</sub> | <sub>**1**</sub> |
