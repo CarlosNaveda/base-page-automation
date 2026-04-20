@@ -13,11 +13,9 @@ Para los test estoy usando la página web: https://demoqa.com/ como sandbox.
 ## 📁 Estructura del proyecto
 
 ```
-src/test/java/
+src/main/java/
 ├── driverManager
 │   └── DriverManager.java
-├── hooks
-│   └── Hooks.java
 ├── model
 │   ├── CheckboxNode.java
 │   ├── ResolverCheckboxLabel.java
@@ -70,15 +68,19 @@ src/test/java/
 │   │   └── WidgetsPage.java
 │   ├── BasePage.java
 │   └── HomePage.java
-├── runner
-│   └── TestRunner.java
-├── steps
-│   ├── CheckBoxSteps.java
-│   ├── NavigationSteps.java
-│   └── TextboxSteps.java
 └── valueObject
     ├── CheckboxLabel.java
     └── CheckboxState.java
+
+src/test/java/
+├── hooks
+│   └── Hooks.java
+├── runner
+│   └── TestRunner.java
+└── steps
+    ├── CheckBoxSteps.java
+    ├── NavigationSteps.java
+    └── TextboxSteps.java
 
 src/test/resources/
 └── features
@@ -97,6 +99,26 @@ src/test/resources/
 ```mermaid
 flowchart TD
     feat_Interact_with_the_checkbox_sandbox_page["Feature: Interact with the checkbox sandbox page"]
+    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th["Feature | Scenario: Selecting a child checkbox updates the parent state"]
+    feat_Interact_with_the_checkbox_sandbox_page --> sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th
+    st_Selecting_a_child_checkbox_updates_the_parent_state_the_parent_is_initial_sta["Step | @Step: the <parent> is '<initial_state>' state"]
+    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th --> st_Selecting_a_child_checkbox_updates_the_parent_state_the_parent_is_initial_sta
+    st_Selecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_are_["Step | @Step: the child checkboxes are multiples and <context>"]
+    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th --> st_Selecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_are_
+    st_Selecting_a_child_checkbox_updates_the_parent_state_I_select_action_checkbox["Step | @Step: I select <action> checkbox"]
+    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th --> st_Selecting_a_child_checkbox_updates_the_parent_state_I_select_action_checkbox
+    st_Selecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_change_["Step | @Step: parent's checkbox change to <final_state> state"]
+    sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th --> st_Selecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_change_
+    sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_["Feature | Scenario: Deselecting a child checkbox updates the parent state"]
+    feat_Interact_with_the_checkbox_sandbox_page --> sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_
+    st_Deselecting_a_child_checkbox_updates_the_parent_state_the_parent_checkbox_is_["Step | @Step: the parent checkbox is <initial_state> state"]
+    sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_ --> st_Deselecting_a_child_checkbox_updates_the_parent_state_the_parent_checkbox_is_
+    st_Deselecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_ar["Step | @Step: the child checkboxes are multiples and <context>"]
+    sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_ --> st_Deselecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_ar
+    st_Deselecting_a_child_checkbox_updates_the_parent_state_I_deselect_action_check["Step | @Step: I deselect <action> checkbox"]
+    sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_ --> st_Deselecting_a_child_checkbox_updates_the_parent_state_I_deselect_action_check
+    st_Deselecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_chang["Step | @Step: parent's checkbox change to <final_state> state"]
+    sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_ --> st_Deselecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_chang
     feat_Interact_with_the_textbox_sandbox_page["Feature: Interact with the textbox sandbox page"]
     sc_Interact_with_the_textbox_sandbox_page_The_user_can_fill_section_Text_Box_and["Feature | Scenario: The user can fill section Text Box and click the button Submit"]
     feat_Interact_with_the_textbox_sandbox_page --> sc_Interact_with_the_textbox_sandbox_page_The_user_can_fill_section_Text_Box_and
@@ -149,9 +171,19 @@ flowchart TD
     sc_Internal_test_for_methods_Changing_states_for_checkboxes --> st_Changing_states_for_checkboxes_the_parent_is_initial_state_state
     st_Changing_states_for_checkboxes_the_parent_change_to_final_state_state["Step | @Step: the <parent> change to '<final_state>' state"]
     sc_Internal_test_for_methods_Changing_states_for_checkboxes --> st_Changing_states_for_checkboxes_the_parent_change_to_final_state_state
-    st_Changing_states_for_checkboxes_the_parent_is_on_the_final_state_state["Step | @Step: the <parent> is on the '<final_state>' state"]
-    sc_Internal_test_for_methods_Changing_states_for_checkboxes --> st_Changing_states_for_checkboxes_the_parent_is_on_the_final_state_state
+    st_Changing_states_for_checkboxes_the_parent_should_be_in_final_state_state["Step | @Step: the <parent> should be in '<final_state>' state"]
+    sc_Internal_test_for_methods_Changing_states_for_checkboxes --> st_Changing_states_for_checkboxes_the_parent_should_be_in_final_state_state
 style feat_Interact_with_the_checkbox_sandbox_page fill:#7E22CE,color:#fff,stroke:#fff
+style sc_Interact_with_the_checkbox_sandbox_page_Selecting_a_child_checkbox_updates_th fill:#7E22CE,color:#fff,stroke:#fff
+style st_Selecting_a_child_checkbox_updates_the_parent_state_the_parent_is_initial_sta fill:#15803D,color:#fff,stroke:#fff
+style st_Selecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_are_ fill:#15803D,color:#fff,stroke:#fff
+style st_Selecting_a_child_checkbox_updates_the_parent_state_I_select_action_checkbox fill:#15803D,color:#fff,stroke:#fff
+style st_Selecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_change_ fill:#15803D,color:#fff,stroke:#fff
+style sc_Interact_with_the_checkbox_sandbox_page_Deselecting_a_child_checkbox_updates_ fill:#7E22CE,color:#fff,stroke:#fff
+style st_Deselecting_a_child_checkbox_updates_the_parent_state_the_parent_checkbox_is_ fill:#15803D,color:#fff,stroke:#fff
+style st_Deselecting_a_child_checkbox_updates_the_parent_state_the_child_checkboxes_ar fill:#15803D,color:#fff,stroke:#fff
+style st_Deselecting_a_child_checkbox_updates_the_parent_state_I_deselect_action_check fill:#15803D,color:#fff,stroke:#fff
+style st_Deselecting_a_child_checkbox_updates_the_parent_state_parent_s_checkbox_chang fill:#15803D,color:#fff,stroke:#fff
 style feat_Interact_with_the_textbox_sandbox_page fill:#7E22CE,color:#fff,stroke:#fff
 style sc_Interact_with_the_textbox_sandbox_page_The_user_can_fill_section_Text_Box_and fill:#7E22CE,color:#fff,stroke:#fff
 style st_The_user_can_fill_section_Text_Box_and_click_the_button_Submit_fill_textboxes fill:#15803D,color:#fff,stroke:#fff
@@ -178,7 +210,7 @@ style feat_Internal_test_for_methods fill:#7E22CE,color:#fff,stroke:#fff
 style sc_Internal_test_for_methods_Changing_states_for_checkboxes fill:#7E22CE,color:#fff,stroke:#fff
 style st_Changing_states_for_checkboxes_the_parent_is_initial_state_state fill:#15803D,color:#fff,stroke:#fff
 style st_Changing_states_for_checkboxes_the_parent_change_to_final_state_state fill:#15803D,color:#fff,stroke:#fff
-style st_Changing_states_for_checkboxes_the_parent_is_on_the_final_state_state fill:#15803D,color:#fff,stroke:#fff
+style st_Changing_states_for_checkboxes_the_parent_should_be_in_final_state_state fill:#15803D,color:#fff,stroke:#fff
 ```
 
 <!-- MERMAID:END -->
@@ -188,18 +220,18 @@ style st_Changing_states_for_checkboxes_the_parent_is_on_the_final_state_state f
 
 | Clase | Visibilidad | Método | Descripción | Parámetros | Retorna | # Usos |
 |-------|-------------|--------|-------------|------------|---------|--------|
-| <sub>`BasePage.java`</sub> | <sub>`private`</sub> | <sub>`getWebElementPresent()`</sub> | <sub>Espera a que un elemento esté presente en el DOM y lo retorna</sub> | <sub>`String locator`: XPath del elemento a buscar</sub> | <sub>WebElement encontrado en el DOM</sub> | <sub>**3**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`private`</sub> | <sub>`getWebElementClickable()`</sub> | <sub>Espera a que un elemento esté disponible para hacer click en el DOM y lo retorna</sub> | <sub>`String locator`: XPath del elemento a buscar</sub> | <sub>WebElement encontrado en el DOM</sub> | <sub>**2**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`private`</sub> | <sub>`getOptionsSelect()`</sub> | <sub>Genera una lista de WebElements en base al Select del DOM y lo retorna</sub> | <sub>`String locator`: XPath del Select a extraer las opciones</sub> | <sub>List<WebElement> armado con las opciones</sub> | <sub>**1**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`private`</sub> | <sub>`isLocatorPresent()`</sub> | <sub>Nos dice si un locator está presente</sub> | <sub>`String locator`: XPath del elemento web que queremos buscar</sub> | <sub>boolean true si está, caso contrario false</sub> | <sub>**3**</sub> |
+| <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`getWebElementPresent()`</sub> | <sub>Espera a que un elemento esté presente en el DOM y lo retorna</sub> | <sub>`String locator`: XPath del elemento a buscar</sub> | <sub>WebElement encontrado en el DOM</sub> | <sub>**4**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`navigateTo()`</sub> | <sub>Ingresa a URL en el navegador</sub> | <sub>`String url`: Dirección web a la cual queremos dirigirnos</sub> | <sub>—</sub> | <sub>**1**</sub> |
-| <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`click()`</sub> | <sub>Hace click en el locator indicado</sub> | <sub>`String locator`: XPath del locator que queremos hacerle click</sub> | <sub>—</sub> | <sub>**43**</sub> |
+| <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`click()`</sub> | <sub>Hace click en el locator indicado</sub> | <sub>`String locator`: XPath del locator que queremos hacerle click</sub> | <sub>—</sub> | <sub>**37**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`getTextWebElement()`</sub> | <sub>Obtiene el texto de un elemento web del DOM</sub> | <sub>`String locator`: XPath del locator que queremos su texto</sub> | <sub>String del texto en base al locator</sub> | <sub>**1**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`setValueOnWebElement()`</sub> | <sub>Escribir texto en el elemento web del DOM</sub> | <sub>`String locator`: XPath del locator que queremos escribir<br>`String value`: Texto que queremos escribir</sub> | <sub>—</sub> | <sub>**1**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`getListOptionsSelect()`</sub> | <sub>Genera una lista de Strings en base al Select del DOM y lo retorna</sub> | <sub>`String locator`: XPath del Select a extraer las opciones</sub> | <sub>List<String> armado con las opciones</sub> | <sub>0</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`selectOption()`</sub> | <sub>Selecciona una opción dentro de un Select de un elemento Web</sub> | <sub>`String locator`: XPath del Select para elegir la opción<br>`String option`: String que indica la opción que vamos a elegir en el Select</sub> | <sub>—</sub> | <sub>0</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`getValidationMessageWebElement()`</sub> | <sub>Extrae el tooltip de mensaje de validación que nos devuelve un elemento web</sub> | <sub>`String locator`: XPath del elemento web para extraer el tooltip</sub> | <sub>String texto del tooltip</sub> | <sub>**1**</sub> |
-| <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`clickAll()`</sub> | <sub>Hace click en todos los locators que encuentre con ese xpath</sub> | <sub>`String locator`: XPath de los locators que queremos hacerle click</sub> | <sub>—</sub> | <sub>**1**</sub> |
+| <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`clickAll()`</sub> | <sub>Hace click en todos los locators que encuentre con ese xpath</sub> | <sub>`String locator`: XPath de los locators que queremos hacerle click</sub> | <sub>—</sub> | <sub>**2**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`openAllCloseSwitcher()`</sub> | <sub>Abre todos los switcher + cerrados visualizados en la página</sub> | <sub>`String locator`: XPath del elemento web switcher</sub> | <sub>—</sub> | <sub>0</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`getAllWebElements()`</sub> | <sub>Devuelve todos los elementos web que coincidan con el locator, no espera</sub> | <sub>`String locator`: xPath del elemento web a buscar</sub> | <sub>List<WebElement> listado de elementos encontrados a devolver</sub> | <sub>**1**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`getWebElementInside()`</sub> | <sub>Devuelve el elemento web que coincidan con el locator pero dentro de otro elemento web</sub> | <sub>`WebElement webElement`: elemento web padre<br>`String locator`: xPath del elemento web a buscar</sub> | <sub>WebElement elemento web buscado</sub> | <sub>**2**</sub> |
