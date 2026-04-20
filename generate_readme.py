@@ -269,6 +269,24 @@ def collect_features_data() -> list[dict]:
     return unique
 
 
+# ── Normalización de steps para matching ──────────────────────────────────────
+
+# Cucumber expressions → regex genérico
+_CUCUMBER_EXPR = re.compile(r'\{(?:word|string|int|float|bigdecimal|biginteger|byte|short|long|double)\}')
+# Gherkin Scenario Outline params: <param> o '<param>'
+_OUTLINE_PARAM = re.compile(r"'?<[^>]+>'?")
+
+def normalize_step(text: str) -> str:
+    """
+    Convierte tanto anotaciones Cucumber como textos de Scenario Outline
+    a un patrón comparable común: reemplaza {word}/{string}/etc. y <param>
+    por el placeholder '__ARG__', luego lower + strip.
+    """
+    t = _CUCUMBER_EXPR.sub("__ARG__", text)
+    t = _OUTLINE_PARAM.sub("__ARG__", t)
+    return t.lower().strip()
+
+
 # ── Diagrama Mermaid ──────────────────────────────────────────────────────────
 
 def make_id(*parts) -> str:
@@ -282,10 +300,11 @@ def build_mermaid_section(features, steps_data, pages_data) -> str:
     if not features:
         return "_No se encontraron archivos .feature_\n"
 
+    # Lookup normalizado: patrón comparable → step completo
     step_lookup: dict[str, dict] = {}
     for cls, steps in steps_data.items():
         for step in steps:
-            step_lookup[step["step_text"].lower().strip()] = step
+            step_lookup[normalize_step(step["step_text"])] = step
 
     page_to_bp: dict[str, list[str]] = {}
     for cls, methods in pages_data.items():
@@ -326,7 +345,7 @@ def build_mermaid_section(features, steps_data, pages_data) -> str:
                 re.DOTALL
             )
             for m in ann_re.finditer(src):
-                step_annotation[m.group(2).lower().strip()] = m.group(1)
+                step_annotation[normalize_step(m.group(2))] = m.group(1)
 
     for feat in features:
         f_id = make_id("feat", feat["feature_name"])
@@ -338,7 +357,7 @@ def build_mermaid_section(features, steps_data, pages_data) -> str:
             edge(f_id, sc_id)
 
             for step_text in sc["steps"]:
-                key = step_text.lower().strip()
+                key = normalize_step(step_text)
                 step_data  = step_lookup.get(key)
                 annotation = step_annotation.get(key, "Step")
                 method_name = step_data["method_name"] + "()" if step_data else step_text
