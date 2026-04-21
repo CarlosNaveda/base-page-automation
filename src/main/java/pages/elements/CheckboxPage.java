@@ -4,6 +4,7 @@ import model.CheckboxNode;
 import model.ResolverCheckboxLabel;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 import pages.BasePage;
 import valueObject.CheckboxLabel;
 import valueObject.CheckboxState;
@@ -338,41 +339,24 @@ public class CheckboxPage extends BasePage {
     }
 
     private List<CheckboxNode> buildTree(){
+        waitForCheckboxTreeToLoad();
         Stack<String> stackLabelsNodes = new Stack<>();
-        List<CheckboxNode> listGlobal = new ArrayList<>();
-        createCheckboxNodes(null,0,listGlobal,stackLabelsNodes); //Mapeo del árbol dinámicamente
-        return listGlobal;
+        List<CheckboxNode> nodes = new ArrayList<>();
+        createCheckboxNodes(null,0,nodes,stackLabelsNodes); //Mapeo del árbol dinámicamente
+        closeCheckboxNode(nodes);
+        return nodes;
     }
 
 
 
     //Métodos públicos
+
     public void setCheckboxState(String label, String state){
-        waitForCheckboxTreeToLoad();
         List<CheckboxNode> nodes = buildTree();
         checkboxChangeState(label,state,nodes);
-        closeCheckboxNode(nodes);
-        getListGlobal(nodes);
-    }
-
-    public void validationFinalState(String label, String finalState){
-        waitForCheckboxTreeToLoad();
-        List<CheckboxNode> nodes = buildTree();
-        CheckboxNode checkboxNode = findNode(label,nodes);
-        CheckboxState checkboxState = CheckboxState.valueOf(finalState);
-        Assert.assertEquals(checkboxNode.getState(),checkboxState,"Los estados no coinciden");
-    }
-
-    public void theUserSelectTheSon(String label) {
-        waitForCheckboxTreeToLoad();
-        List<CheckboxNode> nodes = buildTree();
-        CheckboxNode checkboxNode = findNode(label,nodes);
-        clickAndUpdateStates(checkboxNode,CheckboxState.SELECTED);
-        closeCheckboxNode(nodes);
     }
 
     public void selectionOfChildrenIsInitialState(String initialContext, String parent,String state) {
-        waitForCheckboxTreeToLoad();
         List<CheckboxNode> nodes = buildTree();
         CheckboxNode checkboxNode = findNode(parent,nodes);
         List<CheckboxNode> children = checkboxNode.getChildren();
@@ -403,12 +387,39 @@ public class CheckboxPage extends BasePage {
                 break;
         }
 
-        closeCheckboxNode(nodes);
-
     }
 
+    public void validationFinalState(String label, String finalState){
+        List<CheckboxNode> nodes = buildTree();
+        CheckboxNode checkboxNode = findNode(label,nodes);
+        CheckboxState checkboxState = CheckboxState.valueOf(finalState);
+        Assert.assertEquals(checkboxNode.getState(),checkboxState,"Los estados no coinciden");
+    }
+
+    public void validationChildrenFinalState(String label, String finalState) {
+        List<CheckboxNode> nodes = buildTree();
+        CheckboxNode checkboxNode = findNode(label,nodes);
+        List<CheckboxNode> children = checkboxNode.getChildren();
+        CheckboxState checkboxState = CheckboxState.valueOf(finalState);
+        SoftAssert softAssert = new SoftAssert();
+
+        for (CheckboxNode child : children) {
+            softAssert.assertEquals(child.getState(),checkboxState,"Los estados no coinciden");
+        }
+
+        softAssert.assertAll();
+    }
+
+    public void theUserActionTheElement(String action, String label) {
+        List<CheckboxNode> nodes = buildTree();
+        CheckboxNode checkboxNode = findNode(label,nodes);
+        CheckboxState checkboxState = CheckboxState.valueOf(action);
+        clickAndUpdateStates(checkboxNode,checkboxState);
+    }
+
+
+
     public void theUserSelectContext(String contextOfSelection, String parent) {
-        waitForCheckboxTreeToLoad();
         List<CheckboxNode> nodes = buildTree();
         CheckboxNode checkboxNode = findNode(parent,nodes);
         List<CheckboxNode> children = checkboxNode.getChildren();
@@ -442,12 +453,9 @@ public class CheckboxPage extends BasePage {
                 break;
         }
 
-        closeCheckboxNode(nodes);
-
     }
 
     public void theUserDeselectContext(String contextOfSelection, String parent) {
-        waitForCheckboxTreeToLoad();
         List<CheckboxNode> nodes = buildTree();
         CheckboxNode checkboxNode = findNode(parent,nodes);
         List<CheckboxNode> children = checkboxNode.getChildren();
@@ -481,9 +489,9 @@ public class CheckboxPage extends BasePage {
                 break;
         }
 
-        closeCheckboxNode(nodes);
-
     }
+
+
 
 
 }
