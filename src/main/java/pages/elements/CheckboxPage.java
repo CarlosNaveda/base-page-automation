@@ -221,26 +221,24 @@ public class CheckboxPage extends BasePage {
                 .orElseThrow(() -> new RuntimeException("No se encontró el label:  "+labelDomain));
     }
 
-    private String getTransitionStates(CheckboxNode checkboxNode, String State){
-        //Concatenamos el estado actual con lo esperado
-        CheckboxState toState = CheckboxState.valueOf(State);
-        return checkboxNode.getState() + "-" + toState;
-    }
-
     private void clickAndUpdateStates(CheckboxNode checkboxNode, CheckboxState state){
+        System.out.println("llego a a hacer el click");
         click(checkboxNode.getXpath()); //1 click al propio checkbox
         checkboxNode.setState(state); //Actualizo su estado
         changeStateNode(checkboxNode); //Actualizo mis demás nodos en base al nodo actualizado.
     }
 
-    private void checkboxChangeState(String label,String state,List<CheckboxNode> nodes) {
+    private void checkboxChangeState(String label,CheckboxState toState,List<CheckboxNode> nodes) {
         CheckboxNode checkboxNode = findNode(label,nodes);
-        String transitionStates = getTransitionStates(checkboxNode,state);
+        String transitionStates = checkboxNode.getState() + "-" + toState;
+        System.out.println("transitionStates: " + transitionStates);
 
         //Realizo la transición de estado
         switch (transitionStates) {
             case "NOT_SELECTED-SELECTED": // Checkbox No Seleccionado --> Checkbox Seleccionado
                 //1 click al propio checkbox
+                System.out.println("entre a NOT_SELECTED-SELECTED");
+                System.out.println("Nodo: " + checkboxNode);
                 clickAndUpdateStates(checkboxNode,CheckboxState.SELECTED);
                 break;
 
@@ -343,7 +341,6 @@ public class CheckboxPage extends BasePage {
         Stack<String> stackLabelsNodes = new Stack<>();
         List<CheckboxNode> nodes = new ArrayList<>();
         createCheckboxNodes(null,0,nodes,stackLabelsNodes); //Mapeo del árbol dinámicamente
-        closeCheckboxNode(nodes);
         return nodes;
     }
 
@@ -353,15 +350,18 @@ public class CheckboxPage extends BasePage {
 
     public void setCheckboxState(String label, String state){
         List<CheckboxNode> nodes = buildTree();
-        checkboxChangeState(label,state,nodes);
+        CheckboxState checkboxState = CheckboxState.valueOf(state);
+        checkboxChangeState(label,checkboxState,nodes);
+        closeCheckboxNode(nodes);
     }
 
-    public void selectionOfChildrenIsInitialState(String initialContext, String parent,String state) {
+    public void selectionContextIsInitialState(String Context, String parent,String state) {
         List<CheckboxNode> nodes = buildTree();
         CheckboxNode checkboxNode = findNode(parent,nodes);
+        CheckboxState checkboxState = CheckboxState.valueOf(state);
         List<CheckboxNode> children = checkboxNode.getChildren();
 
-        switch (initialContext) {
+        switch (Context) {
             case "a single child":
                 int randomNumber = generateRandomNumber(checkboxNode.getChildren().size());
                 int counter = 1;
@@ -369,7 +369,7 @@ public class CheckboxPage extends BasePage {
                 //Recorremos los hijos del padre que llega
                 for(CheckboxNode child : children) {
                     if (counter==randomNumber)  {
-                        checkboxChangeState(child.getLabelDomain().toString(),state,nodes);
+                        checkboxChangeState(child.getLabelDomain().toString(),checkboxState,nodes);
                     }
                     counter++;
                 }
@@ -378,14 +378,16 @@ public class CheckboxPage extends BasePage {
             case "all children":
                 //Recorremos los hijos del padre que llega
                 for(CheckboxNode child : children) {
-                    checkboxChangeState(child.getLabelDomain().toString(),state,nodes);
+                    checkboxChangeState(child.getLabelDomain().toString(),checkboxState,nodes);
                 }
                 break;
 
             case "the last child":
-                checkboxChangeState(children.getLast().getLabelDomain().toString(),state,nodes);
+                checkboxChangeState(children.getLast().getLabelDomain().toString(),checkboxState,nodes);
                 break;
         }
+
+        closeCheckboxNode(nodes);
 
     }
 
@@ -415,15 +417,17 @@ public class CheckboxPage extends BasePage {
         CheckboxNode checkboxNode = findNode(label,nodes);
         CheckboxState checkboxState = CheckboxState.valueOf(action);
         clickAndUpdateStates(checkboxNode,checkboxState);
+        closeCheckboxNode(nodes);
     }
 
 
 
-    public void theUserSelectContext(String contextOfSelection, String parent) {
+    public void theUserActionContext(String action, String contextOfSelection, String parent) {
         List<CheckboxNode> nodes = buildTree();
         CheckboxNode checkboxNode = findNode(parent,nodes);
         List<CheckboxNode> children = checkboxNode.getChildren();
-        String action = "SELECTED";
+        CheckboxState checkboxState = CheckboxState.valueOf(action);
+
 
         switch (contextOfSelection) {
             case "a single child":
@@ -433,7 +437,7 @@ public class CheckboxPage extends BasePage {
                 //Recorremos los hijos del padre que llega
                 for(CheckboxNode child : children) {
                     if (counter==randomNumber)  {
-                        checkboxChangeState(child.getLabelDomain().toString(),action,nodes);
+                        checkboxChangeState(child.getLabelDomain().toString(),checkboxState,nodes);
                     }
                     counter++;
                 }
@@ -443,54 +447,19 @@ public class CheckboxPage extends BasePage {
             case "all children":
                 //Recorremos los hijos del padre que llega
                 for(CheckboxNode child : children) {
-                    checkboxChangeState(child.getLabelDomain().toString(),action,nodes);
+                    checkboxChangeState(child.getLabelDomain().toString(),checkboxState,nodes);
                 }
 
                 break;
 
             case "the last child":
-                checkboxChangeState(children.getLast().getLabelDomain().toString(),action,nodes);
+                checkboxChangeState(children.getLast().getLabelDomain().toString(),checkboxState,nodes);
                 break;
         }
 
-    }
-
-    public void theUserDeselectContext(String contextOfSelection, String parent) {
-        List<CheckboxNode> nodes = buildTree();
-        CheckboxNode checkboxNode = findNode(parent,nodes);
-        List<CheckboxNode> children = checkboxNode.getChildren();
-        String action = "NOT_SELECTED";
-
-        switch (contextOfSelection) {
-            case "a single child":
-                int randomNumber = generateRandomNumber(checkboxNode.getChildren().size());
-                int counter = 1;
-
-                //Recorremos los hijos del padre que llega
-                for(CheckboxNode child : children) {
-                    if (counter==randomNumber)  {
-                        checkboxChangeState(child.getLabelDomain().toString(),action,nodes);
-                    }
-                    counter++;
-                }
-
-                break;
-
-            case "all children":
-                //Recorremos los hijos del padre que llega
-                for(CheckboxNode child : children) {
-                    checkboxChangeState(child.getLabelDomain().toString(),action,nodes);
-                }
-
-                break;
-
-            case "the last child":
-                checkboxChangeState(children.getLast().getLabelDomain().toString(),action,nodes);
-                break;
-        }
+        closeCheckboxNode(nodes);
 
     }
-
 
 
 

@@ -15,8 +15,8 @@ public class CheckBoxSteps {
     }
 
     @Given("the {string} of {word} is {string} state")
-    public void selectionOfChildrenIsInitialState(String initialContext, String parent, String state) {
-        checkboxPage.selectionOfChildrenIsInitialState(initialContext, parent,state);
+    public void selectionContextIsInitialState(String Context, String parent, String state) {
+        checkboxPage.selectionContextIsInitialState(Context, parent,state);
     }
 
     @When("the {word} change to {string} state")
@@ -29,14 +29,9 @@ public class CheckBoxSteps {
         checkboxPage.theUserActionTheElement(action,element);
     }
 
-    @When("the user select {string} of {word}")
-    public void theUserSelectContext(String contextOfSelection,String parent) {
-        checkboxPage.theUserSelectContext(contextOfSelection, parent);
-    }
-
-    @When("the user deselect {string} of {word}")
-    public void theUserDeselectContext(String contextOfSelection,String parent) {
-        checkboxPage.theUserDeselectContext(contextOfSelection,parent);
+    @When("the user {word} {string} of {word}")
+    public void theUserActionContext(String action, String contextOfSelection,String parent) {
+        checkboxPage.theUserActionContext(action, contextOfSelection, parent);
     }
 
     @Then("the {word} should be in {string} state")

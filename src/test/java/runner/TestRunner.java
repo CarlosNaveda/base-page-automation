@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
                 "pretty",
                 "html:build/cucumber-report.html"
         },
-        tags = "@parent-son"
+        tags = "@son-parent"
 )
 
 public class TestRunner extends AbstractTestNGCucumberTests{
