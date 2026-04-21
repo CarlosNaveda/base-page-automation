@@ -222,7 +222,6 @@ public class CheckboxPage extends BasePage {
     }
 
     private void clickAndUpdateStates(CheckboxNode checkboxNode, CheckboxState state){
-        System.out.println("llego a a hacer el click");
         click(checkboxNode.getXpath()); //1 click al propio checkbox
         checkboxNode.setState(state); //Actualizo su estado
         changeStateNode(checkboxNode); //Actualizo mis demás nodos en base al nodo actualizado.
@@ -231,14 +230,11 @@ public class CheckboxPage extends BasePage {
     private void checkboxChangeState(String label,CheckboxState toState,List<CheckboxNode> nodes) {
         CheckboxNode checkboxNode = findNode(label,nodes);
         String transitionStates = checkboxNode.getState() + "-" + toState;
-        System.out.println("transitionStates: " + transitionStates);
 
         //Realizo la transición de estado
         switch (transitionStates) {
             case "NOT_SELECTED-SELECTED": // Checkbox No Seleccionado --> Checkbox Seleccionado
                 //1 click al propio checkbox
-                System.out.println("entre a NOT_SELECTED-SELECTED");
-                System.out.println("Nodo: " + checkboxNode);
                 clickAndUpdateStates(checkboxNode,CheckboxState.SELECTED);
                 break;
 
