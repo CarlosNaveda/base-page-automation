@@ -5,6 +5,7 @@ import model.ResolverCheckboxLabel;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
+import static org.assertj.core.api.Assertions.assertThat;
 import pages.BasePage;
 import valueObject.CheckboxLabel;
 import valueObject.CheckboxState;
@@ -13,6 +14,7 @@ import java.util.*;
 import java.util.List;
 
 import static model.CheckboxNode.changeStateNode;
+import static org.assertj.core.api.InstanceOfAssertFactories.map;
 
 public class CheckboxPage extends BasePage {
 
@@ -26,15 +28,31 @@ public class CheckboxPage extends BasePage {
     private String treeItemNoIndent = "//div[@role='treeitem']";
     private String treeItemIndent ="//span[contains(@class,'rc-tree-indent-unit')]%s/ancestor::span[@class='rc-tree-indent']/ancestor::div[@role='treeitem']";
     private String switcherNoIndent = "//span[contains(@class,'rc-tree-switcher_open')]";
-
-
-
     private String switcherIndent ="//span[contains(@class,'rc-tree-indent-unit')]%s/ancestor::span[@class='rc-tree-indent']/following-sibling::span[contains(@class,'rc-tree-switcher_open')]";
     private String checkboxItemIn = ".//span[contains(@class,'rc-tree-checkbox')]";
     private String closedItemIn = "//span[@aria-label='%s']/preceding-sibling::span[contains(@class,'rc-tree-switcher_close')]";
     private String xpathCheckbox= "//span[@aria-label='%s']";
     private String rootTree = "//div[@class='rc-tree']";
-
+    private String spanItem = "//span[@class='text-success']";
+    private Map<CheckboxLabel, String > labelOutputs = Map.ofEntries(
+            Map.entry(CheckboxLabel.HOME,"home"),
+            Map.entry(CheckboxLabel.DESKTOP,"desktop"),
+            Map.entry(CheckboxLabel.NOTES,"notes"),
+            Map.entry(CheckboxLabel.COMMANDS,"commands"),
+            Map.entry(CheckboxLabel.DOCUMENTS,"documents"),
+            Map.entry(CheckboxLabel.WORKSPACE,"workspace"),
+            Map.entry(CheckboxLabel.REACT,"react"),
+            Map.entry(CheckboxLabel.ANGULAR,"angular"),
+            Map.entry(CheckboxLabel.VEU,"veu"),
+            Map.entry(CheckboxLabel.OFFICE,"office"),
+            Map.entry(CheckboxLabel.PUBLIC,"public"),
+            Map.entry(CheckboxLabel.PRIVATE,"private"),
+            Map.entry(CheckboxLabel.CLASSIFIED,"classified"),
+            Map.entry(CheckboxLabel.GENERAL,"general"),
+            Map.entry(CheckboxLabel.DOWNLOADS,"downloads"),
+            Map.entry(CheckboxLabel.WORD_FILE,"wordFile"),
+            Map.entry(CheckboxLabel.EXCEL_FILE,"excelFile")
+    );
 
 
     //Métodos privados
@@ -340,6 +358,15 @@ public class CheckboxPage extends BasePage {
         return nodes;
     }
 
+    private List<String> getResultsLabels(String locator){
+        List<WebElement> spanWebElements = getAllWebElements(locator);
+        List<String> resultLabels = new ArrayList<>();
+        for (WebElement spanWebElement : spanWebElements) {
+            resultLabels.add(spanWebElement.getText());
+        }
+        return resultLabels;
+    }
+
 
 
     //Métodos públicos
@@ -406,6 +433,21 @@ public class CheckboxPage extends BasePage {
         }
 
         softAssert.assertAll();
+    }
+
+    public void validationElementOnTheTextOutput(String element, String expectedBehavior) {
+        List<CheckboxNode> nodes = buildTree();
+        List<String> resultLabels = getResultsLabels(spanItem);
+        CheckboxNode checkboxNode = findNode(element,nodes);
+        String labelExpected = labelOutputs.get(checkboxNode.getLabelDomain());
+
+        if (expectedBehavior.equals("should be")) {
+            assertThat(resultLabels).as("El output debería contener el label seleccionado").contains(labelExpected);
+        }
+        else if (expectedBehavior.equals("should not be")) {
+            assertThat(resultLabels).as("El output no debería contener el label seleccionado").doesNotContain(labelExpected);
+        }
+
     }
 
     public void theUserActionTheElement(String action, String label) {

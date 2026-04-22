@@ -204,11 +204,11 @@ public class BasePage {
      * Devuelve el elemento web que coincidan con el locator pero dentro de otro elemento web
      *
      * @param webElement elemento web padre
-     * @param locator xPath del elemento web a buscar
+     * @param locatorIn xPath del elemento web a buscar dentro del webElement
      * @return WebElement elemento web buscado
      */
-    public WebElement getWebElementInside(WebElement webElement, String locator) {
-        return webElement.findElement(By.xpath(locator));
+    public WebElement getWebElementInside(WebElement webElement, String locatorIn) {
+        return webElement.findElement(By.xpath(locatorIn));
     }
 
     /**
@@ -231,6 +231,7 @@ public class BasePage {
     }
 
     //En TEST (Aquí irán los métodos que aún estoy probando)
+
 
 
 

@@ -4,7 +4,7 @@ Feature: Interact with the checkbox sandbox page
     Given the user is on the check box page
 
   @son-parent
-  Scenario Outline: Selecting a child checkbox updates the parent state
+  Scenario Outline: Selecting/Deselecting a child checkbox updates the parent state
     Given the "<initial_context>" of <children of> is "<son_initial_state>" state
     When the user <action> "<context_of_selection>" of <children of>
     Then the <children of> should be in "<parent_final_state>" state
@@ -20,7 +20,7 @@ Feature: Interact with the checkbox sandbox page
 
 
   @parent-son
-  Scenario Outline: Selecting a parent checkbox updates the children states
+  Scenario Outline: Selecting/Deselecting a parent checkbox updates the children states
     Given the <parent> is "<parent_initial_state>" state
     When the user <action> the <parent>
     Then all the children of <parent> should be in "<children_final_state>" state
@@ -31,25 +31,33 @@ Feature: Interact with the checkbox sandbox page
    | HOME     |  SELECTED             | NOT_SELECTED   | NOT_SELECTED           |
 
 
+  @textOutputs
+  Scenario Outline: Selecting/Deselecting checkbox the text outputs show this checkbox
+    Given the <element> is "<element_initial_state>" state
+    When the user <action> the <element>
+    Then the <element> "<expected_behavior>" in the text output
 
-#
-#  @textoutputs
-#  Scenario_4: Comportamiento de textos outputs
-#  Nota: - La visualización del texto en el output corresponde a una secuencia en cascada desde la selección realizada es decir:
-#  Teniendo el siguiente ejemplo:
-#  Home
-#  |-----Desktop
-#  |-----Notes
-#  |-----Commands
-#
-#  Si seleccionamos el checkbox de "Commands" 	-->	output = "You have selected : commands"
-#  Si luego seleccionamos el checkbox de "Notes 	-->	output = "You have selected : commands notes desktop"
-#
-#  Example_1: Seleccionar un hijo (Hay más hijos)				            |	En el output se muestra: "You have selected : " + la selección del hijo
+    Examples:
+      | element     | element_initial_state   | action        | expected_behavior     |
+      | HOME        |  NOT_SELECTED           | SELECTED      | should be             |
+      | WORD_FILE   |  NOT_SELECTED           | SELECTED      | should be             |
+      | EXCEL_FILE  |  NOT_SELECTED           | SELECTED      | should be             |
+      | ANGULAR     |  NOT_SELECTED           | SELECTED      | should be             |
+      | COMMANDS    |  NOT_SELECTED           | SELECTED      | should be             |
+      | REACT       |  SELECTED               | NOT_SELECTED  | should not be         |
+      | GENERAL     |  SELECTED               | NOT_SELECTED  | should not be         |
+      | DOCUMENTS   |  SELECTED               | NOT_SELECTED  | should not be         |
+      | DESKTOP     |  SELECTED               | NOT_SELECTED  | should not be         |
+      | CLASSIFIED  |  SELECTED               | NOT_SELECTED  | should not be         |
+
+
+
+
 #  Example_2: Seleccionar todos hijos					                    |	En el output se muestra: "You have selected : " + la selección de padre e hijos
-#  Example_3: Selecciona el último hijo					                    |	En el output se muestra: "You have selected : " + la selección de padre e hijos
-#  Example_4: Quitar selección de un hijo	(Hay más hijos seleccionados)	|	En el output desaparece la selección de hijo y del padre, pero debe mostrarse "You have selected : " + selección de otros hijos en caso estén seleccionados
 #  Example_5: Quitar selección de todos hijos				                |	En el output desaparece la selección de hijo y del padre, tampoco debe mostrarse "You have selected : "
+
+
+#  Example_3: Selecciona el último hijo					                    |	En el output se muestra: "You have selected : " + la selección de padre e hijos
 #  Example_6: Quitar selección del último hijo				                |	En el output desaparece la selección de hijo y del padre, tampoco debe mostrarse "You have selected : "
 #  Example_7: Seleccionar Padre (Sin padre)				                    |	En el output se muestra: "You have selected : " + la selección de padre e hijo
 #  Example_8: Quitar selección de Padre (Sin padre)			                |	En el output desaparece la selección de hijo y del padre, tampoco debe mostrarse "You have selected : "

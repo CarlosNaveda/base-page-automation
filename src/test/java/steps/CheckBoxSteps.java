@@ -44,5 +44,12 @@ public class CheckBoxSteps {
         checkboxPage.validationChildrenFinalState(parent,finalState);
     }
 
+    @Then("the {word} {string} in the text output")
+    public void theElementShouldBeOnTheTextOutput(String element, String expectedBehavior) {
+        checkboxPage.validationElementOnTheTextOutput(element,expectedBehavior);
+    }
+
+
+
 
 }
