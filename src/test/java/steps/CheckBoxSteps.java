@@ -19,6 +19,11 @@ public class CheckBoxSteps {
         checkboxPage.selectionContextIsInitialState(Context, parent,state);
     }
 
+    @Given("the children of {word} is {string} state")
+    public void theChildrenIsInitialState(String parent, String state) {
+        checkboxPage.setCheckboxesState(parent,state);
+    }
+
     @When("the {word} change to {string} state")
     public void theParentChangeToFinalState(String parent, String finalState) {
         checkboxPage.setCheckboxState(parent, finalState);
@@ -32,6 +37,11 @@ public class CheckBoxSteps {
     @When("the user {word} {string} of {word}")
     public void theUserActionContext(String action, String contextOfSelection,String parent) {
         checkboxPage.theUserActionContext(action, contextOfSelection, parent);
+    }
+
+    @When("the user {word} the children of {word}")
+    public void theUserActionOnChildren(String action,String parent) {
+        checkboxPage.theUserActionOnChildren(action,parent);
     }
 
     @Then("the {word} should be in {string} state")
@@ -49,6 +59,10 @@ public class CheckBoxSteps {
         checkboxPage.validationElementOnTheTextOutput(element,expectedBehavior);
     }
 
+    @Then("the children and {word} {string} in the text output")
+    public void theChildrenAndParentShouldBeOnTheTextOutput(String parent, String expectedBehavior) {
+        checkboxPage.validationParentChildrenOnTheTextOutput(parent, expectedBehavior);
+    }
 
 
 

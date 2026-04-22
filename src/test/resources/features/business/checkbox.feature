@@ -50,11 +50,16 @@ Feature: Interact with the checkbox sandbox page
       | DESKTOP     |  SELECTED               | NOT_SELECTED  | should not be         |
       | CLASSIFIED  |  SELECTED               | NOT_SELECTED  | should not be         |
 
+  @textOutputs
+  Scenario Outline: Selecting/Deselecting all children checkboxes the text outputs show children and parent
+    Given the children of <parent> is "<children_initial_state>" state
+    When the user <action> the children of <parent>
+    Then the children and <parent> "<expected_behavior>" in the text output
 
-
-
-#  Example_2: Seleccionar todos hijos					                    |	En el output se muestra: "You have selected : " + la selección de padre e hijos
-#  Example_5: Quitar selección de todos hijos				                |	En el output desaparece la selección de hijo y del padre, tampoco debe mostrarse "You have selected : "
+    Examples:
+      | parent      | children_initial_state   | action        | expected_behavior     |
+      | OFFICE      | NOT_SELECTED             | SELECTED      | should be             |
+      | WORKSPACE   | SELECTED                 | NOT_SELECTED  | should not be         |
 
 
 #  Example_3: Selecciona el último hijo					                    |	En el output se muestra: "You have selected : " + la selección de padre e hijos
