@@ -32,7 +32,7 @@ Feature: Interact with the checkbox sandbox page
 
 
   @textOutputs
-  Scenario Outline: Selecting/Deselecting checkbox the text outputs show this checkbox
+  Scenario Outline: Selecting/Deselecting checkbox the text outputs show/don't this checkbox
     Given the <element> is "<element_initial_state>" state
     When the user <action> the <element>
     Then the <element> "<expected_behavior>" in the text output
@@ -51,21 +51,51 @@ Feature: Interact with the checkbox sandbox page
       | CLASSIFIED  |  SELECTED               | NOT_SELECTED  | should not be         |
 
   @textOutputs
-  Scenario Outline: Selecting/Deselecting all children checkboxes the text outputs show children and parent
+  Scenario Outline: Selecting/Deselecting all children checkboxes the text outputs show/don't children and parent
     Given the children of <parent> is "<children_initial_state>" state
     When the user <action> the children of <parent>
     Then the children and <parent> "<expected_behavior>" in the text output
 
     Examples:
       | parent      | children_initial_state   | action        | expected_behavior     |
-      | OFFICE      | NOT_SELECTED             | SELECTED      | should be             |
+      | HOME        | SELECTED                 | NOT_SELECTED  | should not be         |
       | WORKSPACE   | SELECTED                 | NOT_SELECTED  | should not be         |
+      | OFFICE      | NOT_SELECTED             | SELECTED      | should be             |
+
+  @textOutputs
+  Scenario Outline: Selecting the last child checkbox the text outputs show children and parent
+    Given the children of <parent> is all selected except one
+    When the user select the not selected child of <parent>
+    Then the children and <parent> "<expected_behavior>" in the text output
+
+    Examples:
+      | parent      | expected_behavior     |
+      | DESKTOP     | should be             |
+      | WORKSPACE   | should be             |
+      | OFFICE      | should be             |
+      | DOWNLOADS   | should be             |
+      | DOCUMENTS   | should be             |
+      | HOME        | should be             |
+
+  @textOutputs
+  Scenario Outline: Deselecting the last child checkbox the text outputs don't show the last child and parent
+    Given the children of <parent> is all selected
+    When the user deselect one of the child of <parent>
+    Then the child and <parent> "<expected_behavior>" in the text output
+
+    Examples:
+      | parent      | expected_behavior         |
+      | DESKTOP     | should not be             |
+      | WORKSPACE   | should not be             |
+      | OFFICE      | should not be             |
+      | DOWNLOADS   | should not be             |
+      | DOCUMENTS   | should not be             |
+      | HOME        | should not be             |
 
 
-#  Example_3: Selecciona el último hijo					                    |	En el output se muestra: "You have selected : " + la selección de padre e hijos
-#  Example_6: Quitar selección del último hijo				                |	En el output desaparece la selección de hijo y del padre, tampoco debe mostrarse "You have selected : "
-#  Example_7: Seleccionar Padre (Sin padre)				                    |	En el output se muestra: "You have selected : " + la selección de padre e hijo
-#  Example_8: Quitar selección de Padre (Sin padre)			                |	En el output desaparece la selección de hijo y del padre, tampoco debe mostrarse "You have selected : "
+
+
+
 #
 #  @edgecases
 #  Scenario_5: Comportamientos Límites

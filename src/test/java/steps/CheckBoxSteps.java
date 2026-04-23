@@ -24,6 +24,16 @@ public class CheckBoxSteps {
         checkboxPage.setCheckboxesState(parent,state);
     }
 
+    @Given("the children of {word} is all selected except one")
+    public void theChildrenIsAllSelectedExceptOne(String parent) {
+        checkboxPage.setChildrenAllSelectedExceptOne(parent);
+    }
+
+    @Given("the children of {word} is all selected")
+    public void theChildrenIsAllSelected(String parent) {
+        checkboxPage.setChildrenAllSelected(parent);
+    }
+
     @When("the {word} change to {string} state")
     public void theParentChangeToFinalState(String parent, String finalState) {
         checkboxPage.setCheckboxState(parent, finalState);
@@ -44,6 +54,16 @@ public class CheckBoxSteps {
         checkboxPage.theUserActionOnChildren(action,parent);
     }
 
+    @When("the user select the not selected child of {word}")
+    public void theUserSelectTheLastChildNotSelected(String parent) {
+        checkboxPage.theUserSelectTheLastChildNotSelected(parent);
+    }
+
+    @When("the user deselect one of the child of {word}")
+    public void theUserDeselectOneOfTheChild(String parent) {
+        checkboxPage.theUserDeselectOneOfChild(parent);
+    }
+
     @Then("the {word} should be in {string} state")
     public void theElementIsOnTheFinalState(String element, String finalState) {
         checkboxPage.validationFinalState(element, finalState);
@@ -62,6 +82,11 @@ public class CheckBoxSteps {
     @Then("the children and {word} {string} in the text output")
     public void theChildrenAndParentShouldBeOnTheTextOutput(String parent, String expectedBehavior) {
         checkboxPage.validationParentChildrenOnTheTextOutput(parent, expectedBehavior);
+    }
+
+    @Then("the child and {word} {string} in the text output")
+    public void theChildAndParentShouldNotBeOnTheTextOutput(String parent, String expectedBehavior) {
+        checkboxPage.validationParentChildOnTheTextOutput(parent, expectedBehavior);
     }
 
 

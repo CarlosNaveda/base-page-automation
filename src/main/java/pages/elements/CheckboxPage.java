@@ -382,6 +382,44 @@ public class CheckboxPage extends BasePage {
         closeCheckboxNode(nodes);
     }
 
+    public void setChildrenAllSelectedExceptOne(String label) {
+        List<CheckboxNode> nodes = buildTree();
+        CheckboxNode parentNode = findNode(label, nodes);
+        List<CheckboxNode> children = parentNode.getChildren();
+
+        int randomNumber = generateRandomNumber(children.size());
+        int counter = 1;
+
+        //Recorremos los hijos del padre que llega
+        for(CheckboxNode child : children) {
+            //Solo uno al azar lo dejaremos sin seleccionar
+            if (counter==randomNumber)  {
+                checkboxChangeState(child.getLabelDomain().toString(),CheckboxState.NOT_SELECTED,nodes);
+            }
+            else{
+                checkboxChangeState(child.getLabelDomain().toString(),CheckboxState.SELECTED,nodes);
+            }
+            counter++;
+        }
+
+        closeCheckboxNode(nodes);
+
+    }
+
+    public void setChildrenAllSelected(String label) {
+        List<CheckboxNode> nodes = buildTree();
+        CheckboxNode parentNode = findNode(label, nodes);
+        List<CheckboxNode> children = parentNode.getChildren();
+
+        //Recorremos los hijos del padre que llega
+        for(CheckboxNode child : children) {
+            checkboxChangeState(child.getLabelDomain().toString(),CheckboxState.SELECTED,nodes);
+        }
+
+        closeCheckboxNode(nodes);
+
+    }
+
 
     public void selectionContextIsInitialState(String Context, String parent,String state) {
         List<CheckboxNode> nodes = buildTree();
@@ -485,6 +523,30 @@ public class CheckboxPage extends BasePage {
 
     }
 
+    public void validationParentChildOnTheTextOutput(String parent, String expectedBehavior) {
+        List<CheckboxNode> nodes = buildTree();
+        List<String> resultLabels = getResultsLabels(spanItem);
+        CheckboxNode parentNode = findNode(parent,nodes);
+        List<CheckboxNode> children = parentNode.getChildren();
+        List<String> labelsExpected = new ArrayList<>();
+        labelsExpected.add(labelOutputs.get(parentNode.getLabelDomain())); // El padre
+
+        for (CheckboxNode child : children) {
+            if (child.getState().equals(CheckboxState.NOT_SELECTED)) { //El hijo no seleccionado
+                labelsExpected.add(labelOutputs.get(child.getLabelDomain()));
+                break; // Solo debe ser uno
+            }
+        }
+
+        SoftAssertions softAssert = new SoftAssertions ();
+        for (String labelExpected : labelsExpected) {
+            softAssert.assertThat(resultLabels).as("El output no debería contener el label seleccionado").doesNotContain(labelExpected);
+        }
+        softAssert.assertAll();
+    }
+
+
+
     public void theUserActionTheElement(String action, String label) {
         List<CheckboxNode> nodes = buildTree();
         CheckboxNode checkboxNode = findNode(label,nodes);
@@ -542,6 +604,44 @@ public class CheckboxPage extends BasePage {
 
         for (CheckboxNode child : children) {
             checkboxChangeState(child.getLabelDomain().toString(),toState,nodes);
+        }
+
+        closeCheckboxNode(nodes);
+
+    }
+
+    public void theUserSelectTheLastChildNotSelected(String parent) {
+        List<CheckboxNode> nodes = buildTree();
+        CheckboxNode checkboxNode = findNode(parent,nodes);
+        List<CheckboxNode> children = checkboxNode.getChildren();
+
+        for (CheckboxNode child : children) {
+            if(child.getState().equals(CheckboxState.NOT_SELECTED)) { //Solo cambio el que no está seleccionado
+                checkboxChangeState(child.getLabelDomain().toString(),CheckboxState.SELECTED,nodes);
+                break; // Debe ser solo uno.
+            }
+        }
+
+        closeCheckboxNode(nodes);
+
+    }
+
+    public void theUserDeselectOneOfChild(String parent) {
+        List<CheckboxNode> nodes = buildTree();
+        CheckboxNode checkboxNode = findNode(parent,nodes);
+        List<CheckboxNode> children = checkboxNode.getChildren();
+
+        int randomNumber = generateRandomNumber(children.size());
+        int counter = 1;
+
+        //Recorremos los hijos del padre que llega
+        for(CheckboxNode child : children) {
+            //Solo uno al azar lo dejaremos sin seleccionar
+            if (counter==randomNumber)  {
+                checkboxChangeState(child.getLabelDomain().toString(),CheckboxState.NOT_SELECTED,nodes);
+                break;
+            }
+            counter++;
         }
 
         closeCheckboxNode(nodes);
