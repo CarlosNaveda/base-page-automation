@@ -52,18 +52,18 @@ public class BasePage {
         return select.findElements(By.tagName("option"));
     }
 
+
+    //MÉTODOS PÚBLICOS
+
     /**
      * Nos dice si un locator está presente
      *
      * @param locator XPath del elemento web que queremos buscar
      * @return boolean true si está, caso contrario false
      */
-    private boolean isLocatorPresent (String locator) {
+    public boolean isLocatorPresent (String locator) {
         return !driver.findElements(By.xpath(locator)).isEmpty();
     }
-
-
-    //MÉTODOS PÚBLICOS
 
     /**
      * Espera a que un elemento esté presente en el DOM y lo retorna
@@ -230,7 +230,20 @@ public class BasePage {
         return (int) (Math.random() * max) + 1;
     }
 
+    /**
+     * Nos dice si un locator está habilitado
+     *
+     * @param locator XPath del elemento web que queremos buscar
+     * @return boolean true si está, caso contrario false
+     */
+    public boolean isLocatorEnabled(String locator) {
+        return driver.findElement(By.xpath(locator)).isEnabled();
+    }
+
+
     //En TEST (Aquí irán los métodos que aún estoy probando)
+
+
 
 
 

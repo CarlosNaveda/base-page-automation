@@ -19,5 +19,11 @@ public class NavigationSteps {
         homePage.clickToElementsSection().clickToCheckboxOption();
     }
 
+    @Given("the user is on the radio button page")
+    public void goToRadioButtonPage() {
+        homePage.clickToHomePage();
+        homePage.clickToElementsSection().clickToRadioButtonOption();
+    }
+
 
 }

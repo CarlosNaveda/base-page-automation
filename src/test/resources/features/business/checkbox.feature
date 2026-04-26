@@ -93,9 +93,6 @@ Feature: Interact with the checkbox sandbox page
       | HOME        | should not be             |
 
 
-
-
-
 #
 #  @edgecases
 #  Scenario_5: Comportamientos Límites

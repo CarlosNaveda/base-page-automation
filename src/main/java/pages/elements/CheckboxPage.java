@@ -15,7 +15,6 @@ import java.util.*;
 import java.util.List;
 
 import static model.CheckboxNode.changeStateNode;
-import static org.assertj.core.api.InstanceOfAssertFactories.map;
 
 public class CheckboxPage extends BasePage {
 
@@ -77,7 +76,6 @@ public class CheckboxPage extends BasePage {
         return String.format(customizeIndent, ""); //Para quitar el %s
     }
 
-    //ARREGLAR
     private String getLocatorSwitcherIndent(int level, String noIndent, String indent) {
 
         String customizeIndent = "";
