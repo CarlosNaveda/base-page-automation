@@ -48,7 +48,7 @@ public class TextBoxPage extends BasePage {
         );
     }
 
-    public String getValidationMessageWebElement(){
+    public String getEmailValidationMessage(){
         return getValidationMessageWebElement(emailTextBox);
     }
 

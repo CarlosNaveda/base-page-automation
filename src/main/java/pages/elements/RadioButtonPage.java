@@ -1,8 +1,6 @@
 package pages.elements;
 
-import org.testng.Assert;
 import pages.BasePage;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class RadioButtonPage extends BasePage {
 
@@ -38,14 +36,12 @@ public class RadioButtonPage extends BasePage {
 
     }
 
-    public void validateTextSuccess(String textOutputExpected) {
-        String textOutputActual = getTextWebElement(textSuccess);
-        Assert.assertEquals(textOutputActual, textOutputExpected);
+    public String getTextSuccess() {
+        return getTextWebElement(textSuccess);
     }
 
-    public void validateNoExistTextSuccess(){
-        Boolean isTextSuccessExist = isLocatorPresent(textSuccess);
-        assertThat(isTextSuccessExist).isEqualTo(false);
+    public boolean isTextSuccessExist(){
+        return isLocatorPresent(textSuccess);
     }
 
 

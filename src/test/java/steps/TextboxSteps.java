@@ -30,7 +30,7 @@ public class TextboxSteps {
     }
 
     @Then("can confirm his information in the output section")
-    public void canConfirmHisInformationInTheOutputSection(){
+    public void validateInformationInTheOutputSection(){
         UserData userDataOutput= textBoxPage.getInformationOfOutput();
         SoftAssert softAssert = new SoftAssert();
 
@@ -44,12 +44,12 @@ public class TextboxSteps {
     }
 
     @Then("can confirm the email validation message")
-    public void canConfirmTheEmailValidationMessage(){
-        String validationMessage = textBoxPage.getValidationMessageWebElement();
-        System.out.println("Mensaje de validación: " + validationMessage);
+    public void validateEmailValidationMessage(){
+        String emailValidationMessage = textBoxPage.getEmailValidationMessage();
+        System.out.println("Mensaje de validación: " + emailValidationMessage);
 
         //Validamos que el texto tenga información, eso nos dice de que está incompleto el campo email
-        if(!validationMessage.isEmpty()){
+        if(!emailValidationMessage.isEmpty()){
             Assert.assertTrue(true);
         }
 

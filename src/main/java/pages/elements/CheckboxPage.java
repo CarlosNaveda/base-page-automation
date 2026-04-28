@@ -2,15 +2,10 @@ package pages.elements;
 
 import model.CheckboxNode;
 import model.ResolverCheckboxLabel;
-import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
-import org.testng.asserts.SoftAssert;
-import static org.assertj.core.api.Assertions.assertThat;
 import pages.BasePage;
 import valueObject.CheckboxLabel;
 import valueObject.CheckboxState;
-
 import java.util.*;
 import java.util.List;
 
@@ -350,17 +345,17 @@ public class CheckboxPage extends BasePage {
         return nodes;
     }
 
-    private List<String> getResultsLabels(String locator) {
-        List<WebElement> spanWebElements = getAllWebElements(locator);
+
+    //Métodos públicos
+
+    public List<String> getResultsLabels() {
+        List<WebElement> spanWebElements = getAllWebElements(spanItem);
         List<String> resultLabels = new ArrayList<>();
         for (WebElement spanWebElement : spanWebElements) {
             resultLabels.add(spanWebElement.getText());
         }
         return resultLabels;
     }
-
-
-    //Métodos públicos
 
     public void setCheckboxState(String label, String state) {
         List<CheckboxNode> nodes = buildTree();
@@ -455,45 +450,33 @@ public class CheckboxPage extends BasePage {
 
     }
 
-    public void validationFinalState(String label, String finalState){
+    public CheckboxState getFinalState(String label){
         List<CheckboxNode> nodes = buildTree();
-        CheckboxNode checkboxNode = findNode(label,nodes);
-        CheckboxState checkboxState = CheckboxState.valueOf(finalState);
-        Assert.assertEquals(checkboxNode.getState(),checkboxState,"Los estados no coinciden");
+        CheckboxNode checkboxNode = findNode(label, nodes);
+        return checkboxNode.getState();
     }
 
-    public void validationChildrenFinalState(String label, String finalState) {
+    public List<CheckboxState> getChildrenStates(String label) {
         List<CheckboxNode> nodes = buildTree();
         CheckboxNode checkboxNode = findNode(label,nodes);
         List<CheckboxNode> children = checkboxNode.getChildren();
-        CheckboxState checkboxState = CheckboxState.valueOf(finalState);
-        SoftAssert softAssert = new SoftAssert();
+        List<CheckboxState> checkboxStates = new ArrayList<>();
 
         for (CheckboxNode child : children) {
-            softAssert.assertEquals(child.getState(),checkboxState,"Los estados no coinciden");
+            checkboxStates.add(child.getState());
         }
 
-        softAssert.assertAll();
+        return checkboxStates;
     }
 
-    public void validationElementOnTheTextOutput(String element, String expectedBehavior) {
+    public String getLabelOfElement(String element) {
         List<CheckboxNode> nodes = buildTree();
-        List<String> resultLabels = getResultsLabels(spanItem);
         CheckboxNode checkboxNode = findNode(element,nodes);
-        String labelExpected = labelOutputs.get(checkboxNode.getLabelDomain());
-
-        if (expectedBehavior.equals("should be")) {
-            assertThat(resultLabels).as("El output debería contener el label seleccionado").contains(labelExpected);
-        }
-        else if (expectedBehavior.equals("should not be")) {
-            assertThat(resultLabels).as("El output no debería contener el label seleccionado").doesNotContain(labelExpected);
-        }
-
+        return labelOutputs.get(checkboxNode.getLabelDomain());
     }
 
-    public void validationParentChildrenOnTheTextOutput(String parent, String expectedBehavior) {
+    public List<String> getLabelsExpectedParentChildren(String parent) {
         List<CheckboxNode> nodes = buildTree();
-        List<String> resultLabels = getResultsLabels(spanItem);
         CheckboxNode parentNode = findNode(parent,nodes);
         List<CheckboxNode> children = parentNode.getChildren();
         List<String> labelsExpected = new ArrayList<>();
@@ -503,27 +486,11 @@ public class CheckboxPage extends BasePage {
             labelsExpected.add(labelOutputs.get(child.getLabelDomain())); // Los Hijos
         }
 
-        SoftAssertions softAssert = new SoftAssertions ();
-
-        if (expectedBehavior.equals("should be")) {
-            for (String labelExpected : labelsExpected) {
-                softAssert.assertThat(resultLabels).as("El output debería contener el label seleccionado").contains(labelExpected);
-            }
-            softAssert.assertAll();
-        }
-        else if (expectedBehavior.equals("should not be")) {
-
-            for (String labelExpected : labelsExpected) {
-                softAssert.assertThat(resultLabels).as("El output no debería contener el label seleccionado").doesNotContain(labelExpected);
-            }
-            softAssert.assertAll();
-        }
-
+        return labelsExpected;
     }
 
-    public void validationParentChildOnTheTextOutput(String parent, String expectedBehavior) {
+    public List<String> getLabelsExpectedLastChildParent(String parent) {
         List<CheckboxNode> nodes = buildTree();
-        List<String> resultLabels = getResultsLabels(spanItem);
         CheckboxNode parentNode = findNode(parent,nodes);
         List<CheckboxNode> children = parentNode.getChildren();
         List<String> labelsExpected = new ArrayList<>();
@@ -536,14 +503,9 @@ public class CheckboxPage extends BasePage {
             }
         }
 
-        SoftAssertions softAssert = new SoftAssertions ();
-        for (String labelExpected : labelsExpected) {
-            softAssert.assertThat(resultLabels).as("El output no debería contener el label seleccionado").doesNotContain(labelExpected);
-        }
-        softAssert.assertAll();
+        return labelsExpected;
+
     }
-
-
 
     public void theUserActionTheElement(String action, String label) {
         List<CheckboxNode> nodes = buildTree();

@@ -3,7 +3,15 @@ package steps;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.assertj.core.api.SoftAssertions;
+import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 import pages.elements.CheckboxPage;
+import valueObject.CheckboxState;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CheckBoxSteps {
 
@@ -65,28 +73,72 @@ public class CheckBoxSteps {
     }
 
     @Then("the {word} should be in {string} state")
-    public void theElementIsOnTheFinalState(String element, String finalState) {
-        checkboxPage.validationFinalState(element, finalState);
+    public void validateElementIsOnTheFinalState(String element, String finalState) {
+        CheckboxState checkboxActualState = checkboxPage.getFinalState(element);
+        CheckboxState checkboxExpectedState = CheckboxState.valueOf(finalState);
+        Assert.assertEquals(checkboxActualState,checkboxExpectedState,"Los estados no coinciden");
     }
 
     @Then("all the children of {word} should be in {string} state")
-    public void allTheChildrenOfParentIsOnFinalState(String parent, String finalState) {
-        checkboxPage.validationChildrenFinalState(parent,finalState);
+    public void validateChildrenIsOnFinalState(String parent, String finalState) {
+        List<CheckboxState> listActualState = checkboxPage.getChildrenStates(parent);
+        CheckboxState ExpectedState = CheckboxState.valueOf(finalState);
+        SoftAssert softAssert = new SoftAssert();
+
+        for (CheckboxState ActualState : listActualState) {
+            softAssert.assertEquals(ActualState,ExpectedState,"Los estados no coinciden");
+        }
+
+        softAssert.assertAll();
     }
 
     @Then("the {word} {string} in the text output")
-    public void theElementShouldBeOnTheTextOutput(String element, String expectedBehavior) {
-        checkboxPage.validationElementOnTheTextOutput(element,expectedBehavior);
+    public void validateLabelOnTheTextOutput(String element, String expectedBehavior) {
+        String labelExpected = checkboxPage.getLabelOfElement(element);
+        List<String> listActualLabels = checkboxPage.getResultsLabels();
+
+        if (expectedBehavior.equals("should be")) {
+            assertThat(listActualLabels).as("El output debería contener el label seleccionado").contains(labelExpected);
+        }
+        else if (expectedBehavior.equals("should not be")) {
+            assertThat(listActualLabels).as("El output no debería contener el label seleccionado").doesNotContain(labelExpected);
+        }
     }
 
     @Then("the children and {word} {string} in the text output")
-    public void theChildrenAndParentShouldBeOnTheTextOutput(String parent, String expectedBehavior) {
-        checkboxPage.validationParentChildrenOnTheTextOutput(parent, expectedBehavior);
+    public void validateChildrenAndParentOnTheTextOutput(String parent, String expectedBehavior) {
+        List<String> labelsExpected = checkboxPage.getLabelsExpectedParentChildren(parent);
+        List<String> listActualLabels = checkboxPage.getResultsLabels();
+
+        SoftAssertions softAssert = new SoftAssertions ();
+
+        if (expectedBehavior.equals("should be")) {
+            for (String labelExpected : labelsExpected) {
+                softAssert.assertThat(listActualLabels).as("El output debería contener el label seleccionado").contains(labelExpected);
+            }
+            softAssert.assertAll();
+        }
+        else if (expectedBehavior.equals("should not be")) {
+
+            for (String labelExpected : labelsExpected) {
+                softAssert.assertThat(listActualLabels).as("El output no debería contener el label seleccionado").doesNotContain(labelExpected);
+            }
+            softAssert.assertAll();
+        }
+
+
     }
 
-    @Then("the child and {word} {string} in the text output")
-    public void theChildAndParentShouldNotBeOnTheTextOutput(String parent, String expectedBehavior) {
-        checkboxPage.validationParentChildOnTheTextOutput(parent, expectedBehavior);
+    @Then("the child and {word} should not be in the text output")
+    public void validateChildAndParentNotBeOnTheTextOutput(String parent) {
+        List<String> labelsExpected = checkboxPage.getLabelsExpectedLastChildParent(parent);
+        List<String> listActualLabels = checkboxPage.getResultsLabels();
+
+        SoftAssertions softAssert = new SoftAssertions ();
+        for (String labelExpected : labelsExpected) {
+            softAssert.assertThat(listActualLabels).as("El output no debería contener el label seleccionado").doesNotContain(labelExpected);
+        }
+        softAssert.assertAll();
     }
 
 

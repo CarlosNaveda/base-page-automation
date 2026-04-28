@@ -1,7 +1,9 @@
 package steps;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.testng.Assert;
 import pages.elements.RadioButtonPage;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class RadioButtonSteps {
 
@@ -13,16 +15,15 @@ public class RadioButtonSteps {
     }
 
     @Then("the text success show the {word}")
-    public void theTextSuccessShowTheText(String textOutput) {
-        radioButtonPage.validateTextSuccess(textOutput);
-
+    public void validateRadioNameShowOnTextSuccess(String textExpected) {
+        String textSuccess = radioButtonPage.getTextSuccess();
+        Assert.assertEquals(textSuccess, textExpected);
     }
 
     @Then("the text success doesn't show")
-    public void theTextSuccessDoesntShowTheText() {
-        radioButtonPage.validateNoExistTextSuccess();
+    public void validateRadioNameNotShowOnTextSuccess() {
+        Boolean isTextSuccessExist = radioButtonPage.isTextSuccessExist();
+        assertThat(isTextSuccessExist).isEqualTo(false);
     }
-
-
 
 }

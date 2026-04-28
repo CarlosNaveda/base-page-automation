@@ -81,16 +81,16 @@ Feature: Interact with the checkbox sandbox page
   Scenario Outline: Deselecting the last child checkbox the text outputs don't show the last child and parent
     Given the children of <parent> is all selected
     When the user deselect one of the child of <parent>
-    Then the child and <parent> "<expected_behavior>" in the text output
+    Then the child and <parent> should not be in the text output
 
     Examples:
-      | parent      | expected_behavior         |
-      | DESKTOP     | should not be             |
-      | WORKSPACE   | should not be             |
-      | OFFICE      | should not be             |
-      | DOWNLOADS   | should not be             |
-      | DOCUMENTS   | should not be             |
-      | HOME        | should not be             |
+      | parent      |
+      | DESKTOP     |
+      | WORKSPACE   |
+      | OFFICE      |
+      | DOWNLOADS   |
+      | DOCUMENTS   |
+      | HOME        |
 
 
 #

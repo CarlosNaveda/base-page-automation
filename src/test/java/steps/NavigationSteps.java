@@ -25,5 +25,11 @@ public class NavigationSteps {
         homePage.clickToElementsSection().clickToRadioButtonOption();
     }
 
+    @Given("the user is on the web tables page")
+    public void goToWebTablesPage() {
+        homePage.clickToHomePage();
+        homePage.clickToElementsSection().clickToWebTablesOption();
+    }
+
 
 }
