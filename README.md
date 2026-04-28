@@ -18,6 +18,7 @@ src/main/java/
 │   └── DriverManager.java
 ├── model
 │   ├── CheckboxNode.java
+│   ├── Employee.java
 │   ├── ResolverCheckboxLabel.java
 │   └── UserData.java
 ├── pages
@@ -88,7 +89,8 @@ src/test/resources/
     ├── business
     │   ├── checkbox.feature
     │   ├── radiobutton.feature
-    │   └── textbox.feature
+    │   ├── textbox.feature
+    │   └── webtables.feature
     └── internal
         └── checkboxInternal.feature
 ```
