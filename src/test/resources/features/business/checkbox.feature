@@ -3,7 +3,7 @@ Feature: Interact with the checkbox sandbox page
   Background:
     Given the user is on the check box page
 
-  @son-parent
+  @checkbox @son-parent
   Scenario Outline: Selecting/Deselecting a child checkbox updates the parent state
     Given the "<initial_context>" of <children of> is "<son_initial_state>" state
     When the user <action> "<context_of_selection>" of <children of>
@@ -19,7 +19,7 @@ Feature: Interact with the checkbox sandbox page
      |  all children         |  SELECTED           | NOT_SELECTED | the last child        |  DOWNLOADS     |  INDETERMINATE     |
 
 
-  @parent-son
+  @checkbox @parent-son
   Scenario Outline: Selecting/Deselecting a parent checkbox updates the children states
     Given the <parent> is "<parent_initial_state>" state
     When the user <action> the <parent>
@@ -31,7 +31,7 @@ Feature: Interact with the checkbox sandbox page
    | HOME     |  SELECTED             | NOT_SELECTED   | NOT_SELECTED           |
 
 
-  @textOutputs
+  @checkbox @textOutputs
   Scenario Outline: Selecting/Deselecting checkbox the text outputs show/don't this checkbox
     Given the <element> is "<element_initial_state>" state
     When the user <action> the <element>
@@ -50,7 +50,7 @@ Feature: Interact with the checkbox sandbox page
       | DESKTOP     |  SELECTED               | NOT_SELECTED  | should not be         |
       | CLASSIFIED  |  SELECTED               | NOT_SELECTED  | should not be         |
 
-  @textOutputs
+  @checkbox @textOutputs
   Scenario Outline: Selecting/Deselecting all children checkboxes the text outputs show/don't children and parent
     Given the children of <parent> is "<children_initial_state>" state
     When the user <action> the children of <parent>
@@ -62,7 +62,7 @@ Feature: Interact with the checkbox sandbox page
       | WORKSPACE   | SELECTED                 | NOT_SELECTED  | should not be         |
       | OFFICE      | NOT_SELECTED             | SELECTED      | should be             |
 
-  @textOutputs
+  @checkbox @textOutputs
   Scenario Outline: Selecting the last child checkbox the text outputs show children and parent
     Given the children of <parent> is all selected except one
     When the user select the not selected child of <parent>
@@ -77,7 +77,7 @@ Feature: Interact with the checkbox sandbox page
       | DOCUMENTS   | should be             |
       | HOME        | should be             |
 
-  @textOutputs
+  @checkbox @textOutputs
   Scenario Outline: Deselecting the last child checkbox the text outputs don't show the last child and parent
     Given the children of <parent> is all selected
     When the user deselect one of the child of <parent>

@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
                 "pretty",
                 "html:build/cucumber-report.html"
         },
-        tags = "@registration-form"
+        tags = "@search"
 )
 
 public class TestRunner extends AbstractTestNGCucumberTests{

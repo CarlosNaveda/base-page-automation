@@ -21,7 +21,6 @@ public class WebTablesPage extends BasePage {
     String tableBodyRow = "//tbody/tr";
     String tableBodyRowData = "//tbody/tr[%s]/td";
     String addButton = "//button[@id='addNewRecordButton']";
-
     String formFirstName = "//input[@id='firstName']";
     String formLastName = "//input[@id='lastName']";
     String formEmail = "//input[@id='userEmail']";
@@ -29,7 +28,8 @@ public class WebTablesPage extends BasePage {
     String formSalary = "//input[@id='salary']";
     String formDepartment = "//input[@id='department']";
     String formSubmitButton = "//button[@id='submit']";
-
+    String searchBox = "//input[@id='searchBox']";
+    String searchButton = "//button[@id='basic-addon2']";
 
     //Métodos privados
     private void showAllData(List<Map<String,String>> alldata) {
@@ -47,6 +47,10 @@ public class WebTablesPage extends BasePage {
         click(addButton);
     }
 
+    public void typeWordInTheSearchBox(String searchWord) {
+        setValueOnWebElement(searchBox, searchWord);
+    }
+
     public void fillRegistrationForm(Employee employee){
         setValueOnWebElement(formFirstName, employee.getFirstName());
         setValueOnWebElement(formLastName, employee.getLastName());
@@ -60,9 +64,13 @@ public class WebTablesPage extends BasePage {
         click(formSubmitButton);
     }
 
+    public void clickSearchButton(){
+        click(searchButton);
+    }
+
     public List<Map<String,String>> getDataTable(){
 
-        List<Map<String,String>> alldata = new ArrayList<>();
+        List<Map<String,String>> dataTable = new ArrayList<>();
 
         //Obtengo las filas existentes con data
         List<WebElement> rowsData = getAllWebElements(tableBodyRow);
@@ -108,11 +116,11 @@ public class WebTablesPage extends BasePage {
                 count++;
             }
 
-            alldata.add(rows);
+            dataTable.add(rows);
 
         }
 
-     return alldata;
+     return dataTable;
     }
 
 
