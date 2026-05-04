@@ -21,6 +21,8 @@ public class WebTablesPage extends BasePage {
     String tableBodyRow = "//tbody/tr";
     String tableBodyRowData = "//tbody/tr[%s]/td";
     String addButton = "//button[@id='addNewRecordButton']";
+    String editButtonRecord = "//div[@class='action-buttons']//span[@id='edit-record-%s']";
+    String deleteButtonRecord = "//div[@class='action-buttons']//span[@id='delete-record-%s']";
     String formFirstName = "//input[@id='firstName']";
     String formLastName = "//input[@id='lastName']";
     String formEmail = "//input[@id='userEmail']";
@@ -122,6 +124,18 @@ public class WebTablesPage extends BasePage {
         setValueOnWebElement(formDepartment, employee.getDepartment());
     }
 
+    public int randomNumber(int max){
+        return generateRandomNumber(max);
+    }
+
+    public void clickEditButtonInRecord(int record){
+        click(String.format(editButtonRecord, record));
+    }
+
+    public void clickDeleteButtonInRecord(int record){
+        click(String.format(deleteButtonRecord, record));
+    }
+
     public void clickSubmitButton(){
         click(formSubmitButton);
     }
@@ -130,19 +144,20 @@ public class WebTablesPage extends BasePage {
         click(searchButton);
     }
 
+    public void setOnFirstPage(){
+        if (isLocatorEnabled(firstPage)) {
+            click(firstPage);
+        }
+
+        System.out.println("Ya estamos en la primera página");
+    }
+
     public void changeControlPagination(String controlPagination){
         safeClick(firstPage); //Regresamos a la página inicial
         selectOption(comboPagination, controlPagination);
     }
 
     public List<Map<String,String>> getDataTable(){
-        List<Map<String,String>> dataTable = new ArrayList<>();
-        addRows(dataTable);
-        return dataTable;
-    }
-
-    public int getSizeDataTable(){
-
         //Elegimos la cantidad máxima para mostrar registros
         selectOption(comboPagination, maxControlPagination);
         List<Map<String,String>> dataTable = new ArrayList<>();
@@ -156,7 +171,11 @@ public class WebTablesPage extends BasePage {
 
         addRows(dataTable);
 
-        return dataTable.size();
+        return dataTable;
+    }
+
+    public int getSizeDataTable(){
+        return getDataTable().size();
 
     }
 

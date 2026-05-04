@@ -9,7 +9,6 @@ Feature: Interact with the web tables sandbox page
     When the user fill all the information requested by the form with:
       | firstName  |  lastName | age | email                 | salary   | department    |
       | Carlos     |  Naveda    | 39  | cnaveda@example.com  | 10000    | QA Automation |
-
     And the user click the button submit
     Then the all the information registered should be show in the web table
 
@@ -46,10 +45,17 @@ Feature: Interact with the web tables sandbox page
       | 55    | Show 40            |
       | 60    | Show 50            |
 
+  @webTable @edit
+  Scenario: The user can edit a record and the information is updated
+    Given the user click the edit button in one of the record displayed
+    When The user edit the record with:
+      | firstName  |  lastName | age | email                 | salary   | department    |
+      | Carlos     |  Naveda    | 39  | cnaveda@example.com  | 10000    | QA Automation |
+    And the user click the button submit
+    Then the edit information should be show in the web table
 
-#  @webTable @combo-show
-
-
-
-#  @webTable @edit
-#  @webTable @delete
+  @webTable @delete
+  Scenario: The user can delete a record and the information is updated
+    Given the user is on the first page
+    When the user click the delete button in one of the record displayed
+    Then the delete information should not be in the web table
