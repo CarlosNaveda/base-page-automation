@@ -2,6 +2,7 @@ package pages;
 
 import driverManager.DriverManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -105,7 +106,7 @@ public class BasePage {
      * @return String del texto en base al locator
      */
     public String getTextWebElement(String locator) {
-        return getWebElementPresent(locator).getText();
+        return getWebElementVisible(locator).getText();
     }
 
     /**
@@ -242,6 +243,48 @@ public class BasePage {
 
 
     //En TEST (Aquí irán los métodos que aún estoy probando)
+    /**
+     * Hace click en el locator indicado pero de forma segura
+     *
+     * @param locator XPath del locator que queremos hacerle click
+     *
+     */
+    public void safeClick(String locator){
+
+        WebElement element = getWebElementVisible(locator);
+
+        try { //Intento hacer el click normal con selenium
+            element.click();
+        } catch (Exception e) { //Sino hago click pero con Javascript
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+        }
+    }
+
+    /**
+     * Espera a que un elemento esté visible en el DOM y lo retorna
+     *
+     * @param locator XPath del elemento a buscar
+     * @return WebElement encontrado en el DOM
+     */
+    public WebElement getWebElementVisible(String locator) {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locator)));
+    }
+
+
+    public boolean isEnable(String locator) {
+        return getWebElement(locator).isEnabled();
+    }
+
+    public void waitUntilPageChange(String locatorPage, String previousPage) {
+        wait.until(driver -> {
+            String current = getTextWebElement(locatorPage);
+            if (current.equals(previousPage)) {
+                return false;
+            }
+            System.out.println("Página cambió de: " + previousPage + " a " + current);
+            return true;
+        });
+    }
 
 
 

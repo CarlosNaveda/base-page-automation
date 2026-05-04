@@ -1,23 +1,27 @@
 package steps;
 
+import data.EmployeeFactory;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import model.Employee;
-import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
+import org.testng.Assert;
 import pages.elements.WebTablesPage;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static data.EmployeeFactory.generateEmployeeByRecords;
+
 public class WebTableSteps {
 
     WebTablesPage webTablesPage = new WebTablesPage();
     private Employee employee;
+    private int countRegisters;
 
 
     private List<String> getColumnMatchWithWord(Map<String,String> map, String word){
@@ -32,6 +36,17 @@ public class WebTableSteps {
         return columnList;
     }
 
+    private Employee generateEmployeeByTable (Map<String, String> row){
+        employee = new Employee(
+                row.get("firstName"),
+                row.get("lastName"),
+                Integer.parseInt(row.get("age")),
+                row.get("email"),
+                Integer.parseInt(row.get("salary")),
+                row.get("department")
+        );
+        return employee;
+    }
 
 
     @Given("the user click the add button")
@@ -44,26 +59,33 @@ public class WebTableSteps {
         webTablesPage.typeWordInTheSearchBox(searchWord);
     }
 
+    @Given("The user add {int} of information to registers a employee")
+    public void theUserAddALotOfRegisters(int numberRecords) {
+        List<Employee> employeeList = generateEmployeeByRecords(numberRecords);
+        employeeList.forEach(employee -> {
+            webTablesPage.clickAddButton();
+            webTablesPage.fillRegistrationForm(employee);
+            webTablesPage.clickSubmitButton();
+        });
+
+        countRegisters = webTablesPage.getSizeDataTable(); //Guardamos la cantidad de registros totales
+    }
+
     @When("the user fill all the information requested by the form with:")
     public void theUserFillRegistrationForm(DataTable dataTable) {
         Map<String, String> map = dataTable.asMaps().getFirst();
-
-        employee = new Employee(
-                map.get("firstName"),
-                map.get("lastName"),
-                Integer.parseInt(map.get("age")),
-                map.get("email"),
-                Integer.parseInt(map.get("salary")),
-                map.get("department")
-        );
-
+        Employee employee = generateEmployeeByTable(map);
         webTablesPage.fillRegistrationForm(employee);
-
     }
 
     @When("the user click the button search")
     public void theUserClickTheButtonSearch() {
         webTablesPage.clickSearchButton();
+    }
+
+    @When("the user change to {string}")
+    public void theUserChangeTheControlOfPagination(String controlPagination) {
+        webTablesPage.changeControlPagination(controlPagination);
     }
 
     @And("the user click the button submit")
@@ -140,6 +162,16 @@ public class WebTableSteps {
         }
 
         softAssertions.assertAll();
+    }
+
+    @Then("The text pagination updates correctly by {string}")
+    public void validateTextPaginationUpdateCorrectly(String controlPagination) {
+        String textPaginationToComplete = "1 of %s";
+        String[] controlPaginationSplit = controlPagination.split(" ");
+        int lastPage = (int) Math.ceil((double) countRegisters / Integer.parseInt(controlPaginationSplit[1]));
+        String textPaginationExpected = String.format(textPaginationToComplete, lastPage);
+        String textPaginationActual = webTablesPage.getTextPagination();
+        Assert.assertEquals(textPaginationActual, textPaginationExpected);
     }
 
 

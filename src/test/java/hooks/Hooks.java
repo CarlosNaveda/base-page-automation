@@ -12,11 +12,11 @@ public class Hooks {
         DriverManager.initDriverManager();
     }
 
-
-    @After
-    public void closeDriverManager() {
-        DriverManager.quitDriverManager();
-    }
+//
+//    @After
+//    public void closeDriverManager() {
+//        DriverManager.quitDriverManager();
+//    }
 
 
 }

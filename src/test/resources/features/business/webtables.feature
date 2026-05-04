@@ -32,8 +32,24 @@ Feature: Interact with the web tables sandbox page
       | 45       |
       | Compli   |
 
+  @webTable @pagination
+  Scenario Outline: The user do pagination in web tables and the pagination is updated
+    Given The user add <records> of information to registers a employee
+    When the user change to "<control_pagination>"
+    Then The text pagination updates correctly by "<control_pagination>"
 
-#  @webTable @pagination
+    Examples:
+      |records| control_pagination |
+      | 30    | Show 10            |
+      | 25    | Show 20            |
+      | 50    | Show 30            |
+      | 55    | Show 40            |
+      | 60    | Show 50            |
+
+
 #  @webTable @combo-show
+
+
+
 #  @webTable @edit
 #  @webTable @delete
