@@ -147,7 +147,7 @@ public class WebTablesPage extends BasePage {
         selectOption(comboPagination, maxControlPagination);
         List<Map<String,String>> dataTable = new ArrayList<>();
 
-        while(isEnable(nextPage)){
+        while(isLocatorEnabled(nextPage)){
             addRows(dataTable);
             String currentPage = getTextWebElement(textPagination); //Antes de pagina, obtengo el texto de la página actual
             safeClick(nextPage); //Paginamos

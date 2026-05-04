@@ -241,8 +241,6 @@ public class BasePage {
         return driver.findElement(By.xpath(locator)).isEnabled();
     }
 
-
-    //En TEST (Aquí irán los métodos que aún estoy probando)
     /**
      * Hace click en el locator indicado pero de forma segura
      *
@@ -270,11 +268,12 @@ public class BasePage {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locator)));
     }
 
-
-    public boolean isEnable(String locator) {
-        return getWebElement(locator).isEnabled();
-    }
-
+    /**
+     * Valida si se ha realizado paginación comparando los textos del paginado
+     *
+     * @param locatorPage XPath texto del paginado
+     * @param previousPage texto de la página previa
+     */
     public void waitUntilPageChange(String locatorPage, String previousPage) {
         wait.until(driver -> {
             String current = getTextWebElement(locatorPage);
@@ -285,6 +284,9 @@ public class BasePage {
             return true;
         });
     }
+
+    //En TEST (Aquí irán los métodos que aún estoy probando)
+
 
 
 
