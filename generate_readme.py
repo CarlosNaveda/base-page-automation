@@ -283,42 +283,35 @@ def generate_bubble_chart(methods: list[dict], usage: dict[str, int]) -> None:
     ys = [p[1] for p in positions]
 
     # ── Colores ──────────────────────────────────────────────────────────────
-    # Paleta más clara: gris para 0 usos, índigo claro → violeta medio (nunca muy oscuro)
-    color_zero  = np.array(mcolors.to_rgb("#4b5563"))  # gris oscuro
-    color_low   = np.array(mcolors.to_rgb("#a5b4fc"))  # índigo claro
-    color_high  = np.array(mcolors.to_rgb("#7c3aed"))  # violeta vibrante (no tan oscuro)
+    # Paleta tech: gris para 0 usos, cian claro → azul eléctrico
+    color_zero  = np.array(mcolors.to_rgb("#374151"))  # gris azulado oscuro
+    color_low   = np.array(mcolors.to_rgb("#90e0ef"))  # cian claro
+    color_high  = np.array(mcolors.to_rgb("#0077b6"))  # azul eléctrico
 
     def get_color(count):
         if count == 0:
             return color_zero
         t = count / max_count  # 0.0 → 1.0
-        # Curva suavizada: los valores bajos ya tienen color notable
-        t_curved = t ** 0.6
+        t_curved = t ** 0.6   # curva suavizada: bajos ya tienen color notable
         return color_low + t_curved * (color_high - color_low)
 
     colors = [get_color(c) for c in counts]
 
     # ── Canvas ────────────────────────────────────────────────────────────────
-    fig_size = max(14, n * 0.55)
-    fig, ax = plt.subplots(figsize=(fig_size, fig_size * 0.78))
-    fig.patch.set_facecolor("#0d1117")   # fondo oscuro estilo GitHub dark
+    fig_size = max(20, n * 0.75)  # más grande para aprovechar el ancho del README
+    fig, ax = plt.subplots(figsize=(fig_size, fig_size * 0.65))
+    fig.patch.set_facecolor("#0d1117")
     ax.set_facecolor("#0d1117")
 
     # ── Dibujar burbujas ──────────────────────────────────────────────────────
     for x, y, r, color, name, count in zip(xs, ys, radii, colors, names, counts):
         # Sombra sutil
-        shadow = plt.Circle((x + 0.06, y - 0.06), r, color="#000000", alpha=0.25, zorder=1)
+        shadow = plt.Circle((x + 0.07, y - 0.07), r, color="#000000", alpha=0.3, zorder=1)
         ax.add_patch(shadow)
 
-        # Burbuja principal
-        circle = plt.Circle((x, y), r, color=color, alpha=0.92, zorder=2)
+        # Burbuja principal — sin borde
+        circle = plt.Circle((x, y), r, color=color, alpha=0.90, zorder=2)
         ax.add_patch(circle)
-
-        # Borde
-        border_color = "#818cf8" if count > 0 else "#4b5563"
-        border = plt.Circle((x, y), r, fill=False,
-                            edgecolor=border_color, linewidth=1.2, alpha=0.7, zorder=3)
-        ax.add_patch(border)
 
         # Texto: nombre del método
         font_size = max(5.5, min(9.5, r * 5.8))
@@ -347,10 +340,10 @@ def generate_bubble_chart(methods: list[dict], usage: dict[str, int]) -> None:
 
     # ── Leyenda ───────────────────────────────────────────────────────────────
     legend_patches = [
-        mpatches.Patch(color=color_zero,                   label="Sin uso"),
-        mpatches.Patch(color=color_low,                    label="Uso bajo"),
-        mpatches.Patch(color=(color_low + color_high) / 2, label="Uso medio"),
-        mpatches.Patch(color=color_high,                   label="Uso alto"),
+        mpatches.Patch(color=color_zero,                    label="Sin uso"),
+        mpatches.Patch(color=color_low,                     label="Uso bajo"),
+        mpatches.Patch(color=(color_low + color_high) / 2,  label="Uso medio"),
+        mpatches.Patch(color=color_high,                    label="Uso alto"),
     ]
     legend = ax.legend(
         handles=legend_patches,
