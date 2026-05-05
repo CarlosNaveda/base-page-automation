@@ -81,6 +81,7 @@ src/test/java/
 ├── runner
 │   └── TestRunner.java
 └── steps
+    ├── ButtonsSteps.java
     ├── CheckBoxSteps.java
     ├── NavigationSteps.java
     ├── RadioButtonSteps.java
@@ -90,6 +91,7 @@ src/test/java/
 src/test/resources/
 └── features
     ├── business
+    │   ├── buttons.feature
     │   ├── checkbox.feature
     │   ├── radiobutton.feature
     │   ├── textbox.feature
@@ -101,17 +103,17 @@ src/test/resources/
 <!-- TREE:END -->
 
 <!-- METHODS:START -->
-## 📋 Métodos disponibles (20)
+## 📋 Métodos disponibles (22)
 
 | Clase | Visibilidad | Método | Descripción | Parámetros | Retorna | # Usos |
 |-------|-------------|--------|-------------|------------|---------|--------|
-| <sub>`BasePage.java`</sub> | <sub>`private`</sub> | <sub>`getWebElementClickable()`</sub> | <sub>Espera a que un elemento esté disponible para hacer click en el DOM y lo retorna</sub> | <sub>`String locator`: XPath del elemento a buscar</sub> | <sub>WebElement encontrado en el DOM</sub> | <sub>**2**</sub> |
+| <sub>`BasePage.java`</sub> | <sub>`private`</sub> | <sub>`getWebElementClickable()`</sub> | <sub>Espera a que un elemento esté disponible para hacer click en el DOM y lo retorna</sub> | <sub>`String locator`: XPath del elemento a buscar</sub> | <sub>WebElement encontrado en el DOM</sub> | <sub>**4**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`private`</sub> | <sub>`getOptionsSelect()`</sub> | <sub>Genera una lista de WebElements en base al Select del DOM y lo retorna</sub> | <sub>`String locator`: XPath del Select a extraer las opciones</sub> | <sub>List<WebElement> armado con las opciones</sub> | <sub>**1**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`isLocatorPresent()`</sub> | <sub>Nos dice si un locator está presente</sub> | <sub>`String locator`: XPath del elemento web que queremos buscar</sub> | <sub>boolean true si está, caso contrario false</sub> | <sub>**4**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`getWebElementPresent()`</sub> | <sub>Espera a que un elemento esté presente en el DOM y lo retorna</sub> | <sub>`String locator`: XPath del elemento a buscar</sub> | <sub>WebElement encontrado en el DOM</sub> | <sub>**3**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`navigateTo()`</sub> | <sub>Ingresa a URL en el navegador</sub> | <sub>`String url`: Dirección web a la cual queremos dirigirnos</sub> | <sub>—</sub> | <sub>**1**</sub> |
-| <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`click()`</sub> | <sub>Hace click en el locator indicado</sub> | <sub>`String locator`: XPath del locator que queremos hacerle click</sub> | <sub>—</sub> | <sub>**44**</sub> |
-| <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`getTextWebElement()`</sub> | <sub>Obtiene el texto de un elemento web del DOM</sub> | <sub>`String locator`: XPath del locator que queremos su texto</sub> | <sub>String del texto en base al locator</sub> | <sub>**4**</sub> |
+| <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`click()`</sub> | <sub>Hace click en el locator indicado</sub> | <sub>`String locator`: XPath del locator que queremos hacerle click</sub> | <sub>—</sub> | <sub>**47**</sub> |
+| <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`getTextWebElement()`</sub> | <sub>Obtiene el texto de un elemento web del DOM</sub> | <sub>`String locator`: XPath del locator que queremos su texto</sub> | <sub>String del texto en base al locator</sub> | <sub>**6**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`setValueOnWebElement()`</sub> | <sub>Escribir texto en el elemento web del DOM</sub> | <sub>`String locator`: XPath del locator que queremos escribir<br>`String value`: Texto que queremos escribir</sub> | <sub>—</sub> | <sub>**3**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`getListOptionsSelect()`</sub> | <sub>Genera una lista de Strings en base al Select del DOM y lo retorna</sub> | <sub>`String locator`: XPath del Select a extraer las opciones</sub> | <sub>List<String> armado con las opciones</sub> | <sub>0</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`selectOption()`</sub> | <sub>Selecciona una opción dentro de un Select de un elemento Web</sub> | <sub>`String locator`: XPath del Select para elegir la opción<br>`String option`: String que indica la opción que vamos a elegir en el Select</sub> | <sub>—</sub> | <sub>**1**</sub> |
@@ -125,6 +127,8 @@ src/test/resources/
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`safeClick()`</sub> | <sub>Hace click en el locator indicado pero de forma segura</sub> | <sub>`String locator`: XPath del locator que queremos hacerle click</sub> | <sub>—</sub> | <sub>**1**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`getWebElementVisible()`</sub> | <sub>Espera a que un elemento esté visible en el DOM y lo retorna</sub> | <sub>`String locator`: XPath del elemento a buscar</sub> | <sub>WebElement encontrado en el DOM</sub> | <sub>**2**</sub> |
 | <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`waitUntilPageChange()`</sub> | <sub>Valida si se ha realizado paginación comparando los textos del paginado</sub> | <sub>`String locatorPage`: XPath texto del paginado<br>`String previousPage`: texto de la página previa</sub> | <sub>—</sub> | <sub>0</sub> |
+| <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`rightClick()`</sub> | <sub>Hace click derecho en el locator indicado</sub> | <sub>`String locator`: XPath del locator que queremos hacerle click derecho</sub> | <sub>—</sub> | <sub>**2**</sub> |
+| <sub>`BasePage.java`</sub> | <sub>`public`</sub> | <sub>`doubleClick()`</sub> | <sub>Hace doble click en el locator indicado</sub> | <sub>`String locator`: XPath del locator que queremos hacerle doble click</sub> | <sub>—</sub> | <sub>**2**</sub> |
 
 <!-- METHODS:END -->
 
