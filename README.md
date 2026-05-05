@@ -133,5 +133,12 @@ src/test/resources/
 <!-- METHODS:END -->
 
 <!-- CHART:START -->
+## 📊 Mapa de uso de métodos
+
+> Cada burbuja representa un método de `BasePage`.
+> El **tamaño** y la **intensidad de color** indican cuántas veces ha sido utilizado.
+
+![BasePage Methods Usage Chart](docs/bubble_chart.png)
+
 <!-- CHART:END -->
 
