@@ -138,7 +138,7 @@ src/test/resources/
 > Cada burbuja representa un método de `BasePage`.
 > El **tamaño** y la **intensidad de color** indican cuántas veces ha sido utilizado.
 
-![BasePage Methods Usage Chart](docs/bubble_chart.png)
+<img src="docs/bubble_chart.png" width="100%" alt="BasePage Methods Usage Chart"/>
 
 <!-- CHART:END -->
 
