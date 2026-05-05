@@ -3,8 +3,8 @@ name: Generate README
 on:
   push:
     paths:
-      - 'src/**/*.java'        # si modifico alguna clase generamos el readme
-      - 'src/**/*.feature'     # si modifico algún feature generamos el readme
+      - 'src/**/*.java'
+      - 'src/**/*.feature'
   workflow_dispatch:
 
 jobs:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write   # necesario para hacer commit del README
+      contents: write
 
     steps:
       - name: Checkout repo
@@ -23,6 +23,9 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install dependencies
+        run: pip install matplotlib numpy
+
       - name: Run README generator
         run: python generate_readme.py
 
@@ -30,6 +33,6 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add README.md
-          git diff --cached --quiet || git commit -m "docs: auto-update README con métodos de BasePage"
+          git add README.md docs/bubble_chart.png
+          git diff --cached --quiet || git commit -m "docs: auto-update README y bubble chart"
           git push

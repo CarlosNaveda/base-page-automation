@@ -132,5 +132,6 @@ src/test/resources/
 
 <!-- METHODS:END -->
 
-
+<!-- CHART:START -->
+<!-- CHART:END -->
 
