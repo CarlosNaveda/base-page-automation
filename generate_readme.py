@@ -396,7 +396,7 @@ def build_chart_section() -> str:
         "## 📊 Mapa de uso de métodos\n\n"
         "> Cada burbuja representa un método de `BasePage`.\n"
         "> El **tamaño** y la **intensidad de color** indican cuántas veces ha sido utilizado.\n\n"
-        f"![BasePage Methods Usage Chart]({CHART_FILE})\n"
+        f'<img src="{CHART_FILE}" width="100%" alt="BasePage Methods Usage Chart"/>\n'
     )
 
 
