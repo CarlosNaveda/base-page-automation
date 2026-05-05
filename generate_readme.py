@@ -100,12 +100,16 @@ def collect_basepage_methods() -> list[dict]:
 
 def extract_method_bodies(source: str) -> dict[str, str]:
     """
-    Extrae { nombre_metodo: cuerpo } para todos los métodos del archivo.
+    Extrae { nombre_método: cuerpo } para todos los métodos del archivo.
     Maneja llaves anidadas correctamente.
+    Soporta tipos de retorno genéricos como List<Map<String,String>>.
     """
     result = {}
     header_re = re.compile(
-        r'(?:public|private|protected)\s+\w[\w<>\[\]]*\s+(\w+)\s*\([^)]*\)\s*\{'
+        r'(?:public|private|protected)\s+'  # visibilidad
+        r'[\w$]+(?:<[^{]+?>)?\s+'           # tipo retorno con opcional genérico
+        r'(\w+)\s*\([^)]*\)\s*\{',          # nombre(params) {
+        re.DOTALL
     )
     for match in header_re.finditer(source):
         method_name = match.group(1)
