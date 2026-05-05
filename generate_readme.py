@@ -15,6 +15,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import matplotlib.colors as mcolors
+import matplotlib.patheffects as pe
 import numpy as np
 from pathlib import Path
 from collections import defaultdict
@@ -282,16 +283,18 @@ def generate_bubble_chart(methods: list[dict], usage: dict[str, int]) -> None:
     ys = [p[1] for p in positions]
 
     # ── Colores ──────────────────────────────────────────────────────────────
-    # Paleta: de gris (#9ca3af) para 0 usos hasta índigo intenso (#4338ca)
-    color_zero  = np.array(mcolors.to_rgb("#6b7280"))  # gris medio
+    # Paleta más clara: gris para 0 usos, índigo claro → violeta medio (nunca muy oscuro)
+    color_zero  = np.array(mcolors.to_rgb("#4b5563"))  # gris oscuro
     color_low   = np.array(mcolors.to_rgb("#a5b4fc"))  # índigo claro
-    color_high  = np.array(mcolors.to_rgb("#3730a3"))  # índigo oscuro
+    color_high  = np.array(mcolors.to_rgb("#7c3aed"))  # violeta vibrante (no tan oscuro)
 
     def get_color(count):
         if count == 0:
             return color_zero
         t = count / max_count  # 0.0 → 1.0
-        return color_low + t * (color_high - color_low)
+        # Curva suavizada: los valores bajos ya tienen color notable
+        t_curved = t ** 0.6
+        return color_low + t_curved * (color_high - color_low)
 
     colors = [get_color(c) for c in counts]
 
@@ -323,17 +326,24 @@ def generate_bubble_chart(methods: list[dict], usage: dict[str, int]) -> None:
         label = name if len(name) <= 22 else name[:20] + "…"
         ax.text(x, y + r * 0.18, label,
                 ha="center", va="center", fontsize=font_size,
-                color="#f1f5f9", fontweight="bold",
+                color="#ffffff", fontweight="bold",
                 zorder=4, wrap=False,
-                fontfamily="monospace")
+                fontfamily="monospace",
+                path_effects=[
+                    pe.withStroke(linewidth=2.5, foreground="#000000")
+                ])
 
         # Texto: conteo de usos
         count_label = str(count) if count > 0 else "—"
         ax.text(x, y - r * 0.32, count_label,
                 ha="center", va="center",
-                fontsize=max(5, font_size * 0.82),
-                color="#cbd5e1" if count > 0 else "#6b7280",
-                zorder=4)
+                fontsize=max(5, font_size * 0.85),
+                color="#f0f0f0" if count > 0 else "#9ca3af",
+                fontweight="bold",
+                zorder=4,
+                path_effects=[
+                    pe.withStroke(linewidth=2.0, foreground="#000000")
+                ])
 
     # ── Leyenda ───────────────────────────────────────────────────────────────
     legend_patches = [
