@@ -7,4 +7,11 @@ public class LinksPage extends BasePage {
     public LinksPage() {
         super();
     }
+
+    //Variables
+
+    //Métodos privados
+
+    //Métodos públicos
+
 }

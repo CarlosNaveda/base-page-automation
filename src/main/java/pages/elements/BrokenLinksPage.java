@@ -7,4 +7,11 @@ public class BrokenLinksPage extends BasePage {
     public BrokenLinksPage() {
         super();
     }
+
+    //Variables
+
+    //Métodos privados
+
+    //Métodos públicos
+
 }

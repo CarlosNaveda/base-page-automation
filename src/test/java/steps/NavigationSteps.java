@@ -31,5 +31,11 @@ public class NavigationSteps {
         homePage.clickToElementsSection().clickToWebTablesOption();
     }
 
+    @Given("the user is on the buttons page")
+    public void theUserIsOnTheButtonsPage() {
+        homePage.clickToHomePage();
+        homePage.clickToElementsSection().clickToButtonsOption();
+    }
+
 
 }

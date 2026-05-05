@@ -7,4 +7,11 @@ public class UploadDownloadPage extends BasePage {
     public UploadDownloadPage() {
         super();
     }
+
+    //Variables
+
+    //Métodos privados
+
+    //Métodos públicos
+
 }

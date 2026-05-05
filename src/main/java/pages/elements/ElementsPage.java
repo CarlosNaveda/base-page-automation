@@ -21,7 +21,7 @@ public class ElementsPage extends BasePage {
     String dynamicPropertiesOption = "//span[normalize-space()='Dynamic Properties']";
 
     //Métodos públicos
-    public pages.elements.TextBoxPage clickToTextBoxOption()
+    public TextBoxPage clickToTextBoxOption()
     {
         click(textboxOption);
         return new TextBoxPage();

@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -285,7 +286,33 @@ public class BasePage {
         });
     }
 
+    /**
+     * Hace click derecho en el locator indicado
+     *
+     * @param locator XPath del locator que queremos hacerle click derecho
+     *
+     */
+    public void rightClick(String locator) {
+        WebElement element = getWebElementClickable(locator);
+        Actions actions = new Actions(driver);
+        actions.contextClick(element).perform();
+    }
+
+    /**
+     * Hace doble click en el locator indicado
+     *
+     * @param locator XPath del locator que queremos hacerle doble click
+     *
+     */
+    public void doubleClick(String locator) {
+        WebElement element = getWebElementClickable(locator);
+        Actions actions = new Actions(driver);
+        actions.doubleClick(element).perform();
+    }
+
     //En TEST (Aquí irán los métodos que aún estoy probando)
+
+
 
 
 

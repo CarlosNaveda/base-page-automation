@@ -7,4 +7,11 @@ public class DynamicPropertiesPage extends BasePage {
     public DynamicPropertiesPage() {
         super();
     }
+
+    //Variables
+
+    //Métodos privados
+
+    //Métodos públicos
+
 }
