@@ -311,7 +311,31 @@ public class BasePage {
     }
 
     //En TEST (Aquí irán los métodos que aún estoy probando)
+    public String getActualWindowHandle() {
+        return driver.getWindowHandle();
+    }
 
+    public boolean isNewWindow(String actualWindowHandle) {
+        //Esperamos un tiempo a que sean 2 ventanas
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(driver -> driver.getWindowHandles().size() > 1);
+        //Cambiamos de ventana
+        for (String windowHandle : driver.getWindowHandles()) {
+            if (!windowHandle.equals(actualWindowHandle)) {
+                driver.switchTo().window(windowHandle);
+                break;
+            }
+        }
+        //Retornamos si llegan a ser distintas ventanas
+        return !actualWindowHandle.equals(driver.getWindowHandle());
+    }
+
+    public String getUrl() {
+        return driver.getCurrentUrl();
+    }
+
+    public String getTitle() {
+        return driver.getTitle();
+    }
 
 
 

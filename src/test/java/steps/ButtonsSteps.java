@@ -22,7 +22,7 @@ public class ButtonsSteps {
         return MAP_MESSAGE.get(buttonPressed);
     }
 
-    @When("the user click the {string}")
+    @When("the user click the button {string}")
     public void theUserClickTheButton(String button) {
         buttonsPage.clickTheButton(button);
     }

@@ -37,5 +37,11 @@ public class NavigationSteps {
         homePage.clickToElementsSection().clickToButtonsOption();
     }
 
+    @Given("the user is on the links page")
+    public void theUserIsOnTheLinksPage() {
+        homePage.clickToHomePage();
+        homePage.clickToElementsSection().clickToLinksOption();
+    }
+
 
 }

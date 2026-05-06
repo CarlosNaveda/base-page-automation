@@ -6,21 +6,24 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class DriverManager {
 
-    private static WebDriver driver;
+    private static final ThreadLocal<WebDriver> DRIVER = new ThreadLocal<>();
 
     public static WebDriver getDriver() {
-        return driver;
+        return DRIVER.get();
     }
 
     public static void initDriverManager() {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        if (DRIVER.get() == null) {
+            WebDriverManager.chromedriver().setup();
+            DRIVER.set(new ChromeDriver());
+            DRIVER.get().manage().window().maximize();
+        }
     }
 
     public static void quitDriverManager() {
-        if (driver != null) {
-            driver.quit();
+        if (DRIVER.get() != null) {
+            DRIVER.get().quit();
+            DRIVER.remove();
         }
     }
 

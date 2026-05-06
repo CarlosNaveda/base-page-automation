@@ -5,7 +5,7 @@ Feature: Interact with the buttons sandbox page
 
   @buttons @normal-cases
   Scenario Outline: The user click a button and the page show the respective message
-    When the user click the "<button>"
+    When the user click the button "<button>"
     Then The "<message>" should be correct based on the "<button>" pressed
 
     Examples:
