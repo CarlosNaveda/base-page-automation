@@ -49,14 +49,28 @@ def build_tree(root: Path, prefix: str = "") -> list[str]:
     return lines
 
 def build_tree_section() -> str:
-    blocks = []
-    for root in SRC_ROOTS:
-        if not root.exists():
-            continue
-        blocks.append("\n".join([str(root) + "/"] + build_tree(root)))
-    if not blocks:
-        return "_No se encontraron directorios en src/_\n"
-    return "```\n" + "\n\n".join(blocks) + "\n```\n"
+    project_root = Path(".")
+
+    # Archivos en la raíz
+    root_files = sorted(
+        [f for f in project_root.iterdir() if f.is_file()],
+        key=lambda p: p.name.lower()
+    )
+
+    lines = ["```", f"{project_root.resolve().name}/"]
+
+    # Archivos raíz
+    for f in root_files:
+        lines.append(f"├── {f.name}")
+
+    # Carpeta src/ como árbol unificado
+    src = project_root / "src"
+    if src.exists():
+        lines.append("└── src/")
+        lines.extend(build_tree(src, "    "))
+
+    lines.append("```")
+    return "\n".join(lines) + "\n"
 
 
 # ── Parsing de Javadoc ─────────────────────────────────────────────────────────
