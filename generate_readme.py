@@ -43,7 +43,8 @@ def build_tree(root: Path, prefix: str = "") -> list[str]:
     for i, entry in enumerate(entries):
         is_last  = i == len(entries) - 1
         connector = "└── " if is_last else "├── "
-        lines.append(f"{prefix}{connector}{entry.name}")
+        name = entry.name + "/" if entry.is_dir() else entry.name
+        lines.append(f"{prefix}{connector}{name}")
         if entry.is_dir():
             lines.extend(build_tree(entry, prefix + ("    " if is_last else "│   ")))
     return lines
