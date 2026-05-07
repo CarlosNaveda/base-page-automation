@@ -24,32 +24,32 @@ base-page-automation/
 ├── README.md
 ├── settings.gradle
 └── src/
-    ├── main
-    │   └── java
-    │       ├── data
+    ├── main/
+    │   └── java/
+    │       ├── data/
     │       │   └── EmployeeFactory.java
-    │       ├── driverManager
+    │       ├── driverManager/
     │       │   └── DriverManager.java
-    │       ├── model
+    │       ├── model/
     │       │   ├── CheckboxNode.java
     │       │   ├── Employee.java
     │       │   ├── ResolverCheckboxLabel.java
     │       │   └── UserData.java
-    │       ├── pages
-    │       │   ├── alertFrame
+    │       ├── pages/
+    │       │   ├── alertFrame/
     │       │   │   ├── AlertsPage.java
     │       │   │   ├── AlertsWindowsPage.java
     │       │   │   ├── BrowserWindowsPage.java
     │       │   │   ├── FramesPage.java
     │       │   │   ├── ModalDialogPage.java
     │       │   │   └── NestedFramesPage.java
-    │       │   ├── bookStoreApplication
+    │       │   ├── bookStoreApplication/
     │       │   │   ├── BooksPage.java
     │       │   │   ├── BookStoreApiPage.java
     │       │   │   ├── BookStorePage.java
     │       │   │   ├── LoginPage.java
     │       │   │   └── ProfilePage.java
-    │       │   ├── elements
+    │       │   ├── elements/
     │       │   │   ├── BrokenLinksPage.java
     │       │   │   ├── ButtonsPage.java
     │       │   │   ├── CheckboxPage.java
@@ -60,17 +60,17 @@ base-page-automation/
     │       │   │   ├── TextBoxPage.java
     │       │   │   ├── UploadDownloadPage.java
     │       │   │   └── WebTablesPage.java
-    │       │   ├── forms
+    │       │   ├── forms/
     │       │   │   ├── FormsPage.java
     │       │   │   └── PracticeForm.java
-    │       │   ├── interactions
+    │       │   ├── interactions/
     │       │   │   ├── DragabblePage.java
     │       │   │   ├── DroppablePage.java
     │       │   │   ├── InteractionPage.java
     │       │   │   ├── ResizablePage.java
     │       │   │   ├── SelectablePage.java
     │       │   │   └── SortablePage.java
-    │       │   ├── widgets
+    │       │   ├── widgets/
     │       │   │   ├── AccordianPage.java
     │       │   │   ├── AutoCompletePage.java
     │       │   │   ├── DatePickerPage.java
@@ -83,16 +83,16 @@ base-page-automation/
     │       │   │   └── WidgetsPage.java
     │       │   ├── BasePage.java
     │       │   └── HomePage.java
-    │       └── valueObject
+    │       └── valueObject/
     │           ├── CheckboxLabel.java
     │           └── CheckboxState.java
-    └── test
-        ├── java
-        │   ├── hooks
+    └── test/
+        ├── java/
+        │   ├── hooks/
         │   │   └── Hooks.java
-        │   ├── runner
+        │   ├── runner/
         │   │   └── TestRunner.java
-        │   └── steps
+        │   └── steps/
         │       ├── ButtonsSteps.java
         │       ├── CheckBoxSteps.java
         │       ├── LinksSteps.java
@@ -100,16 +100,16 @@ base-page-automation/
         │       ├── RadioButtonSteps.java
         │       ├── TextboxSteps.java
         │       └── WebTableSteps.java
-        └── resources
-            └── features
-                ├── business
+        └── resources/
+            └── features/
+                ├── business/
                 │   ├── buttons.feature
                 │   ├── checkbox.feature
                 │   ├── links.feature
                 │   ├── radiobutton.feature
                 │   ├── textbox.feature
                 │   └── webtables.feature
-                └── internal
+                └── internal/
                     └── checkboxInternal.feature
 ```
 
