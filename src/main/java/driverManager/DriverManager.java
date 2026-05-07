@@ -3,6 +3,7 @@ package driverManager;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public class DriverManager {
 
@@ -13,6 +14,7 @@ public class DriverManager {
     }
 
     public static void initDriverManager() {
+
         if (DRIVER.get() == null) {
             WebDriverManager.chromedriver().setup();
             DRIVER.set(new ChromeDriver());
@@ -25,6 +27,7 @@ public class DriverManager {
             DRIVER.get().quit();
             DRIVER.remove();
         }
+
     }
 
 
