@@ -13,93 +13,104 @@ Para los test estoy usando la página web: https://demoqa.com/ como sandbox.
 ## 📁 Estructura del proyecto
 
 ```
-src/main/java/
-├── data
-│   └── EmployeeFactory.java
-├── driverManager
-│   └── DriverManager.java
-├── model
-│   ├── CheckboxNode.java
-│   ├── Employee.java
-│   ├── ResolverCheckboxLabel.java
-│   └── UserData.java
-├── pages
-│   ├── alertFrame
-│   │   ├── AlertsPage.java
-│   │   ├── AlertsWindowsPage.java
-│   │   ├── BrowserWindowsPage.java
-│   │   ├── FramesPage.java
-│   │   ├── ModalDialogPage.java
-│   │   └── NestedFramesPage.java
-│   ├── bookStoreApplication
-│   │   ├── BooksPage.java
-│   │   ├── BookStoreApiPage.java
-│   │   ├── BookStorePage.java
-│   │   ├── LoginPage.java
-│   │   └── ProfilePage.java
-│   ├── elements
-│   │   ├── BrokenLinksPage.java
-│   │   ├── ButtonsPage.java
-│   │   ├── CheckboxPage.java
-│   │   ├── DynamicPropertiesPage.java
-│   │   ├── ElementsPage.java
-│   │   ├── LinksPage.java
-│   │   ├── RadioButtonPage.java
-│   │   ├── TextBoxPage.java
-│   │   ├── UploadDownloadPage.java
-│   │   └── WebTablesPage.java
-│   ├── forms
-│   │   ├── FormsPage.java
-│   │   └── PracticeForm.java
-│   ├── interactions
-│   │   ├── DragabblePage.java
-│   │   ├── DroppablePage.java
-│   │   ├── InteractionPage.java
-│   │   ├── ResizablePage.java
-│   │   ├── SelectablePage.java
-│   │   └── SortablePage.java
-│   ├── widgets
-│   │   ├── AccordianPage.java
-│   │   ├── AutoCompletePage.java
-│   │   ├── DatePickerPage.java
-│   │   ├── MenuPage.java
-│   │   ├── ProgressBarPage.java
-│   │   ├── SelectMenuPage.java
-│   │   ├── SliderPage.java
-│   │   ├── TabsPage.java
-│   │   ├── TooltipsPage.java
-│   │   └── WidgetsPage.java
-│   ├── BasePage.java
-│   └── HomePage.java
-└── valueObject
-    ├── CheckboxLabel.java
-    └── CheckboxState.java
-
-src/test/java/
-├── hooks
-│   └── Hooks.java
-├── runner
-│   └── TestRunner.java
-└── steps
-    ├── ButtonsSteps.java
-    ├── CheckBoxSteps.java
-    ├── LinksSteps.java
-    ├── NavigationSteps.java
-    ├── RadioButtonSteps.java
-    ├── TextboxSteps.java
-    └── WebTableSteps.java
-
-src/test/resources/
-└── features
-    ├── business
-    │   ├── buttons.feature
-    │   ├── checkbox.feature
-    │   ├── links.feature
-    │   ├── radiobutton.feature
-    │   ├── textbox.feature
-    │   └── webtables.feature
-    └── internal
-        └── checkboxInternal.feature
+base-page-automation/
+├── .gitignore
+├── build.gradle
+├── generate_readme.py
+├── gradle.properties
+├── gradlew
+├── gradlew.bat
+├── LICENSE
+├── README.md
+├── settings.gradle
+└── src/
+    ├── main
+    │   └── java
+    │       ├── data
+    │       │   └── EmployeeFactory.java
+    │       ├── driverManager
+    │       │   └── DriverManager.java
+    │       ├── model
+    │       │   ├── CheckboxNode.java
+    │       │   ├── Employee.java
+    │       │   ├── ResolverCheckboxLabel.java
+    │       │   └── UserData.java
+    │       ├── pages
+    │       │   ├── alertFrame
+    │       │   │   ├── AlertsPage.java
+    │       │   │   ├── AlertsWindowsPage.java
+    │       │   │   ├── BrowserWindowsPage.java
+    │       │   │   ├── FramesPage.java
+    │       │   │   ├── ModalDialogPage.java
+    │       │   │   └── NestedFramesPage.java
+    │       │   ├── bookStoreApplication
+    │       │   │   ├── BooksPage.java
+    │       │   │   ├── BookStoreApiPage.java
+    │       │   │   ├── BookStorePage.java
+    │       │   │   ├── LoginPage.java
+    │       │   │   └── ProfilePage.java
+    │       │   ├── elements
+    │       │   │   ├── BrokenLinksPage.java
+    │       │   │   ├── ButtonsPage.java
+    │       │   │   ├── CheckboxPage.java
+    │       │   │   ├── DynamicPropertiesPage.java
+    │       │   │   ├── ElementsPage.java
+    │       │   │   ├── LinksPage.java
+    │       │   │   ├── RadioButtonPage.java
+    │       │   │   ├── TextBoxPage.java
+    │       │   │   ├── UploadDownloadPage.java
+    │       │   │   └── WebTablesPage.java
+    │       │   ├── forms
+    │       │   │   ├── FormsPage.java
+    │       │   │   └── PracticeForm.java
+    │       │   ├── interactions
+    │       │   │   ├── DragabblePage.java
+    │       │   │   ├── DroppablePage.java
+    │       │   │   ├── InteractionPage.java
+    │       │   │   ├── ResizablePage.java
+    │       │   │   ├── SelectablePage.java
+    │       │   │   └── SortablePage.java
+    │       │   ├── widgets
+    │       │   │   ├── AccordianPage.java
+    │       │   │   ├── AutoCompletePage.java
+    │       │   │   ├── DatePickerPage.java
+    │       │   │   ├── MenuPage.java
+    │       │   │   ├── ProgressBarPage.java
+    │       │   │   ├── SelectMenuPage.java
+    │       │   │   ├── SliderPage.java
+    │       │   │   ├── TabsPage.java
+    │       │   │   ├── TooltipsPage.java
+    │       │   │   └── WidgetsPage.java
+    │       │   ├── BasePage.java
+    │       │   └── HomePage.java
+    │       └── valueObject
+    │           ├── CheckboxLabel.java
+    │           └── CheckboxState.java
+    └── test
+        ├── java
+        │   ├── hooks
+        │   │   └── Hooks.java
+        │   ├── runner
+        │   │   └── TestRunner.java
+        │   └── steps
+        │       ├── ButtonsSteps.java
+        │       ├── CheckBoxSteps.java
+        │       ├── LinksSteps.java
+        │       ├── NavigationSteps.java
+        │       ├── RadioButtonSteps.java
+        │       ├── TextboxSteps.java
+        │       └── WebTableSteps.java
+        └── resources
+            └── features
+                ├── business
+                │   ├── buttons.feature
+                │   ├── checkbox.feature
+                │   ├── links.feature
+                │   ├── radiobutton.feature
+                │   ├── textbox.feature
+                │   └── webtables.feature
+                └── internal
+                    └── checkboxInternal.feature
 ```
 
 <!-- TREE:END -->
