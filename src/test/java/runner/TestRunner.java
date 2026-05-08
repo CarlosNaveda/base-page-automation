@@ -13,7 +13,7 @@ import org.testng.annotations.AfterSuite;
                 "pretty",
                 "html:build/cucumber-report.html"
         },
-        tags = "@response"
+        tags = ""
 )
 
 public class TestRunner extends AbstractTestNGCucumberTests{

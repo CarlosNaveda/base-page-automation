@@ -37,10 +37,16 @@ public class NavigationSteps {
         homePage.clickToElementsSection().clickToButtonsOption();
     }
 
-    @Given("the user is on the links page")
-    public void theUserIsOnTheLinksPage() {
+    @Given("the user is on the links page and close extra windows")
+    public void theUserIsOnTheLinksPageAndCloseExtraWindows() {
         homePage.clickToHomePage();
-        homePage.clickToElementsSection().clickToLinksOption();
+        homePage.clickToElementsSection().clickToLinksOption().closeExtraWindows();
+    }
+
+    @Given("The user is on the broken links page")
+    public void theUserIsOnTheBrokenLinksPage() {
+        homePage.clickToHomePage();
+        homePage.clickToElementsSection().clickToBrokenLinksOption();
     }
 
 

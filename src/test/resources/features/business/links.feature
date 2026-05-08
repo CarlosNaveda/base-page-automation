@@ -1,7 +1,7 @@
 Feature: Interact with the links sandbox page
 
   Background:
-    Given the user is on the links page
+    Given the user is on the links page and close extra windows
 
   @links @new-tab
   Scenario Outline: The user click a link and show a new page
@@ -9,7 +9,7 @@ Feature: Interact with the links sandbox page
     Then The new page have the "<url>" correct
 
     Examples:
-      | link           | url                |
+      | link           | url                 |
       | Simple Link    | https://demoqa.com/ |
       | Dynamic Link   | https://demoqa.com/ |
 

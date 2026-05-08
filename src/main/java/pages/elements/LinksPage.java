@@ -77,8 +77,8 @@ public class LinksPage extends BasePage {
 
     public String getNewPageUrl(String actualWindowHandle) {
         String newUrl = "";
-        if(isNewWindow(actualWindowHandle)) { //Si es una nueva ventana
-            newUrl = getUrl();
+        if(switchNewWindow(actualWindowHandle)) { //Si cambió de ventana
+            newUrl = getWindowUrl();
         }
 
         return newUrl;

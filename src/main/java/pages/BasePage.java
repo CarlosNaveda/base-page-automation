@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BasePage {
 
@@ -95,7 +96,9 @@ public class BasePage {
      *
      */
     public void click(String locator) {
-        getWebElementClickable(locator).click();
+        WebElement element = getWebElementClickable(locator);
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).click(element).perform();
     }
 
 
@@ -295,7 +298,7 @@ public class BasePage {
     public void rightClick(String locator) {
         WebElement element = getWebElementClickable(locator);
         Actions actions = new Actions(driver);
-        actions.contextClick(element).perform();
+        actions.moveToElement(element).contextClick(element).perform();
     }
 
     /**
@@ -307,34 +310,111 @@ public class BasePage {
     public void doubleClick(String locator) {
         WebElement element = getWebElementClickable(locator);
         Actions actions = new Actions(driver);
-        actions.doubleClick(element).perform();
+        actions.moveToElement(element).doubleClick(element).perform();
     }
 
-    //En TEST (Aquí irán los métodos que aún estoy probando)
+    /**
+     * Obtiene el handle de la ventana actual
+     *
+     * @return String handle de la ventana actual
+     */
     public String getActualWindowHandle() {
         return driver.getWindowHandle();
     }
 
-    public boolean isNewWindow(String actualWindowHandle) {
-        //Esperamos un tiempo a que sean 2 ventanas
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(driver -> driver.getWindowHandles().size() > 1);
-        //Cambiamos de ventana
-        for (String windowHandle : driver.getWindowHandles()) {
-            if (!windowHandle.equals(actualWindowHandle)) {
-                driver.switchTo().window(windowHandle);
-                break;
+    /**
+     * Cambia a la nueva ventana y confirma si pudo o no cambiar
+     *
+     * @param actualWindowHandle handle de la ventana actual
+     * @return boolean para confirmar si pudo cambiar o no de ventana
+     */
+    public boolean switchNewWindow(String actualWindowHandle) {
+        try{
+            //Esperamos un tiempo a que sean 2 ventanas
+            new WebDriverWait(driver, Duration.ofSeconds(10)).until(d -> d.getWindowHandles().size() > 1);
+            //Cambiamos de ventana
+            for (String windowHandle : driver.getWindowHandles()) {
+                if (!windowHandle.equals(actualWindowHandle)) {
+                    driver.switchTo().window(windowHandle);
+                    break;
+                }
             }
+            //Retornamos si llegan a ser distintas ventanas
+            return !actualWindowHandle.equals(driver.getWindowHandle());
+
+        }catch(Exception e){
+            return false;
         }
-        //Retornamos si llegan a ser distintas ventanas
-        return !actualWindowHandle.equals(driver.getWindowHandle());
+
     }
 
-    public String getUrl() {
+    /**
+     * Confirma si el título de la ventana ha cambiado
+     *
+     * @param previousTitle título previo de la ventana
+     * @return boolean para confirmar si el título de la ventana ha cambiado o no
+     */
+    public boolean isWindowTitleChanged(String previousTitle) {
+        //Esperamos un tiempo para que cambie el título de la ventana
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(10)).until(d -> !Objects.equals(d.getTitle(), previousTitle));
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Confirma si el url de la ventana ha cambiado
+     *
+     * @param previousUrl url previo de la ventana
+     * @return boolean para confirmar si el url de la ventana ha cambiado o no
+     */
+    public boolean isWindowUrlChanged(String previousUrl) {
+        //Esperamos un tiempo para que cambie el url de la ventana
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(10)).until(d -> !Objects.equals(d.getCurrentUrl(), previousUrl));
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Obtiene el url de la ventana
+     *
+     * @return String url de la ventana
+     */
+    public String getWindowUrl() {
         return driver.getCurrentUrl();
     }
 
-    public String getTitle() {
+    /**
+     * Obtiene el título de la ventana
+     *
+     * @return String título de la ventana
+     */
+    public String getWindowTitle() {
         return driver.getTitle();
+    }
+
+    //*****************************************************************************************************
+    //TEST DE MÉTODOS
+    //*****************************************************************************************************
+
+    public void closeExtraWindows() {
+        String mainWindow = driver.getWindowHandle();
+
+        for (String windowHandle : driver.getWindowHandles()) {
+            if (!windowHandle.equals(mainWindow)) {
+                driver.switchTo().window(windowHandle);
+                driver.close();
+            }
+        }
+
+        driver.switchTo().window(mainWindow);
     }
 
 
