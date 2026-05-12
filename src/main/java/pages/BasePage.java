@@ -14,6 +14,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.io.File;
 
 public class BasePage {
 
@@ -400,10 +401,9 @@ public class BasePage {
         return driver.getTitle();
     }
 
-    //*****************************************************************************************************
-    //TEST DE MÉTODOS
-    //*****************************************************************************************************
-
+    /**
+     * Cierra ventanas extras no necesarias durante tests
+     */
     public void closeExtraWindows() {
         String mainWindow = driver.getWindowHandle();
 
@@ -416,6 +416,45 @@ public class BasePage {
 
         driver.switchTo().window(mainWindow);
     }
+
+    /**
+     * Simula la subida de un archivo
+     * @param selectFileElement webElement para subir el archivo
+     * @param filePath ruta del archivo a subir
+     */
+    public void selectFileToUpload(WebElement selectFileElement,String filePath) {
+        selectFileElement.sendKeys(filePath);
+    }
+
+    /**
+     * Extrae el nombre del archivo de una ruta
+     *
+     * @param filePath ruta del archivo
+     * @return String nombre del archivo extraído
+     */
+    public String extractFileNameOfPath(String filePath) {
+        String[] arrayFilePath = filePath.split("\\\\");
+        return arrayFilePath[arrayFilePath.length - 1];
+    }
+
+    /**
+     * Confirma si un archivo ha sido descargado
+     *
+     * @param FilePathDownloaded ruta con nombre del archivo para revisar si descargó
+     * @return boolean para confirmar si el archivo ha sido descargado o no
+     */
+    public boolean isFileDownloaded(String FilePathDownloaded){
+        File file = new File(FilePathDownloaded);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        return wait.until(d -> file.exists());
+    }
+
+
+    //*****************************************************************************************************
+    //TEST DE MÉTODOS
+    //*****************************************************************************************************
+
+
 
 
 

@@ -49,5 +49,11 @@ public class NavigationSteps {
         homePage.clickToElementsSection().clickToBrokenLinksOption();
     }
 
+    @Given("the user is on the uploadDownload page")
+    public void theUserIsOnTheUploadDownloadPage() {
+        homePage.clickToHomePage();
+        homePage.clickToElementsSection().clickToUploadDownloadOption();
+    }
+
 
 }
