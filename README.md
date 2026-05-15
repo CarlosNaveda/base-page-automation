@@ -2,6 +2,8 @@
 > > ⚠️ Este README es generado automáticamente mediante GitHub Actions.  
 > Cualquier cambio manual será sobrescrito.
 <!-- BADGES:START -->
+![Gradle](https://img.shields.io/badge/Gradle-9.0.0-02303A?style=flat&logo=gradle&logoColor=white)
+
 <!-- BADGES:END -->
 ![BasePage Automation](assets/preview_base_page_automation.png)
 Clase reutilizable que contiene métodos para interactuar con elementos DOM de una página web.
