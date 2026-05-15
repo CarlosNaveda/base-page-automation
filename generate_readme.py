@@ -42,22 +42,22 @@ BADGES_END   = "<!-- BADGES:END -->"
 
 def get_badges_from_gradle() -> str:
     badges = []
-    build  = Path("build.gradle")
+    build   = Path("build.gradle")
     wrapper = Path("gradle/wrapper/gradle-wrapper.properties")
 
     if build.exists():
         content = build.read_text(encoding="utf-8")
 
         deps = {
-            "selenium-java":    ("Selenium",          "43B02A", "selenium"),
-            "cucumber-java":    ("Cucumber",           "23D96C", "cucumber"),
-            "testng":           ("TestNG",             "FF7300", None),
-            "assertj-core":     ("AssertJ",            "5A29E4", None),
-            "webdrivermanager": ("WebDriverManager",   "4A90D9", None),
+            "selenium-java":    ("Selenium",        "43B02A", "selenium"),
+            "cucumber-java":    ("Cucumber",         "23D96C", "cucumber"),
+            "testng":           ("TestNG",           "FF7300", None),
+            "assertj-core":     ("AssertJ",          "5A29E4", None),
+            "webdrivermanager": ("WebDriverManager", "4A90D9", None),
         }
 
         for key, (label, color, logo) in deps.items():
-            m = re.search(rf"{re.escape(key)}:([\\d.]+)", content, re.IGNORECASE)
+            m = re.search(rf"{re.escape(key)}:([\d.]+)", content)
             if m:
                 version = m.group(1)
                 logo_part = f"&logo={logo}&logoColor=white" if logo else "&logoColor=white"
@@ -65,16 +65,14 @@ def get_badges_from_gradle() -> str:
                     f"![{label}](https://img.shields.io/badge/{label}-{version}-{color}?style=flat{logo_part})"
                 )
 
-        # Java version
         java_m = re.search(r"JavaLanguageVersion\.of\((\d+)\)|sourceCompatibility\s*=\s*['\"]?(\d+)", content)
         if java_m:
             jv = java_m.group(1) or java_m.group(2)
             badges.insert(0, f"![Java](https://img.shields.io/badge/Java-{jv}-orange?style=flat&logo=openjdk&logoColor=white)")
 
-    # Gradle version
     if wrapper.exists():
         wc = wrapper.read_text(encoding="utf-8")
-        gm = re.search(r"gradle-(\d+\.\d+[\d.]*)-", wc)
+        gm = re.search(r"gradle-([\d.]+)-", wc)
         if gm:
             badges.append(
                 f"![Gradle](https://img.shields.io/badge/Gradle-{gm.group(1)}-02303A?style=flat&logo=gradle&logoColor=white)"
