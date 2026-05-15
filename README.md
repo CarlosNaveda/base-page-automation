@@ -2,7 +2,7 @@
 > > ⚠️ Este README es generado automáticamente mediante GitHub Actions.  
 > Cualquier cambio manual será sobrescrito.
 <!-- BADGES:START -->
-![Gradle](https://img.shields.io/badge/Gradle-9.0.0-02303A?style=flat&logo=gradle&logoColor=white)
+![Selenium](https://img.shields.io/badge/Selenium-4.43.0-43B02A?style=flat&logo=selenium&logoColor=white) ![Cucumber](https://img.shields.io/badge/Cucumber-7.34.2-23D96C?style=flat&logo=cucumber&logoColor=white) ![TestNG](https://img.shields.io/badge/TestNG-7.12.0-FF7300?style=flat&logoColor=white) ![AssertJ](https://img.shields.io/badge/AssertJ-3.25.3-5A29E4?style=flat&logoColor=white) ![WebDriverManager](https://img.shields.io/badge/WebDriverManager-6.3.3-4A90D9?style=flat&logoColor=white) ![Gradle](https://img.shields.io/badge/Gradle-9.0.0-02303A?style=flat&logo=gradle&logoColor=white)
 
 <!-- BADGES:END -->
 ![BasePage Automation](assets/preview_base_page_automation.png)
