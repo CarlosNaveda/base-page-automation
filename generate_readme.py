@@ -34,6 +34,54 @@ METHODS_END   = "<!-- METHODS:END -->"
 CHART_START   = "<!-- CHART:START -->"
 CHART_END     = "<!-- CHART:END -->"
 
+BADGES_START = "<!-- BADGES:START -->"
+BADGES_END   = "<!-- BADGES:END -->"
+
+
+# ── Badges de tecnologías ───────────────────────────────────────────────────────
+
+def get_badges_from_gradle() -> str:
+    badges = []
+    build  = Path("build.gradle")
+    wrapper = Path("gradle/wrapper/gradle-wrapper.properties")
+
+    if build.exists():
+        content = build.read_text(encoding="utf-8")
+
+        deps = {
+            "selenium-java":    ("Selenium",          "43B02A", "selenium"),
+            "cucumber-java":    ("Cucumber",           "23D96C", "cucumber"),
+            "testng":           ("TestNG",             "FF7300", None),
+            "assertj-core":     ("AssertJ",            "5A29E4", None),
+            "webdrivermanager": ("WebDriverManager",   "4A90D9", None),
+        }
+
+        for key, (label, color, logo) in deps.items():
+            m = re.search(rf"{re.escape(key)}:([\\d.]+)", content, re.IGNORECASE)
+            if m:
+                version = m.group(1)
+                logo_part = f"&logo={logo}&logoColor=white" if logo else "&logoColor=white"
+                badges.append(
+                    f"![{label}](https://img.shields.io/badge/{label}-{version}-{color}?style=flat{logo_part})"
+                )
+
+        # Java version
+        java_m = re.search(r"JavaLanguageVersion\.of\((\d+)\)|sourceCompatibility\s*=\s*['\"]?(\d+)", content)
+        if java_m:
+            jv = java_m.group(1) or java_m.group(2)
+            badges.insert(0, f"![Java](https://img.shields.io/badge/Java-{jv}-orange?style=flat&logo=openjdk&logoColor=white)")
+
+    # Gradle version
+    if wrapper.exists():
+        wc = wrapper.read_text(encoding="utf-8")
+        gm = re.search(r"gradle-(\d+\.\d+[\d.]*)-", wc)
+        if gm:
+            badges.append(
+                f"![Gradle](https://img.shields.io/badge/Gradle-{gm.group(1)}-02303A?style=flat&logo=gradle&logoColor=white)"
+            )
+
+    return " ".join(badges) + "\n"
+
 
 # ── Árbol de directorios ───────────────────────────────────────────────────────
 
@@ -430,6 +478,7 @@ def update_readme(tree_md, table_md, chart_md, method_count):
     updated  = replace_section(original, TREE_START,    TREE_END,    "## 📁 Estructura del proyecto\n\n" + tree_md)
     updated  = replace_section(updated,  METHODS_START, METHODS_END, f"## 📋 Métodos disponibles ({method_count})\n\n" + table_md)
     updated  = replace_section(updated,  CHART_START,   CHART_END,   chart_md)
+    updated =  replace_section(updated, BADGES_START, BADGES_END, get_badges_from_gradle())
     README_FILE.write_text(updated, encoding="utf-8")
     print(f"✅ README actualizado — {method_count} método(s) de BasePage documentado(s).")
 

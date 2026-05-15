@@ -1,10 +1,10 @@
-> ⚠️ Este README es generado automáticamente mediante GitHub Actions.  
-> Cualquier cambio manual será sobrescrito.
-
 # BasePage Automation
-Clase reutilizable que contiene métodos para interactuar con elementos DOM de una página web.
+> > ⚠️ Este README es generado automáticamente mediante GitHub Actions.  
+> Cualquier cambio manual será sobrescrito.
+<!-- BADGES:START -->
+<!-- BADGES:END -->
 ![BasePage Automation](assets/preview_base_page_automation.png)
-
+Clase reutilizable que contiene métodos para interactuar con elementos DOM de una página web.
 ## Web utilizada
 Para los test estoy usando la página web: https://demoqa.com/ como sandbox.
 
