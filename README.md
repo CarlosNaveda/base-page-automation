@@ -20,6 +20,14 @@ La aplicación utilizada para las pruebas es https://demoqa.com/, empleada como 
 - Practicar buenas prácticas de automatización y organización de código.
 - Integrar automatizaciones con GitHub Actions para ejecución continua. (Esto lo aplico para generación del Readme.md)
 
+## Aprendizajes
+- Diseño de frameworks de automatización.
+- Principios de reutilización de código.
+- Mantenimiento de suites de pruebas.
+- Modelado de páginas mediante Page Object Model.
+- Automatización de interacciones complejas en aplicaciones web.
+- Uso de GitHub Actions.
+
 ## Ejecución
 
 Clonar el repositorio:
@@ -31,14 +39,6 @@ Ejecución de Tests:
 
 Ejecutar el archivo: TestRunner.java, pero previamente editar el campo: "tags" de acuerdo a los tipos de test que se requieren ejecutar
 En \src\test\resources\features\business\ se encuentran los features y los distintos tags disponibles de acuerdo a cada test
-
-## Aprendizajes
-- Diseño de frameworks de automatización.
-- Principios de reutilización de código.
-- Mantenimiento de suites de pruebas.
-- Modelado de páginas mediante Page Object Model.
-- Automatización de interacciones complejas en aplicaciones web.
-- Uso de GitHub Actions.
 
 ## Estructura del proyecto
 
