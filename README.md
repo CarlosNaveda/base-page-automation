@@ -1,19 +1,46 @@
 # BasePage Automation
-> ⚠️ Este README es generado automáticamente mediante GitHub Actions.  
-> Cualquier cambio manual será sobrescrito.
-
+Framework de automatización de pruebas UI desarrollado con Selenium, Cucumber y TestNG, siguiendo el patrón Page Object Model (POM).
+El proyecto tiene como objetivo centralizar acciones reutilizables mediante una clase BasePage, reduciendo la duplicación de código y facilitando el mantenimiento de las pruebas automatizadas.
 <!-- BADGES:START -->
 ![Selenium](https://img.shields.io/badge/Selenium-4.43.0-43B02A?style=flat&logo=selenium&logoColor=white) ![Cucumber](https://img.shields.io/badge/Cucumber-7.34.2-23D96C?style=flat&logo=cucumber&logoColor=white) ![TestNG](https://img.shields.io/badge/TestNG-7.12.0-FF7300?style=flat&logoColor=white) ![AssertJ](https://img.shields.io/badge/AssertJ-3.25.3-5A29E4?style=flat&logoColor=white) ![WebDriverManager](https://img.shields.io/badge/WebDriverManager-6.3.3-4A90D9?style=flat&logoColor=white) ![Gradle](https://img.shields.io/badge/Gradle-9.0.0-02303A?style=flat&logo=gradle&logoColor=white)
 <!-- BADGES:END -->
 ![BasePage Automation](assets/preview_base_page_automation.png)
 
-Clase reutilizable que contiene métodos para interactuar con elementos DOM de una página web.
 ## Web utilizada
-Para los test estoy usando la página web: https://demoqa.com/ como sandbox.
+La aplicación utilizada para las pruebas es https://demoqa.com/, empleada como sandbox para validar diferentes componentes y comportamientos de una aplicación web.
 
 ---
 <!-- TREE:START -->
-## 📁 Estructura del proyecto
+
+## Objetivos del proyecto
+- Diseñar un framework de automatización mantenible y escalable.
+- Aplicar el patrón Page Object Model (POM).
+- Centralizar acciones comunes en una clase BasePage reutilizable.
+- Implementar pruebas automatizadas utilizando Cucumber y TestNG.
+- Practicar buenas prácticas de automatización y organización de código.
+- Integrar automatizaciones con GitHub Actions para ejecución continua. (Esto lo aplico para generación del Readme.md)
+
+## Ejecución
+
+Clonar el repositorio:
+```
+git clone <repositorio>
+```
+
+Ejecución de Tests:
+
+Ejecutar el archivo: TestRunner.java, pero previamente editar el campo: "tags" de acuerdo a los tipos de test que se requieren ejecutar
+En \src\test\resources\features\business\ se encuentran los features y los distintos tags disponibles de acuerdo a cada test
+
+## Aprendizajes
+- Diseño de frameworks de automatización.
+- Principios de reutilización de código.
+- Mantenimiento de suites de pruebas.
+- Modelado de páginas mediante Page Object Model.
+- Automatización de interacciones complejas en aplicaciones web.
+- Uso de GitHub Actions.
+
+## Estructura del proyecto
 
 ```
 base-page-automation/
