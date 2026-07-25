@@ -150,7 +150,7 @@ base-page-automation/
 <!-- TREE:END -->
 
 <!-- METHODS:START -->
-## 📋 Métodos disponibles (32)
+## Métodos disponibles (32)
 
 | Clase | Visibilidad | Método | Descripción | Parámetros | Retorna | # Usos |
 |-------|-------------|--------|-------------|------------|---------|--------|
@@ -190,7 +190,7 @@ base-page-automation/
 <!-- METHODS:END -->
 
 <!-- CHART:START -->
-## 📊 Mapa de uso de métodos
+## Mapa de uso de métodos
 
 > Cada burbuja representa un método de `BasePage`.
 > El **tamaño** y la **intensidad de color** indican cuántas veces ha sido utilizado.
